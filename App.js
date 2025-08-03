@@ -30,9 +30,9 @@ export default function App() {
           },
         }}
       >
-        <Stack.Screen name="Onboarding1" component={Onboarding1} />
-        <Stack.Screen name="Onboarding2" component={Onboarding2} />
-        <Stack.Screen name="Onboarding3" component={Onboarding3} />
+        <Stack.Screen name="Onboarding" component={Onboarding1} />
+        <Stack.Screen name="Onboarding" component={Onboarding2} />
+        <Stack.Screen name="Onboarding" component={Onboarding3} />
       </Stack.Navigator>
     </NavigationContainer>
   );
