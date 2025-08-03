@@ -1,7 +1,9 @@
 import React, { useEffect, useRef } from 'react';
-import { View, StyleSheet, StatusBar, Image, TouchableOpacity, Text, Animated } from 'react-native';
+import { View, StyleSheet, StatusBar, Image, TouchableOpacity, Text, Animated, SafeAreaView, Dimensions } from 'react-native';
 import { useNavigation } from '@react-navigation/native';
 import Svg, { Circle } from 'react-native-svg';
+
+const { height: screenHeight } = Dimensions.get('window');
 const AnimatedCircle = Animated.createAnimatedComponent(Circle);
 
 export default function Onboarding3() {
@@ -30,22 +32,24 @@ export default function Onboarding3() {
         useNativeDriver: true,
       }),
     ]).start(() => {
-      navigation.navigate('Home');
+      navigation.navigate('EnableLocation');
     });
   };
   
   return (
-    <View style={styles.container}>
+    <SafeAreaView style={styles.container}>
       <StatusBar barStyle="dark-content" backgroundColor="#ffffff" />
-      <Image
-        source={require('../../assets/Onboardings/Onboarding3.png')}
-        style={styles.image}
-        resizeMode="contain"
-      />
-      <View style={styles.textContainer}>
-        <Text style={styles.paragraph}>
-          Multiple ride options available.{"\n"}Economy, premium, or shared.{"\n"}<Text style={styles.brandName}>Book now</Text> for seamless travel!
-        </Text>
+      <View style={styles.content}>
+        <Image
+          source={require('../../assets/Onboardings/Onboarding3.png')}
+          style={styles.image}
+          resizeMode="contain"
+        />
+        <View style={styles.textContainer}>
+          <Text style={styles.paragraph}>
+            Multiple ride options available.{"\n"}Economy, premium, or shared.{"\n"}<Text style={styles.brandName}>Book now</Text> for seamless travel!
+          </Text>
+        </View>
       </View>
       <View style={styles.buttonContainer}>
         <Svg width="80" height="80" style={styles.progressRing}>
@@ -82,7 +86,7 @@ export default function Onboarding3() {
           </TouchableOpacity>
         </Animated.View>
       </View>
-    </View>
+    </SafeAreaView>
   );
 }
 
@@ -90,18 +94,40 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     backgroundColor: '#ffffff',
+    justifyContent: 'space-between',
+  },
+  content: {
+    flex: 1,
     alignItems: 'center',
+    justifyContent: 'center',
+    paddingHorizontal: 30,
   },
   image: {
     width: 250,
     height: 250,
-    marginTop: 100,
+    marginBottom: 40,
+  },
+  textContainer: {
+    alignItems: 'center',
+    width: '100%',
+  },
+  paragraph: {
+    fontSize: 14,
+    color: '#6B7280',
+    textAlign: 'center',
+    lineHeight: 22,
+    paddingHorizontal: 10,
+  },
+  brandName: {
+    fontSize: 16,
+    fontWeight: 'bold',
+    color: '#374151',
   },
   buttonContainer: {
-    position: 'absolute',
-    top: '70%',
-    alignItems: 'center',
+    height: 120,
     justifyContent: 'center',
+    alignItems: 'center',
+    marginBottom: screenHeight * 0.05,
   },
   progressRing: {
     position: 'absolute',
@@ -116,27 +142,7 @@ const styles = StyleSheet.create({
     backgroundColor: '#EA4C89',
     justifyContent: 'center',
     alignItems: 'center',
-  },
-  textContainer: {
-    paddingHorizontal: 30,
-    marginTop: 40,
-    alignItems: 'center',
-    width: '100%',
-  },
-  paragraph: {
-    fontSize: 14,
-    color: '#374151',
-    textAlign: 'center',
-    lineHeight: 22,
-    marginBottom: 12,
-    paddingHorizontal: 10,
-    width: 280,
-    height: 57,
-  },
-  brandName: {
-    fontSize: 16,
-    fontWeight: 'bold',
-    color: '#6B7280',
+    cursor: 'pointer',
   },
   arrow: {
     fontSize: 16,
