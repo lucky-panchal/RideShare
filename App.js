@@ -4,6 +4,9 @@ import { createStackNavigator, CardStyleInterpolators } from '@react-navigation/
 import Onboarding1 from './components/FirstScreen/Onboarding1';
 import Onboarding2 from './components/FirstScreen/Onboarding2';
 import Onboarding3 from './components/FirstScreen/Onboarding3';
+import EnableLocation from './components/SecondScreen/EnableLocation';
+import Welcome from './components/SecondScreen/WelcomePage';
+import SignUp from './components/SecondScreen/SignUp';
 
 const Stack = createStackNavigator();
 
@@ -30,9 +33,12 @@ export default function App() {
           },
         }}
       >
-        <Stack.Screen name="Onboarding" component={Onboarding1} />
-        <Stack.Screen name="Onboarding" component={Onboarding2} />
-        <Stack.Screen name="Onboarding" component={Onboarding3} />
+        <Stack.Screen name="Onboarding1" component={Onboarding1} />
+        <Stack.Screen name="Onboarding2" component={Onboarding2} />
+        <Stack.Screen name="Onboarding3" component={Onboarding3} />
+        <Stack.Screen name="EnableLocation" component={EnableLocation} />
+        <Stack.Screen name="WelcomePage" component={Welcome} />
+        <Stack.Screen name="SignUp" component={SignUp} />
       </Stack.Navigator>
     </NavigationContainer>
   );
