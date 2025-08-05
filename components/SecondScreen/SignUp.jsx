@@ -11,7 +11,7 @@ export default function SignUp({ navigation }) {
   const [name, setName] = useState('');
   const [email, setEmail] = useState('');
   const [mobile, setMobile] = useState('');
-  const [countryCode, setCountryCode] = useState('+1');
+  const [countryCode, setCountryCode] = useState('+91');
   const [gender, setGender] = useState('');
   const [agreeTerms, setAgreeTerms] = useState(false);
   const [loading, setLoading] = useState(false);
@@ -685,10 +685,7 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
     marginBottom: 32,
     height: 52,
-    shadowColor: '#E943A0',
-    shadowOffset: { width: 0, height: 2 },
-    shadowOpacity: 0.2,
-    shadowRadius: 4,
+    boxShadow: '0 2px 4px rgba(233, 67, 160, 0.2)',
     elevation: 3,
     cursor: 'pointer',
   },
