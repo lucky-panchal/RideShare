@@ -1,9 +1,7 @@
 import React, { useState } from 'react';
 import { View, StyleSheet, Text, StatusBar, TextInput, TouchableOpacity, Dimensions, ScrollView, Image, Alert, ActivityIndicator } from 'react-native';
 import { Picker } from '@react-native-picker/picker';
-import * as AuthSession from 'expo-auth-session';
-import * as AppleAuthentication from 'expo-apple-authentication';
-import { LoginManager, AccessToken, GraphRequest, GraphRequestManager } from 'react-native-fbsdk-next';
+
 
 const { width: screenWidth, height: screenHeight } = Dimensions.get('window');
 
@@ -133,184 +131,22 @@ export default function SignUp({ navigation }) {
     { code: '+7', name: 'Russia', flag: '🇷🇺' },
   ];
 
-  // Google OAuth Configuration
-  const googleAuthConfig = {
-    clientId: 'YOUR_GOOGLE_CLIENT_ID', // Replace with your Google Client ID
-    scopes: ['openid', 'profile', 'email'],
-    additionalParameters: {},
-    customParameters: {},
+  // Handle Google Sign In (Button only)
+  const handleGoogleSignIn = () => {
+    Alert.alert('Google', 'Google sign-in button clicked');
   };
 
-  // Handle Google Sign In
-  const handleGoogleSignIn = async () => {
-    try {
-      setLoading(true);
-      setLoadingProvider('google');
-      
-      const request = new AuthSession.AuthRequest({
-        clientId: googleAuthConfig.clientId,
-        scopes: googleAuthConfig.scopes,
-        responseType: AuthSession.ResponseType.Code,
-        redirectUri: AuthSession.makeRedirectUri({ useProxy: true }),
-      });
-      
-      const result = await request.promptAsync({
-        authorizationEndpoint: 'https://accounts.google.com/oauth/authorize',
-      });
-      
-      if (result.type === 'success') {
-        // Exchange code for access token and get user info
-        const userInfoResponse = await fetch(
-          `https://www.googleapis.com/oauth2/v2/userinfo?access_token=${result.params.access_token}`
-        );
-        const userInfo = await userInfoResponse.json();
-        
-        // Process user data
-        await processOAuthUser({
-          id: userInfo.id,
-          name: userInfo.name,
-          email: userInfo.email,
-          avatar: userInfo.picture,
-          provider: 'google'
-        });
-      } else {
-        Alert.alert('Cancelled', 'Google sign-in was cancelled');
-      }
-    } catch (error) {
-      console.error('Google Sign-In Error:', error);
-      Alert.alert('Error', 'Failed to sign in with Google');
-    } finally {
-      setLoading(false);
-      setLoadingProvider(null);
-    }
+  // Handle Facebook Sign In (Button only)
+  const handleFacebookSignIn = () => {
+    Alert.alert('Facebook', 'Facebook sign-in button clicked');
   };
 
-  // Handle Facebook Sign In
-  const handleFacebookSignIn = async () => {
-    try {
-      setLoading(true);
-      setLoadingProvider('facebook');
-      
-      const result = await LoginManager.logInWithPermissions(['public_profile', 'email']);
-      
-      if (result.isCancelled) {
-        Alert.alert('Cancelled', 'Facebook sign-in was cancelled');
-        return;
-      }
-      
-      const data = await AccessToken.getCurrentAccessToken();
-      
-      if (data) {
-        // Get user info from Facebook Graph API
-        const infoRequest = new GraphRequest(
-          '/me',
-          {
-            accessToken: data.accessToken,
-            parameters: {
-              fields: {
-                string: 'id,name,email,picture.type(large)'
-              }
-            }
-          },
-          async (error, result) => {
-            if (error) {
-              console.error('Facebook Graph Request Error:', error);
-              Alert.alert('Error', 'Failed to get Facebook profile');
-            } else {
-              // Process user data
-              await processOAuthUser({
-                id: result.id,
-                name: result.name,
-                email: result.email,
-                avatar: result.picture?.data?.url,
-                provider: 'facebook'
-              });
-            }
-          }
-        );
-        
-        new GraphRequestManager().addRequest(infoRequest).start();
-      }
-    } catch (error) {
-      console.error('Facebook Sign-In Error:', error);
-      Alert.alert('Error', 'Failed to sign in with Facebook');
-    } finally {
-      setLoading(false);
-      setLoadingProvider(null);
-    }
+  // Handle Apple Sign In (Button only)
+  const handleAppleSignIn = () => {
+    Alert.alert('Apple', 'Apple sign-in button clicked');
   };
 
-  // Handle Apple Sign In
-  const handleAppleSignIn = async () => {
-    try {
-      setLoading(true);
-      setLoadingProvider('apple');
-      
-      const credential = await AppleAuthentication.signInAsync({
-        requestedScopes: [
-          AppleAuthentication.AppleAuthenticationScope.FULL_NAME,
-          AppleAuthentication.AppleAuthenticationScope.EMAIL,
-        ],
-      });
-      
-      // Process user data
-      await processOAuthUser({
-        id: credential.user,
-        name: credential.fullName ? `${credential.fullName.givenName} ${credential.fullName.familyName}` : 'Apple User',
-        email: credential.email,
-        avatar: null,
-        provider: 'apple'
-      });
-    } catch (error) {
-      if (error.code === 'ERR_CANCELED') {
-        Alert.alert('Cancelled', 'Apple sign-in was cancelled');
-      } else {
-        console.error('Apple Sign-In Error:', error);
-        Alert.alert('Error', 'Failed to sign in with Apple');
-      }
-    } finally {
-      setLoading(false);
-      setLoadingProvider(null);
-    }
-  };
 
-  // Process OAuth user data (Frontend only)
-  const processOAuthUser = async (userData) => {
-    try {
-      console.log('OAuth User Data:', userData);
-      
-      // Store user data locally (you can use AsyncStorage for persistence)
-      const userProfile = {
-        id: userData.id,
-        name: userData.name,
-        email: userData.email,
-        avatar: userData.avatar,
-        provider: userData.provider,
-        signedInAt: new Date().toISOString()
-      };
-      
-      // Update local state
-      setName(userData.name || '');
-      setEmail(userData.email || '');
-      
-      Alert.alert(
-        'Success!',
-        `Welcome ${userData.name}! You've successfully signed in with ${userData.provider}.`,
-        [
-          {
-            text: 'Continue',
-            onPress: () => {
-              // Navigate to main app
-              navigation.navigate('WelcomePage');
-            }
-          }
-        ]
-      );
-    } catch (error) {
-      console.error('Process OAuth User Error:', error);
-      Alert.alert('Error', 'Failed to process user authentication');
-    }
-  };
 
   return (
     <ScrollView style={styles.container} showsVerticalScrollIndicator={false}>
@@ -479,51 +315,36 @@ export default function SignUp({ navigation }) {
           <TouchableOpacity 
             style={styles.socialButton} 
             onPress={handleGoogleSignIn}
-            disabled={loading}
           >
-            {loading && loadingProvider === 'google' ? (
-              <ActivityIndicator size="small" color="#374151" style={{ marginRight: 12 }} />
-            ) : (
-              <Image
-                source={require('../../assets/AuthenticationsAssests/Gmail.png')}
-                style={styles.socialButtonIcon}
-                resizeMode="contain"
-              />
-            )}
+            <Image
+              source={require('../../assets/AuthenticationsAssests/Gmail.png')}
+              style={styles.socialButtonIcon}
+              resizeMode="contain"
+            />
             <Text style={styles.socialButtonText}>Gmail</Text>
           </TouchableOpacity>
 
           <TouchableOpacity 
             style={[styles.socialButton, styles.facebookButton]} 
             onPress={handleFacebookSignIn}
-            disabled={loading}
           >
-            {loading && loadingProvider === 'facebook' ? (
-              <ActivityIndicator size="small" color="#ffffff" style={{ marginRight: 12 }} />
-            ) : (
-              <Image
-                source={require('../../assets/AuthenticationsAssests/Facebook.png')}
-                style={styles.socialButtonIcon}
-                resizeMode="contain"
-              />
-            )}
+            <Image
+              source={require('../../assets/AuthenticationsAssests/Facebook.png')}
+              style={styles.socialButtonIcon}
+              resizeMode="contain"
+            />
             <Text style={[styles.socialButtonText, styles.facebookText]}>Facebook</Text>
           </TouchableOpacity>
 
           <TouchableOpacity 
             style={[styles.socialButton, styles.appleButton]} 
             onPress={handleAppleSignIn}
-            disabled={loading}
           >
-            {loading && loadingProvider === 'apple' ? (
-              <ActivityIndicator size="small" color="#ffffff" style={{ marginRight: 12 }} />
-            ) : (
-              <Image
-                source={require('../../assets/AuthenticationsAssests/Apple.png')}
-                style={styles.socialButtonIcon}
-                resizeMode="contain"
-              />
-            )}
+            <Image
+              source={require('../../assets/AuthenticationsAssests/Apple.png')}
+              style={styles.socialButtonIcon}
+              resizeMode="contain"
+            />
             <Text style={[styles.socialButtonText, styles.appleText]}>Apple</Text>
           </TouchableOpacity>
         </View>
