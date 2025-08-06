@@ -77,11 +77,13 @@ export default function EnableLocation({ navigation }) {
       ]}>
         <View style={styles.card}>
           {/* Location Logo */}
-          <Image
-            source={require('../../assets/AuthenticationsAssests/EnableLocationLOGO.png')}
-            style={styles.locationLogo}
-            resizeMode="contain"
-          />
+          <View style={styles.logoContainer}>
+            <Image
+              source={require('../../assets/AuthenticationsAssests/EnableLocationLOGO.png')}
+              style={styles.locationLogo}
+              resizeMode="contain"
+            />
+          </View>
           
           {/* Instruction Text */}
           <Text style={styles.instructionText}>
@@ -132,10 +134,18 @@ const styles = StyleSheet.create({
     width: screenWidth * 0.85,
     elevation: 5,
   },
-  locationLogo: {
+  logoContainer: {
     width: 80,
     height: 80,
+    borderRadius: 40,
+    backgroundColor: '#168F59',
+    justifyContent: 'center',
+    alignItems: 'center',
     marginBottom: 30,
+  },
+  locationLogo: {
+    width: 60,
+    height: 60,
   },
   instructionText: {
     fontSize: 16,
@@ -150,7 +160,7 @@ const styles = StyleSheet.create({
     alignItems: 'center',
   },
   locationButton: {
-    backgroundColor: '#E943A0',
+    backgroundColor: '#168F59',
     paddingVertical: 16,
     borderRadius: 25,
     width: '100%',

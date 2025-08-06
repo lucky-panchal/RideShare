@@ -650,8 +650,8 @@ const styles = StyleSheet.create({
     backgroundColor: '#ffffff',
   },
   checkboxChecked: {
-    backgroundColor: '#E943A0',
-    borderColor: '#E943A0',
+    backgroundColor: '#168F59',
+    borderColor: '#168F59',
   },
   checkmark: {
     color: '#ffffff',
@@ -672,20 +672,20 @@ const styles = StyleSheet.create({
   },
   agreementTextLink: {
     fontSize: 14,
-    color: '#E943A0',
+    color: '#168F59',
     fontWeight: '600',
     lineHeight: 20,
     textDecorationLine: 'underline',
   },
   signUpButton: {
-    backgroundColor: '#E943A0',
+    backgroundColor: '#168F59',
     paddingVertical: 16,
     borderRadius: 8,
     alignItems: 'center',
     justifyContent: 'center',
     marginBottom: 32,
     height: 52,
-    boxShadow: '0 2px 4px rgba(233, 67, 160, 0.2)',
+    boxShadow: '0 2px 4px rgba(22, 143, 89, 0.2)',
     elevation: 3,
     cursor: 'pointer',
   },
@@ -764,7 +764,7 @@ const styles = StyleSheet.create({
   },
   signInLink: {
     fontSize: 16,
-    color: '#E943A0',
+    color: '#168F59',
     fontWeight: '600',
   },
   inputError: {
