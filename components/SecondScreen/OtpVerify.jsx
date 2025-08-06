@@ -3,7 +3,8 @@ import { View, StyleSheet, Text, StatusBar, TextInput, TouchableOpacity, Dimensi
 
 const { width: screenWidth, height: screenHeight } = Dimensions.get('window');
 
-export default function OtpVerify({ navigation }) {
+export default function OtpVerify({ navigation, route }) {
+  const { mobile, countryCode } = route.params || {};
   const [otp, setOtp] = useState(['', '', '', '', '', '']);
   const inputRefs = useRef([]);
 
@@ -46,7 +47,7 @@ export default function OtpVerify({ navigation }) {
       
       <View style={styles.content}>
         <Text style={styles.title}>Enter OTP</Text>
-        <Text style={styles.subtitle}>Please enter the 6-digit code sent to your mobile number</Text>
+        <Text style={styles.subtitle}>Please enter the 6-digit code sent to {countryCode} {mobile}</Text>
         
         <View style={styles.otpContainer}>
           {otp.map((digit, index) => (
