@@ -1,5 +1,5 @@
-import React, { useState } from 'react';
-import { View, StyleSheet, Text, StatusBar, TextInput, TouchableOpacity, Dimensions, Alert } from 'react-native';
+import React, { useState, useEffect } from 'react';
+import { View, StyleSheet, Text, StatusBar, TextInput, TouchableOpacity, Dimensions, Alert, Keyboard, KeyboardAvoidingView, Platform } from 'react-native';
 import { Ionicons } from '@expo/vector-icons';
 
 const { width: screenWidth, height: screenHeight } = Dimensions.get('window');
@@ -9,6 +9,21 @@ export default function SetPassword({ navigation }) {
   const [confirmPassword, setConfirmPassword] = useState('');
   const [showPassword, setShowPassword] = useState(false);
   const [showConfirmPassword, setShowConfirmPassword] = useState(false);
+  const [keyboardVisible, setKeyboardVisible] = useState(false);
+
+  useEffect(() => {
+    const keyboardDidShowListener = Keyboard.addListener('keyboardDidShow', () => {
+      setKeyboardVisible(true);
+    });
+    const keyboardDidHideListener = Keyboard.addListener('keyboardDidHide', () => {
+      setKeyboardVisible(false);
+    });
+
+    return () => {
+      keyboardDidHideListener.remove();
+      keyboardDidShowListener.remove();
+    };
+  }, []);
 
   const validatePassword = (pwd) => {
     const hasNumberOrSpecial = /[0-9!@#$%^&*(),.?":{}|<>]/.test(pwd);
@@ -35,10 +50,13 @@ export default function SetPassword({ navigation }) {
   };
 
   return (
-    <View style={styles.container}>
+    <KeyboardAvoidingView 
+      style={styles.container} 
+      behavior={Platform.OS === 'ios' ? 'padding' : 'height'}
+    >
       <StatusBar barStyle="dark-content" backgroundColor="#ffffff" />
       
-      <View style={styles.content}>
+      <View style={[styles.content, keyboardVisible && styles.contentKeyboardActive]}>
         <Text style={styles.title}>Set your password</Text>
         
         <View style={styles.inputContainer}>
@@ -89,12 +107,15 @@ export default function SetPassword({ navigation }) {
           </View>
           <Text style={styles.helperText}>At least 1 number or a special character</Text>
         </View>
-
-        <TouchableOpacity style={styles.registerButton} onPress={handleRegister}>
-          <Text style={styles.registerButtonText}>Register</Text>
-        </TouchableOpacity>
       </View>
-    </View>
+      
+      <TouchableOpacity 
+        style={[styles.registerButton, keyboardVisible && styles.registerButtonKeyboardActive]} 
+        onPress={handleRegister}
+      >
+        <Text style={styles.registerButtonText}>Register</Text>
+      </TouchableOpacity>
+    </KeyboardAvoidingView>
   );
 }
 
@@ -108,6 +129,9 @@ const styles = StyleSheet.create({
     paddingHorizontal: 24,
     paddingTop: screenHeight * 0.15,
     alignItems: 'center',
+  },
+  contentKeyboardActive: {
+    paddingTop: screenHeight * 0.08,
   },
   title: {
     fontSize: 28,
@@ -152,9 +176,12 @@ const styles = StyleSheet.create({
     backgroundColor: '#DB2899',
     paddingVertical: 16,
     borderRadius: 8,
-    width: '100%',
+    marginHorizontal: 24,
     alignItems: 'center',
-    marginTop: 40,
+    marginBottom: 20,
+  },
+  registerButtonKeyboardActive: {
+    marginBottom: 10,
   },
   registerButtonText: {
     color: '#ffffff',
