@@ -109,7 +109,7 @@ export default function SignUp({ navigation }) {
       Alert.alert(
         'Success!',
         'Account created! Please verify your mobile number.',
-        [{ text: 'Continue', onPress: () => navigation.navigate('OtpVerify') }]
+        [{ text: 'Continue', onPress: () => navigation.navigate('OtpVerify', { mobile, countryCode }) }]
       );
     } catch (error) {
       Alert.alert('Error', 'Failed to create account. Please try again.');
