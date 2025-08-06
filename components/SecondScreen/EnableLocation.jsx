@@ -1,5 +1,6 @@
 import React, { useEffect, useRef } from 'react';
 import { View, StyleSheet, Image, StatusBar, Text, TouchableOpacity, Animated, Dimensions, Alert } from 'react-native';
+import { BlurView } from 'expo-blur';
 import * as Location from 'expo-location';
 
 const { width: screenWidth, height: screenHeight } = Dimensions.get('window');
@@ -7,6 +8,8 @@ const { width: screenWidth, height: screenHeight } = Dimensions.get('window');
 export default function EnableLocation({ navigation }) {
   const scaleAnim = useRef(new Animated.Value(0)).current;
   const opacityAnim = useRef(new Animated.Value(0)).current;
+  const iconScaleAnim = useRef(new Animated.Value(0.3)).current;
+  const iconOpacityAnim = useRef(new Animated.Value(0)).current;
 
   useEffect(() => {
     Animated.parallel([
@@ -20,7 +23,30 @@ export default function EnableLocation({ navigation }) {
         duration: 300,
         useNativeDriver: true,
       }),
-    ]).start();
+    ]).start(() => {
+      // Icon pop-out animation after card appears
+      Animated.sequence([
+        Animated.parallel([
+          Animated.spring(iconScaleAnim, {
+            toValue: 1.2,
+            tension: 100,
+            friction: 8,
+            useNativeDriver: true,
+          }),
+          Animated.timing(iconOpacityAnim, {
+            toValue: 1,
+            duration: 400,
+            useNativeDriver: true,
+          }),
+        ]),
+        Animated.spring(iconScaleAnim, {
+          toValue: 1,
+          tension: 150,
+          friction: 8,
+          useNativeDriver: true,
+        }),
+      ]).start();
+    });
   }, []);
 
   const handleLocationPermission = async () => {
@@ -76,13 +102,22 @@ export default function EnableLocation({ navigation }) {
         }
       ]}>
         <View style={styles.card}>
-          {/* Location Logo */}
+          {/* Location Logo with Blur Background */}
           <View style={styles.logoContainer}>
-            <Image
-              source={require('../../assets/AuthenticationsAssests/EnableLocationLOGO.png')}
-              style={styles.locationLogo}
-              resizeMode="contain"
-            />
+            <BlurView intensity={20} style={styles.blurBackground} />
+            <Animated.View style={[
+              styles.iconContainer,
+              {
+                transform: [{ scale: iconScaleAnim }],
+                opacity: iconOpacityAnim,
+              }
+            ]}>
+              <Image
+                source={require('../../assets/AuthenticationsAssests/EnableLocationLOGO.png')}
+                style={styles.locationLogo}
+                resizeMode="contain"
+              />
+            </Animated.View>
           </View>
           
           {/* Instruction Text */}
@@ -142,14 +177,29 @@ const styles = StyleSheet.create({
     width: 80,
     height: 80,
     borderRadius: 40,
-    backgroundColor: '#DB2899',
     justifyContent: 'center',
     alignItems: 'center',
     marginBottom: 30,
+    overflow: 'hidden',
+  },
+  blurBackground: {
+    position: 'absolute',
+    width: '100%',
+    height: '100%',
+    borderRadius: 40,
+    backgroundColor: 'rgba(219, 40, 153, 0.3)',
+  },
+  iconContainer: {
+    width: '100%',
+    height: '100%',
+    justifyContent: 'center',
+    alignItems: 'center',
+    backgroundColor: 'rgba(219, 40, 153, 0.8)',
+    borderRadius: 40,
   },
   locationLogo: {
-    width: 60,
-    height: 60,
+    width: 50,
+    height: 50,
   },
   instructionText: {
     fontSize: 16,
