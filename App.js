@@ -9,6 +9,7 @@ import EnableLocation from './components/SecondScreen/EnableLocation';
 import Welcome from './components/SecondScreen/WelcomePage';
 import SignUp from './components/SecondScreen/SignUp';
 import OtpVerify from './components/SecondScreen/OtpVerify';
+import SetPassword from './components/SecondScreen/SetPassword';
 
 const Stack = createStackNavigator();
 
@@ -42,6 +43,7 @@ function App() {
         <Stack.Screen name="WelcomePage" component={Welcome} />
         <Stack.Screen name="SignUp" component={SignUp} />
         <Stack.Screen name="OtpVerify" component={OtpVerify} />
+        <Stack.Screen name="SetPassword" component={SetPassword} />
       </Stack.Navigator>
     </NavigationContainer>
   );
