@@ -13,7 +13,7 @@ export default function SignUp({ navigation }) {
   const [gender, setGender] = useState('');
   const [agreeTerms, setAgreeTerms] = useState(false);
   const [loading, setLoading] = useState(false);
-  const [loadingProvider, setLoadingProvider] = useState(null);
+
   const [errors, setErrors] = useState({});
   const [touched, setTouched] = useState({});
   const [isFormValid, setIsFormValid] = useState(false);
