@@ -42,7 +42,9 @@ export default function OtpVerify({ navigation, route }) {
   const handleVerify = () => {
     const otpCode = otp.join('');
     if (otpCode.length === 6) {
-      Alert.alert('Success', 'OTP verified successfully!');
+      Alert.alert('Success', 'OTP verified successfully!', [
+        { text: 'OK', onPress: () => navigation.navigate('SetPassword') }
+      ]);
     } else {
       Alert.alert('Error', 'Please enter complete OTP');
     }
