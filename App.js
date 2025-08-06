@@ -1,16 +1,18 @@
 import React from 'react';
 import { NavigationContainer } from '@react-navigation/native';
 import { createStackNavigator, CardStyleInterpolators } from '@react-navigation/stack';
+import { registerRootComponent } from 'expo';
 import Onboarding1 from './components/FirstScreen/Onboarding1';
 import Onboarding2 from './components/FirstScreen/Onboarding2';
 import Onboarding3 from './components/FirstScreen/Onboarding3';
 import EnableLocation from './components/SecondScreen/EnableLocation';
 import Welcome from './components/SecondScreen/WelcomePage';
 import SignUp from './components/SecondScreen/SignUp';
+import OtpVerify from './components/SecondScreen/OtpVerify';
 
 const Stack = createStackNavigator();
 
-export default function App() {
+function App() {
   return (
     <NavigationContainer>
       <Stack.Navigator 
@@ -39,7 +41,11 @@ export default function App() {
         <Stack.Screen name="EnableLocation" component={EnableLocation} />
         <Stack.Screen name="WelcomePage" component={Welcome} />
         <Stack.Screen name="SignUp" component={SignUp} />
+        <Stack.Screen name="OtpVerify" component={OtpVerify} />
       </Stack.Navigator>
     </NavigationContainer>
   );
 }
+
+registerRootComponent(App);
+export default App;
