@@ -78,7 +78,7 @@ const styles = StyleSheet.create({
     paddingBottom: screenHeight * 0.02,
   },
   createAccountButton: {
-    backgroundColor: '#168F59',
+    backgroundColor: '#DB2899',
     paddingVertical: 16,
     borderRadius: 25,
     width: '100%',
@@ -94,7 +94,7 @@ const styles = StyleSheet.create({
   loginButton: {
     backgroundColor: '#ffffff',
     borderWidth: 2,
-    borderColor: '#168F59',
+    borderColor: '#DB2899',
     paddingVertical: 16,
     borderRadius: 25,
     width: '100%',
@@ -102,7 +102,7 @@ const styles = StyleSheet.create({
     cursor: 'pointer',
   },
   loginText: {
-    color: '#168F59',
+    color: '#DB2899',
     fontSize: 16,
     fontWeight: '600',
   },
