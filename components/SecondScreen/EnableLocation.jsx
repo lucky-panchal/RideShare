@@ -138,7 +138,7 @@ const styles = StyleSheet.create({
     width: 80,
     height: 80,
     borderRadius: 40,
-    backgroundColor: '#168F59',
+    backgroundColor: '#DB2899',
     justifyContent: 'center',
     alignItems: 'center',
     marginBottom: 30,
@@ -160,7 +160,7 @@ const styles = StyleSheet.create({
     alignItems: 'center',
   },
   locationButton: {
-    backgroundColor: '#168F59',
+    backgroundColor: '#DB2899',
     paddingVertical: 16,
     borderRadius: 25,
     width: '100%',
