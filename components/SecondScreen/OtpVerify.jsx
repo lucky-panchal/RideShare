@@ -1,12 +1,27 @@
-import React, { useState, useRef } from 'react';
-import { View, StyleSheet, Text, StatusBar, TextInput, TouchableOpacity, Dimensions, Alert } from 'react-native';
+import React, { useState, useRef, useEffect } from 'react';
+import { View, StyleSheet, Text, StatusBar, TextInput, TouchableOpacity, Dimensions, Alert, Keyboard, KeyboardAvoidingView, Platform } from 'react-native';
 
 const { width: screenWidth, height: screenHeight } = Dimensions.get('window');
 
 export default function OtpVerify({ navigation, route }) {
   const { mobile, countryCode } = route.params || {};
   const [otp, setOtp] = useState(['', '', '', '', '', '']);
+  const [keyboardVisible, setKeyboardVisible] = useState(false);
   const inputRefs = useRef([]);
+
+  useEffect(() => {
+    const keyboardDidShowListener = Keyboard.addListener('keyboardDidShow', () => {
+      setKeyboardVisible(true);
+    });
+    const keyboardDidHideListener = Keyboard.addListener('keyboardDidHide', () => {
+      setKeyboardVisible(false);
+    });
+
+    return () => {
+      keyboardDidHideListener.remove();
+      keyboardDidShowListener.remove();
+    };
+  }, []);
 
   const handleOtpChange = (value, index) => {
     const newOtp = [...otp];
@@ -40,10 +55,13 @@ export default function OtpVerify({ navigation, route }) {
   };
 
   return (
-    <View style={styles.container}>
+    <KeyboardAvoidingView 
+      style={styles.container} 
+      behavior={Platform.OS === 'ios' ? 'padding' : 'height'}
+    >
       <StatusBar barStyle="dark-content" backgroundColor="#ffffff" />
       
-      <View style={styles.content}>
+      <View style={[styles.content, keyboardVisible && styles.contentKeyboardActive]}>
         <Text style={styles.title}>Enter OTP</Text>
         <Text style={styles.subtitle}>Please enter the 6-digit code sent to {countryCode} {mobile}</Text>
         
@@ -70,12 +88,15 @@ export default function OtpVerify({ navigation, route }) {
             <Text style={styles.resendLink}>Resend again</Text>
           </TouchableOpacity>
         </View>
-        
-        <TouchableOpacity style={styles.verifyButton} onPress={handleVerify}>
-          <Text style={styles.verifyButtonText}>Verify</Text>
-        </TouchableOpacity>
       </View>
-    </View>
+      
+      <TouchableOpacity 
+        style={[styles.verifyButton, keyboardVisible && styles.verifyButtonKeyboardActive]} 
+        onPress={handleVerify}
+      >
+        <Text style={styles.verifyButtonText}>Verify</Text>
+      </TouchableOpacity>
+    </KeyboardAvoidingView>
   );
 }
 
@@ -89,6 +110,9 @@ const styles = StyleSheet.create({
     paddingHorizontal: 24,
     paddingTop: screenHeight * 0.15,
     alignItems: 'center',
+  },
+  contentKeyboardActive: {
+    paddingTop: screenHeight * 0.08,
   },
   title: {
     fontSize: 28,
@@ -141,9 +165,12 @@ const styles = StyleSheet.create({
     backgroundColor: '#DB2899',
     paddingVertical: 16,
     borderRadius: 8,
-    width: '100%',
+    marginHorizontal: 24,
     alignItems: 'center',
-    marginTop: 20,
+    marginBottom: 20,
+  },
+  verifyButtonKeyboardActive: {
+    marginBottom: 10,
   },
   verifyButtonText: {
     color: '#ffffff',
