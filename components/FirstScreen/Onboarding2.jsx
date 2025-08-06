@@ -48,7 +48,7 @@ export default function Onboarding2() {
             cx="40"
             cy="40"
             r="35"
-            stroke="#EA4C89"
+            stroke="#DB2899"
             strokeWidth="4"
             fill="none"
             strokeDasharray={2 * Math.PI * 35}
@@ -126,7 +126,7 @@ const styles = StyleSheet.create({
     width: 60,
     height: 60,
     borderRadius: 30,
-    backgroundColor: '#EA4C89',
+    backgroundColor: '#DB2899',
     justifyContent: 'center',
     alignItems: 'center',
     cursor: 'pointer',
