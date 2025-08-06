@@ -108,8 +108,8 @@ export default function SignUp({ navigation }) {
       
       Alert.alert(
         'Success!',
-        'Your account has been created successfully.',
-        [{ text: 'Continue', onPress: () => navigation.navigate('WelcomePage') }]
+        'Account created! Please verify your mobile number.',
+        [{ text: 'Continue', onPress: () => navigation.navigate('OtpVerify') }]
       );
     } catch (error) {
       Alert.alert('Error', 'Failed to create account. Please try again.');
