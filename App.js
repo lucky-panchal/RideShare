@@ -10,6 +10,7 @@ import Welcome from './components/SecondScreen/WelcomePage';
 import SignUp from './components/SecondScreen/SignUp';
 import OtpVerify from './components/SecondScreen/OtpVerify';
 import SetPassword from './components/SecondScreen/SetPassword';
+import CompleteProfile from './components/SecondScreen/CompleteProfile';
 
 const Stack = createStackNavigator();
 
@@ -44,6 +45,7 @@ function App() {
         <Stack.Screen name="SignUp" component={SignUp} />
         <Stack.Screen name="OtpVerify" component={OtpVerify} />
         <Stack.Screen name="SetPassword" component={SetPassword} />
+        <Stack.Screen name="CompleteProfile" component={CompleteProfile} />
       </Stack.Navigator>
     </NavigationContainer>
   );
