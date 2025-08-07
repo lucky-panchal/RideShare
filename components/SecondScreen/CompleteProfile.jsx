@@ -1,6 +1,7 @@
 import React, { useState, useRef } from 'react';
-import { View, Text, TextInput, TouchableOpacity, Image, Alert, StyleSheet } from 'react-native';
+import { View, Text, TextInput, TouchableOpacity, Image, Alert, StyleSheet, Platform } from 'react-native';
 import * as ImagePicker from 'expo-image-picker';
+import * as DocumentPicker from 'expo-document-picker';
 
 // Mock database
 const mockDB = {
@@ -21,16 +22,73 @@ const CompleteProfile = ({ navigation }) => {
   const fullNameRef = useRef(null);
 
   const pickImage = async () => {
-    const result = await ImagePicker.launchImageLibraryAsync({
+    Alert.alert(
+      'Select Image',
+      'Choose an option',
+      [
+        { text: 'Camera', onPress: openCamera },
+        { text: 'Gallery', onPress: openGallery },
+        { text: 'Cancel', style: 'cancel' }
+      ]
+    );
+  };
+
+  const openCamera = async () => {
+    const { status } = await ImagePicker.requestCameraPermissionsAsync();
+    if (status !== 'granted') {
+      Alert.alert('Permission needed', 'Camera access is required to take photos.');
+      return;
+    }
+
+    const result = await ImagePicker.launchCameraAsync({
       mediaTypes: ImagePicker.MediaTypeOptions.Images,
       allowsEditing: true,
       aspect: [1, 1],
-      quality: 1,
+      quality: 0.8,
     });
 
     if (!result.canceled) {
       setAvatar(result.assets[0].uri);
       setProfileData(prev => ({ ...prev, avatar: result.assets[0].uri }));
+    }
+  };
+
+  const openGallery = async () => {
+    try {
+      if (Platform.OS === 'web') {
+        // For laptop/web - opens file manager
+        const result = await DocumentPicker.getDocumentAsync({
+          type: 'image/*',
+          copyToCacheDirectory: false,
+        });
+        
+        if (result.type === 'success') {
+          setAvatar(result.uri);
+          setProfileData(prev => ({ ...prev, avatar: result.uri }));
+        }
+      } else {
+        // For mobile devices - opens gallery
+        const permission = await ImagePicker.requestMediaLibraryPermissionsAsync();
+        
+        if (permission.status !== 'granted') {
+          Alert.alert('Permission Required', 'Please enable gallery access in settings.');
+          return;
+        }
+
+        const result = await ImagePicker.launchImageLibraryAsync({
+          mediaTypes: ImagePicker.MediaTypeOptions.Images,
+          allowsEditing: true,
+          aspect: [1, 1],
+          quality: 0.8,
+        });
+
+        if (!result.canceled && result.assets && result.assets.length > 0) {
+          setAvatar(result.assets[0].uri);
+          setProfileData(prev => ({ ...prev, avatar: result.assets[0].uri }));
+        }
+      }
+    } catch (error) {
+      Alert.alert('Error', 'Failed to select image.');
     }
   };
 
@@ -68,7 +126,7 @@ const CompleteProfile = ({ navigation }) => {
         />
 
         <View style={styles.phoneContainer}>
-          <Text style={styles.countryCode}>+880</Text>
+          <Text style={styles.countryCode}>+91</Text>
           <TextInput
             style={[styles.input, styles.phoneInput]}
             placeholder="Mobile Number"
