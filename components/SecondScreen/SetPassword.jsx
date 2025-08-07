@@ -46,7 +46,7 @@ export default function SetPassword({ navigation }) {
       return;
     }
 
-    Alert.alert('Success', 'Password set successfully!');
+    navigation.navigate('CompleteProfile');
   };
 
   return (
