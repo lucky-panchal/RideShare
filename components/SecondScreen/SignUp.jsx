@@ -30,7 +30,7 @@ export default function SignUp({ navigation }) {
   };
 
   const validateName = (name) => {
-    return name.trim().length >= 2;
+    return name.length > 0;
   };
 
   // Validate form
