@@ -1,7 +1,5 @@
 import React, { useState, useRef } from 'react';
-import { View, Text, TextInput, TouchableOpacity, Image, Alert, StyleSheet, Platform } from 'react-native';
-import * as ImagePicker from 'expo-image-picker';
-import * as DocumentPicker from 'expo-document-picker';
+import { View, Text, TextInput, TouchableOpacity, Image, Alert, StyleSheet } from 'react-native';
 
 // Mock database
 const mockDB = {
@@ -18,102 +16,29 @@ const mockDB = {
 
 const CompleteProfile = ({ navigation }) => {
   const [profileData, setProfileData] = useState(mockDB.profile);
-  const [avatar, setAvatar] = useState(null);
   const fullNameRef = useRef(null);
 
-  const pickImage = async () => {
-    Alert.alert(
-      'Select Image',
-      'Choose an option',
-      [
-        { text: 'Camera', onPress: openCamera },
-        { text: 'Gallery', onPress: openGallery },
-        { text: 'Cancel', style: 'cancel' }
-      ]
-    );
-  };
-
-  const openCamera = async () => {
-    const { status } = await ImagePicker.requestCameraPermissionsAsync();
-    if (status !== 'granted') {
-      Alert.alert('Permission needed', 'Camera access is required to take photos.');
-      return;
-    }
-
-    const result = await ImagePicker.launchCameraAsync({
-      mediaTypes: ImagePicker.MediaTypeOptions.Images,
-      allowsEditing: true,
-      aspect: [1, 1],
-      quality: 0.8,
-    });
-
-    if (!result.canceled) {
-      setAvatar(result.assets[0].uri);
-      setProfileData(prev => ({ ...prev, avatar: result.assets[0].uri }));
-    }
-  };
-
-  const openGallery = async () => {
-    try {
-      if (Platform.OS === 'web') {
-        // For laptop/web - opens file manager
-        const result = await DocumentPicker.getDocumentAsync({
-          type: 'image/*',
-          copyToCacheDirectory: false,
-        });
-        
-        if (result.type === 'success') {
-          setAvatar(result.uri);
-          setProfileData(prev => ({ ...prev, avatar: result.uri }));
-        }
-      } else {
-        // For mobile devices - opens gallery
-        const permission = await ImagePicker.requestMediaLibraryPermissionsAsync();
-        
-        if (permission.status !== 'granted') {
-          Alert.alert('Permission Required', 'Please enable gallery access in settings.');
-          return;
-        }
-
-        const result = await ImagePicker.launchImageLibraryAsync({
-          mediaTypes: ImagePicker.MediaTypeOptions.Images,
-          allowsEditing: true,
-          aspect: [1, 1],
-          quality: 0.8,
-        });
-
-        if (!result.canceled && result.assets && result.assets.length > 0) {
-          setAvatar(result.assets[0].uri);
-          setProfileData(prev => ({ ...prev, avatar: result.assets[0].uri }));
-        }
-      }
-    } catch (error) {
-      Alert.alert('Error', 'Failed to select image.');
-    }
-  };
-
   const handleSave = () => {
-    mockDB.profile = { ...profileData, avatar };
+    mockDB.profile = { ...profileData };
     Alert.alert('Success', 'Profile saved successfully!');
   };
 
   const handleCancel = () => {
     setProfileData(mockDB.profile);
-    setAvatar(mockDB.profile.avatar);
     navigation.goBack();
   };
 
   return (
     <View style={styles.container}>
-      <TouchableOpacity style={styles.avatarContainer} onPress={pickImage}>
+      <View style={styles.avatarContainer}>
         <Image
-          source={avatar ? { uri: avatar } : { uri: 'data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAADUlEQVR42mNkYPhfDwAChwGA60e6kgAAAABJRU5ErkJggg==' }}
+          source={{ uri: 'data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAADUlEQVR42mNkYPhfDwAChwGA60e6kgAAAABJRU5ErkJggg==' }}
           style={styles.avatar}
         />
-        <View style={styles.cameraIcon}>
-          <Text style={styles.cameraText}>📷</Text>
+        <View style={styles.blueTickIcon}>
+          <Text style={styles.blueTickText}>✓</Text>
         </View>
-      </TouchableOpacity>
+      </View>
 
       <View style={styles.formContainer}>
         <TextInput
@@ -197,11 +122,11 @@ const styles = StyleSheet.create({
     borderRadius: 60,
     backgroundColor: '#f0f0f0',
   },
-  cameraIcon: {
+  blueTickIcon: {
     position: 'absolute',
     bottom: 0,
     right: 0,
-    backgroundColor: '#fff',
+    backgroundColor: '#1DA1F2',
     borderRadius: 15,
     width: 30,
     height: 30,
@@ -213,8 +138,10 @@ const styles = StyleSheet.create({
     shadowRadius: 3.84,
     elevation: 5,
   },
-  cameraText: {
+  blueTickText: {
     fontSize: 16,
+    color: '#fff',
+    fontWeight: 'bold',
   },
   formContainer: {
     flex: 1,
