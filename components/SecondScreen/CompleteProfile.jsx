@@ -20,7 +20,9 @@ const CompleteProfile = ({ navigation }) => {
 
   const handleSave = () => {
     mockDB.profile = { ...profileData };
-    Alert.alert('Success', 'Profile saved successfully!');
+    Alert.alert('Success', 'Profile saved successfully!', [
+      { text: 'OK', onPress: () => navigation.navigate('SignIn') }
+    ]);
   };
 
   const handleCancel = () => {

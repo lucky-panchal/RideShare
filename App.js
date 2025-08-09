@@ -1,6 +1,7 @@
 import React from 'react';
 import { NavigationContainer } from '@react-navigation/native';
-import { createStackNavigator, CardStyleInterpolators } from '@react-navigation/stack';
+import { createStackNavigator, CardStyleInterpolators, TransitionIOSSpec } from '@react-navigation/stack';
+import { Easing } from 'react-native';
 import { registerRootComponent } from 'expo';
 import Onboarding1 from './components/FirstScreen/Onboarding1';
 import Onboarding2 from './components/FirstScreen/Onboarding2';
@@ -11,6 +12,7 @@ import SignUp from './components/SecondScreen/SignUp';
 import OtpVerify from './components/SecondScreen/OtpVerify';
 import SetPassword from './components/SecondScreen/SetPassword';
 import CompleteProfile from './components/SecondScreen/CompleteProfile';
+import SignIn from './components/SecondScreen/SignIn';
 
 const Stack = createStackNavigator();
 
@@ -20,18 +22,49 @@ function App() {
       <Stack.Navigator 
         screenOptions={{ 
           headerShown: false,
-          cardStyleInterpolator: CardStyleInterpolators.forHorizontalIOS,
+          cardStyleInterpolator: ({ current, next, layouts }) => {
+            return {
+              cardStyle: {
+                transform: [
+                  {
+                    translateX: current.progress.interpolate({
+                      inputRange: [0, 1],
+                      outputRange: [layouts.screen.width, 0],
+                    }),
+                  },
+                  {
+                    scale: current.progress.interpolate({
+                      inputRange: [0, 1],
+                      outputRange: [0.9, 1],
+                    }),
+                  },
+                ],
+                opacity: current.progress.interpolate({
+                  inputRange: [0, 0.5, 1],
+                  outputRange: [0, 0.8, 1],
+                }),
+              },
+              overlayStyle: {
+                opacity: current.progress.interpolate({
+                  inputRange: [0, 1],
+                  outputRange: [0, 0.1],
+                }),
+              },
+            };
+          },
           transitionSpec: {
             open: {
               animation: 'timing',
               config: {
-                duration: 300,
+                duration: 400,
+                easing: Easing.bezier(0.25, 0.46, 0.45, 0.94),
               },
             },
             close: {
               animation: 'timing',
               config: {
-                duration: 300,
+                duration: 350,
+                easing: Easing.bezier(0.25, 0.46, 0.45, 0.94),
               },
             },
           },
@@ -46,6 +79,7 @@ function App() {
         <Stack.Screen name="OtpVerify" component={OtpVerify} />
         <Stack.Screen name="SetPassword" component={SetPassword} />
         <Stack.Screen name="CompleteProfile" component={CompleteProfile} />
+        <Stack.Screen name="SignIn" component={SignIn} />
       </Stack.Navigator>
     </NavigationContainer>
   );
