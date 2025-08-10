@@ -16,6 +16,8 @@ import SignIn from './components/SecondScreen/SignIn';
 import SendVerification from './components/SecondScreen/SendVerification';
 import SendVerification2 from './components/SecondScreen/SendVerification2';
 import PhoneVerifyOtp from './components/SecondScreen/PhoneVerifyOtp';
+import PhoneVerifyOtp2 from './components/SecondScreen/PhoneVerifyOtp2';
+import SetNewPassword from './components/SecondScreen/SetNewPassword';
 
 const Stack = createStackNavigator();
 
@@ -86,6 +88,8 @@ function App() {
         <Stack.Screen name="SendVerification" component={SendVerification} />
         <Stack.Screen name="SendVerification2" component={SendVerification2} />
         <Stack.Screen name="PhoneVerifyOtp" component={PhoneVerifyOtp} />
+        <Stack.Screen name="PhoneVerifyOtp2" component={PhoneVerifyOtp2} />
+        <Stack.Screen name="SetNewPassword" component={SetNewPassword} />
       </Stack.Navigator>
     </NavigationContainer>
   );

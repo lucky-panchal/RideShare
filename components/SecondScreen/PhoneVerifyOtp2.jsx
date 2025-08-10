@@ -34,8 +34,8 @@ const PhoneVerifyOtp2 = ({ navigation }) => {
   };
 
   const handleVerify = () => {
-    // Verify OTP logic will be implemented later
-    console.log('Verify OTP pressed');
+    // Navigate to SetNewPassword after OTP verification for forgot password flow
+    navigation.navigate('SetNewPassword');
   };
 
   return (
