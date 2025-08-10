@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import { View, Text, TextInput, TouchableOpacity, StyleSheet } from 'react-native';
 import { Ionicons } from '@expo/vector-icons';
 
-const SendVerification = ({ navigation }) => {
+const SendVerification2 = ({ navigation }) => {
   const [emailOrPhone, setEmailOrPhone] = useState('');
 
   const handleBack = () => {
@@ -90,4 +90,4 @@ const styles = StyleSheet.create({
   },
 });
 
-export default SendVerification;
+export default SendVerification2;

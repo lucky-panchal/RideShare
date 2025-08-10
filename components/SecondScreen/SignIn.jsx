@@ -11,8 +11,8 @@ const SignIn = ({ navigation }) => {
   };
 
   const handleForgotPassword = () => {
-    // Forgot password logic will be implemented later
-    console.log('Forgot Password pressed');
+    // Navigate to SendVerification2 for forgot password flow
+    navigation.navigate('SendVerification2');
   };
 
   const handleSocialLogin = (provider) => {
