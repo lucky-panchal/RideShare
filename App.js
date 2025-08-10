@@ -20,6 +20,10 @@ import PhoneVerifyOtp from './components/Authentications/PhoneVerifyOtp';
 import PhoneVerifyOtp2 from './components/Authentications/PhoneVerifyOtp2';
 import SetNewPassword from './components/Authentications/SetNewPassword';
 import Home from './components/Home/Home';
+import Favorites from './components/Home/Favorites';
+import Wallet from './components/Home/Wallet';
+import Settings from './components/Home/Settings';
+import Notifications from './components/Home/Notifications';
 
 const Stack = createStackNavigator();
 const Tab = createBottomTabNavigator();
@@ -103,6 +107,10 @@ function App() {
         <Stack.Screen name="PhoneVerifyOtp2" component={PhoneVerifyOtp2} />
         <Stack.Screen name="SetNewPassword" component={SetNewPassword} />
         <Stack.Screen name="Home" component={HomeTabs} />
+        <Stack.Screen name="Favorites" component={Favorites} />
+        <Stack.Screen name="Wallet" component={Wallet} />
+        <Stack.Screen name="Settings" component={Settings} />
+        <Stack.Screen name="Notifications" component={Notifications} />
       </Stack.Navigator>
     </NavigationContainer>
   );
