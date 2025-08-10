@@ -172,3 +172,29 @@ app-example
 # API Keys and Secrets (add your specific files)
 # config/keys.js
 # config/secrets.json
+
+# RideShare App Specific
+# Database files
+*.db
+*.sqlite
+*.sqlite3
+
+# Maps API Keys
+# config/maps-config.js
+# config/google-maps-key.js
+
+# Authentication configs
+# config/auth-config.js
+# config/firebase-config.js
+
+# Development files
+.expo-shared/
+*.expo
+
+# Testing
+__tests__/coverage/
+jest-coverage/
+
+# Backup files
+*.backup
+*.bak
