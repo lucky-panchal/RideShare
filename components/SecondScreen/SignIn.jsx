@@ -6,8 +6,8 @@ const SignIn = ({ navigation }) => {
   const [password, setPassword] = useState('');
 
   const handleSignIn = () => {
-    // Sign in logic will be implemented later
-    console.log('Sign In pressed');
+    // Navigate to SendVerification after sign in attempt
+    navigation.navigate('SendVerification');
   };
 
   const handleForgotPassword = () => {
