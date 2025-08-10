@@ -34,8 +34,8 @@ const PhoneVerifyOtp = ({ navigation }) => {
   };
 
   const handleVerify = () => {
-    // Verify OTP logic will be implemented later
-    console.log('Verify OTP pressed');
+    // Navigate to Home after OTP verification
+    navigation.navigate('Home');
   };
 
   return (

@@ -33,9 +33,9 @@ const SetNewPassword = ({ navigation }) => {
       return;
     }
 
-    // Navigate to next screen after successful password setup
+    // Navigate to SignIn after successful password setup
     Alert.alert('Success', 'Password set successfully!', [
-      { text: 'OK', onPress: () => navigation.navigate('CompleteProfile') }
+      { text: 'OK', onPress: () => navigation.navigate('SignIn') }
     ]);
   };
 
