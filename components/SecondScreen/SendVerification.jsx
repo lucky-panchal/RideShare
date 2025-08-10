@@ -70,7 +70,7 @@ const styles = StyleSheet.create({
     backgroundColor: '#fafafa',
   },
   sendButton: {
-    backgroundColor: '#e91e63',
+    backgroundColor: '#DB2899',
     borderRadius: 8,
     paddingVertical: 15,
     alignItems: 'center',
