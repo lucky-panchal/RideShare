@@ -2,7 +2,7 @@ import React, { useState, useRef } from 'react';
 import { View, Text, TextInput, TouchableOpacity, StyleSheet } from 'react-native';
 import { Ionicons } from '@expo/vector-icons';
 
-const PhoneVerifyOtp = ({ navigation }) => {
+const PhoneVerifyOtp2 = ({ navigation }) => {
   const [otp, setOtp] = useState(['', '', '', '', '', '']);
   const inputRefs = useRef([]);
 
@@ -171,4 +171,4 @@ const styles = StyleSheet.create({
   },
 });
 
-export default PhoneVerifyOtp;
+export default PhoneVerifyOtp2;
