@@ -1,6 +1,7 @@
 import React from 'react';
 import { NavigationContainer } from '@react-navigation/native';
 import { createStackNavigator, CardStyleInterpolators, TransitionIOSSpec } from '@react-navigation/stack';
+import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import { Easing } from 'react-native';
 import { registerRootComponent } from 'expo';
 import Onboarding1 from './components/Onboardings/Onboarding1';
@@ -18,8 +19,19 @@ import SendVerification2 from './components/Authentications/SendVerification2';
 import PhoneVerifyOtp from './components/Authentications/PhoneVerifyOtp';
 import PhoneVerifyOtp2 from './components/Authentications/PhoneVerifyOtp2';
 import SetNewPassword from './components/Authentications/SetNewPassword';
+import Home from './components/Home/home';
 
 const Stack = createStackNavigator();
+const Tab = createBottomTabNavigator();
+
+// Bottom Tab Navigator for Home Screen
+function HomeTabs() {
+  return (
+    <Tab.Navigator screenOptions={{ headerShown: false, tabBarStyle: { display: 'none' } }}>
+      <Tab.Screen name="HomeMain" component={Home} />
+    </Tab.Navigator>
+  );
+}
 
 function App() {
   return (
@@ -90,6 +102,7 @@ function App() {
         <Stack.Screen name="PhoneVerifyOtp" component={PhoneVerifyOtp} />
         <Stack.Screen name="PhoneVerifyOtp2" component={PhoneVerifyOtp2} />
         <Stack.Screen name="SetNewPassword" component={SetNewPassword} />
+        <Stack.Screen name="Home" component={HomeTabs} />
       </Stack.Navigator>
     </NavigationContainer>
   );
