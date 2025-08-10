@@ -45,9 +45,7 @@ const SetNewPassword = ({ navigation }) => {
         <Ionicons name="arrow-back" size={24} color="#333" />
       </TouchableOpacity>
 
-      <View style={styles.headerContainer}>
-        <Text style={styles.title}>Set your password</Text>
-      </View>
+
 
       <View style={styles.formContainer}>
         <View style={styles.inputContainer}>
@@ -118,21 +116,11 @@ const styles = StyleSheet.create({
     padding: 10,
     marginBottom: 20,
   },
-  headerContainer: {
-    paddingTop: 40,
-    paddingBottom: 60,
-    alignItems: 'center',
-  },
-  title: {
-    fontSize: 24,
-    fontWeight: '600',
-    color: '#333',
-    textAlign: 'center',
-  },
+
   formContainer: {
-    flex: 1,
-    justifyContent: 'center',
-    paddingBottom: 100,
+    height: '15%',
+    justifyContent: 'flex-end',
+    paddingBottom: 20,
   },
   inputContainer: {
     position: 'relative',
