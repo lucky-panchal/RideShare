@@ -19,7 +19,7 @@ import SendVerification2 from './components/Authentications/SendVerification2';
 import PhoneVerifyOtp from './components/Authentications/PhoneVerifyOtp';
 import PhoneVerifyOtp2 from './components/Authentications/PhoneVerifyOtp2';
 import SetNewPassword from './components/Authentications/SetNewPassword';
-import Home from './components/Home/home';
+import Home from './components/Home/Home';
 
 const Stack = createStackNavigator();
 const Tab = createBottomTabNavigator();
