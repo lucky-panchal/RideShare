@@ -28,25 +28,8 @@ const Home = ({ navigation }) => {
   }, []);
 
   const checkLocationPermission = async () => {
-    try {
-      console.log('Checking location permissions...');
-      let { status } = await Location.requestForegroundPermissionsAsync();
-      
-      if (status === 'granted') {
-        console.log('Location permission granted');
-        setHasLocationPermission(true);
-        getCurrentLocation();
-      } else {
-        console.log('Location permission denied');
-        setHasLocationPermission(false);
-        setIsMapLoading(false);
-        setShowLocationPopup(true);
-      }
-    } catch (error) {
-      console.log('Error requesting location permission:', error);
-      setMapError('Failed to request location permission');
-      setIsMapLoading(false);
-    }
+    setHasLocationPermission(true);
+    setIsMapLoading(false);
   };
 
   const getCurrentLocation = async () => {
@@ -130,56 +113,28 @@ const Home = ({ navigation }) => {
           </View>
         ) : (
           <MapView
-            ref={mapRef}
-            style={StyleSheet.absoluteFillObject}
-            provider={Platform.OS === 'android' ? PROVIDER_GOOGLE : undefined}
-            initialRegion={mapRegion}
-            region={location ? {
-              latitude: location.latitude,
-              longitude: location.longitude,
-              latitudeDelta: 0.01,
-              longitudeDelta: 0.01,
-            } : mapRegion}
+            style={styles.map}
+            initialRegion={{
+              latitude: 28.6139,
+              longitude: 77.2090,
+              latitudeDelta: 0.1,
+              longitudeDelta: 0.1,
+            }}
             onMapReady={() => {
-              console.log('✅ Map ready and loaded successfully');
+              console.log('Map is ready!');
               setIsMapLoading(false);
             }}
-            onError={(error) => {
-              console.log('❌ Map error:', error);
-              setMapError('Failed to load map. Check your internet connection.');
-              setIsMapLoading(false);
-            }}
-            showsUserLocation={hasLocationPermission && !!location}
-            showsMyLocationButton={false}
-            showsCompass={true}
-            rotateEnabled={true}
-            scrollEnabled={true}
-            zoomEnabled={true}
-            pitchEnabled={true}
-            mapType="standard"
-            loadingEnabled={true}
-            loadingBackgroundColor="#f8f9fa"
-            loadingIndicatorColor="#DB2899"
-            moveOnMarkerPress={false}
-            onRegionChangeComplete={onRegionChangeComplete}
+            showsUserLocation={true}
+            showsMyLocationButton={true}
           >
-            {location && (
-              <>
-                <Marker
-                  coordinate={location}
-                  title="Your Location"
-                  description="Current position"
-                  pinColor="#DB2899"
-                />
-                <Circle
-                  center={location}
-                  radius={500}
-                  strokeColor="#DB2899"
-                  fillColor="rgba(219, 40, 153, 0.2)"
-                  strokeWidth={2}
-                />
-              </>
-            )}
+            <Marker
+              coordinate={{
+                latitude: 28.6139,
+                longitude: 77.2090,
+              }}
+              title="Delhi"
+              pinColor="red"
+            />
           </MapView>
         )}
       </View>
@@ -280,7 +235,6 @@ const styles = StyleSheet.create({
     position: 'relative',
   },
   map: {
-    flex: 1,
     width: '100%',
     height: '100%',
   },
