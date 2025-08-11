@@ -126,7 +126,7 @@ const Home = ({ navigation }) => {
             scrollEnabled={true}
             zoomEnabled={true}
             pitchEnabled={false}
-            mapType="standard"
+            mapType="satellite"
             loadingEnabled={false}
             moveOnMarkerPress={false}
           >
@@ -166,7 +166,7 @@ const Home = ({ navigation }) => {
           </View>
           
           <TouchableOpacity style={styles.searchButton}>
-            <Ionicons name="options" size={20} color="#DB2899" />
+            <Ionicons name="options" size={20} color="#fff" />
           </TouchableOpacity>
         </View>
       </View>
@@ -232,20 +232,21 @@ const Home = ({ navigation }) => {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: '#fff',
+    backgroundColor: '#f8f9fa',
   },
   mapContainer: {
-    flex: 0.75,
-    minHeight: 400,
+    flex: 0.7,
+    minHeight: 350,
     width: '100%',
-    borderBottomLeftRadius: 20,
-    borderBottomRightRadius: 20,
+    borderBottomLeftRadius: 25,
+    borderBottomRightRadius: 25,
     overflow: 'hidden',
-    elevation: 5,
+    elevation: 8,
     shadowColor: '#000',
-    shadowOffset: { width: 0, height: 2 },
-    shadowOpacity: 0.1,
-    shadowRadius: 4,
+    shadowOffset: { width: 0, height: 4 },
+    shadowOpacity: 0.15,
+    shadowRadius: 8,
+    marginBottom: 5,
   },
   map: {
     flex: 1,
@@ -275,48 +276,62 @@ const styles = StyleSheet.create({
     color: '#666',
   },
   serviceSection: {
-    flex: 0.25,
-    paddingHorizontal: 20,
-    paddingTop: 25,
-    paddingBottom: 15,
+    flex: 0.3,
+    paddingHorizontal: 25,
+    paddingTop: 20,
+    paddingBottom: 20,
+    backgroundColor: '#fff',
+    borderTopLeftRadius: 25,
+    borderTopRightRadius: 25,
+    marginTop: -20,
+    elevation: 5,
+    shadowColor: '#000',
+    shadowOffset: { width: 0, height: -2 },
+    shadowOpacity: 0.1,
+    shadowRadius: 6,
   },
 
   searchContainer: {
     flexDirection: 'row',
     alignItems: 'center',
-    gap: 12,
-    marginTop: 5,
+    gap: 15,
+    marginTop: 10,
   },
   searchBar: {
     flex: 1,
     flexDirection: 'row',
     alignItems: 'center',
-    backgroundColor: '#f5f5f5',
-    borderRadius: 12,
-    paddingHorizontal: 15,
-    paddingVertical: 12,
+    backgroundColor: '#f8f9fa',
+    borderRadius: 15,
+    paddingHorizontal: 18,
+    paddingVertical: 15,
     borderWidth: 1,
-    borderColor: '#e0e0e0',
+    borderColor: '#e9ecef',
+    elevation: 2,
+    shadowColor: '#000',
+    shadowOffset: { width: 0, height: 1 },
+    shadowOpacity: 0.05,
+    shadowRadius: 3,
   },
   searchIcon: {
-    marginRight: 10,
+    marginRight: 12,
+    color: '#6c757d',
   },
   searchInput: {
     flex: 1,
     fontSize: 16,
     color: '#333',
+    fontWeight: '500',
   },
   searchButton: {
-    backgroundColor: '#fff',
-    borderRadius: 12,
-    padding: 12,
-    borderWidth: 1,
-    borderColor: '#DB2899',
-    elevation: 2,
-    shadowColor: '#000',
-    shadowOffset: { width: 0, height: 1 },
-    shadowOpacity: 0.1,
-    shadowRadius: 2,
+    backgroundColor: '#DB2899',
+    borderRadius: 15,
+    padding: 15,
+    elevation: 3,
+    shadowColor: '#DB2899',
+    shadowOffset: { width: 0, height: 2 },
+    shadowOpacity: 0.3,
+    shadowRadius: 4,
   },
   bottomNav: {
     flexDirection: 'row',
