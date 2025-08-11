@@ -16,7 +16,7 @@ const Home = ({ navigation }) => {
   const [searchText, setSearchText] = useState('');
   const [hasNotifications, setHasNotifications] = useState(true);
   const [isMapLoading, setIsMapLoading] = useState(true);
-  const [activeService, setActiveService] = useState('Transport');
+
   const [activeTab, setActiveTab] = useState('Home');
   const [showLocationPopup, setShowLocationPopup] = useState(false);
   const [hasLocationPermission, setHasLocationPermission] = useState(false);
@@ -83,10 +83,6 @@ const Home = ({ navigation }) => {
 
   const onRegionChangeComplete = (region) => {
     setMapRegion(region);
-  };
-
-  const handleServiceToggle = (service) => {
-    setActiveService(service);
   };
 
   const handleTabPress = (tabName) => {
@@ -156,22 +152,6 @@ const Home = ({ navigation }) => {
 
       {/* Service Section */}
       <View style={styles.serviceSection}>
-        {/* Service Toggle Buttons */}
-        <View style={styles.toggleContainer}>
-          <TouchableOpacity 
-            style={[styles.toggleButton, activeService === 'Delivery' && styles.activeToggle]}
-            onPress={() => handleServiceToggle('Delivery')}
-          >
-            <Text style={[styles.toggleText, activeService === 'Delivery' && styles.activeToggleText]}>Delivery</Text>
-          </TouchableOpacity>
-          <TouchableOpacity 
-            style={[styles.toggleButton, activeService === 'Transport' && styles.activeToggle]}
-            onPress={() => handleServiceToggle('Transport')}
-          >
-            <Text style={[styles.toggleText, activeService === 'Transport' && styles.activeToggleText]}>Transport</Text>
-          </TouchableOpacity>
-        </View>
-        
         {/* Search Container */}
         <View style={styles.searchContainer}>
           <View style={styles.searchBar}>
@@ -255,8 +235,8 @@ const styles = StyleSheet.create({
     backgroundColor: '#fff',
   },
   mapContainer: {
-    flex: 0.6,
-    minHeight: 300,
+    flex: 0.75,
+    minHeight: 400,
     width: '100%',
     borderBottomLeftRadius: 20,
     borderBottomRightRadius: 20,
@@ -295,37 +275,12 @@ const styles = StyleSheet.create({
     color: '#666',
   },
   serviceSection: {
-    flex: 0.3,
+    flex: 0.25,
     paddingHorizontal: 20,
     paddingTop: 25,
     paddingBottom: 15,
   },
-  toggleContainer: {
-    flexDirection: 'row',
-    marginBottom: 20,
-    backgroundColor: '#f5f5f5',
-    borderRadius: 12,
-    padding: 4,
-  },
-  toggleButton: {
-    flex: 1,
-    paddingVertical: 12,
-    paddingHorizontal: 20,
-    borderRadius: 8,
-    alignItems: 'center',
-    backgroundColor: 'transparent',
-  },
-  activeToggle: {
-    backgroundColor: '#DB2899',
-  },
-  toggleText: {
-    fontSize: 16,
-    fontWeight: '600',
-    color: '#666',
-  },
-  activeToggleText: {
-    color: '#fff',
-  },
+
   searchContainer: {
     flexDirection: 'row',
     alignItems: 'center',
