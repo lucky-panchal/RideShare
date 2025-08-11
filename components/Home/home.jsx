@@ -8,10 +8,10 @@ import LocationPopup from '../shared/LocationPopup';
 const Home = ({ navigation }) => {
   const [location, setLocation] = useState(null);
   const [mapRegion, setMapRegion] = useState({
-    latitude: 37.78825,
-    longitude: -122.4324,
-    latitudeDelta: 0.0922,
-    longitudeDelta: 0.0421,
+    latitude: 28.6139,
+    longitude: 77.2090,
+    latitudeDelta: 0.05,
+    longitudeDelta: 0.05,
   });
   const [searchText, setSearchText] = useState('');
   const [hasNotifications, setHasNotifications] = useState(true);
@@ -31,16 +31,17 @@ const Home = ({ navigation }) => {
       const { status } = await Location.getForegroundPermissionsAsync();
       if (status === 'granted') {
         setHasLocationPermission(true);
+        setIsMapLoading(false);
         getCurrentLocation();
       } else {
         setHasLocationPermission(false);
-        setShowLocationPopup(true);
         setIsMapLoading(false);
+        setShowLocationPopup(true);
       }
     } catch (error) {
       console.log('Error checking permission:', error);
-      setShowLocationPopup(true);
       setIsMapLoading(false);
+      setShowLocationPopup(true);
     }
   };
 
@@ -63,14 +64,14 @@ const Home = ({ navigation }) => {
       
       setLocation({ latitude, longitude });
       setMapRegion(newRegion);
-      setIsMapLoading(false);
       
-      if (mapRef.current) {
-        mapRef.current.animateToRegion(newRegion, 500);
-      }
+      setTimeout(() => {
+        if (mapRef.current) {
+          mapRef.current.animateToRegion(newRegion, 1000);
+        }
+      }, 500);
     } catch (error) {
       console.log('Error getting location:', error);
-      setIsMapLoading(false);
       Alert.alert('Error', 'Could not get your location');
     }
   };
@@ -112,11 +113,9 @@ const Home = ({ navigation }) => {
           <MapView
             ref={mapRef}
             style={styles.map}
-            region={mapRegion}
-            onRegionChangeComplete={onRegionChangeComplete}
+            initialRegion={mapRegion}
             onMapReady={() => {
               console.log('Map ready');
-              setIsMapLoading(false);
             }}
             onError={(error) => console.log('Map error:', error)}
             showsUserLocation={hasLocationPermission}
@@ -126,11 +125,10 @@ const Home = ({ navigation }) => {
             scrollEnabled={true}
             zoomEnabled={true}
             pitchEnabled={false}
-            mapType="satellite"
-            loadingEnabled={true}
-            loadingBackgroundColor="#f8f9fa"
-            loadingIndicatorColor="#DB2899"
+            mapType="standard"
+            loadingEnabled={false}
             moveOnMarkerPress={false}
+            provider="google"
           >
             {location && (
               <>
