@@ -12,6 +12,7 @@
       "supportsTablet": true
     },
     "android": {
+      "package": "com.lucky.rideshare",
       "adaptiveIcon": {
         "foregroundImage": "./assets/Onboardings/Onboarding1.png",
         "backgroundColor": "#ffffff"

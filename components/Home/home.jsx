@@ -1,6 +1,6 @@
 import React, { useState, useEffect, useRef } from 'react';
-import { View, Text, TextInput, TouchableOpacity, StyleSheet, Alert, StatusBar, ActivityIndicator } from 'react-native';
-import MapView, { Marker, Circle } from 'react-native-maps';
+import { View, Text, TextInput, TouchableOpacity, StyleSheet, Alert, StatusBar, ActivityIndicator, Platform } from 'react-native';
+import MapView, { Marker, Circle, PROVIDER_GOOGLE } from 'react-native-maps';
 import * as Location from 'expo-location';
 import { MaterialCommunityIcons, Ionicons, MaterialIcons } from '@expo/vector-icons';
 import LocationPopup from '../shared/LocationPopup';
@@ -16,6 +16,7 @@ const Home = ({ navigation }) => {
   const [searchText, setSearchText] = useState('');
   const [hasNotifications, setHasNotifications] = useState(true);
   const [isMapLoading, setIsMapLoading] = useState(true);
+  const [mapError, setMapError] = useState(null);
 
   const [activeTab, setActiveTab] = useState('Home');
   const [showLocationPopup, setShowLocationPopup] = useState(false);
@@ -28,20 +29,23 @@ const Home = ({ navigation }) => {
 
   const checkLocationPermission = async () => {
     try {
-      const { status } = await Location.getForegroundPermissionsAsync();
+      console.log('Checking location permissions...');
+      let { status } = await Location.requestForegroundPermissionsAsync();
+      
       if (status === 'granted') {
+        console.log('Location permission granted');
         setHasLocationPermission(true);
-        setIsMapLoading(false);
         getCurrentLocation();
       } else {
+        console.log('Location permission denied');
         setHasLocationPermission(false);
         setIsMapLoading(false);
         setShowLocationPopup(true);
       }
     } catch (error) {
-      console.log('Error checking permission:', error);
+      console.log('Error requesting location permission:', error);
+      setMapError('Failed to request location permission');
       setIsMapLoading(false);
-      setShowLocationPopup(true);
     }
   };
 
@@ -100,9 +104,24 @@ const Home = ({ navigation }) => {
       
       {/* Map Section */}
       <View style={styles.mapContainer}>
-        {!hasLocationPermission ? (
+        {mapError ? (
+          <View style={styles.mapErrorContainer}>
+            <Ionicons name="warning" size={50} color="#FF6B6B" />
+            <Text style={styles.errorText}>Map Error</Text>
+            <Text style={styles.errorSubtext}>{mapError}</Text>
+            <TouchableOpacity style={styles.retryButton} onPress={() => {
+              setMapError(null);
+              setIsMapLoading(true);
+              checkLocationPermission();
+            }}>
+              <Text style={styles.retryText}>Retry</Text>
+            </TouchableOpacity>
+          </View>
+        ) : !hasLocationPermission ? (
           <View style={styles.mapPlaceholder}>
-            <Text style={styles.placeholderText}>Map requires location permission</Text>
+            <Ionicons name="location-outline" size={50} color="#999" />
+            <Text style={styles.placeholderText}>Location Permission Required</Text>
+            <Text style={styles.placeholderSubtext}>Enable location to view map</Text>
           </View>
         ) : isMapLoading ? (
           <View style={styles.mapLoadingContainer}>
@@ -112,29 +131,44 @@ const Home = ({ navigation }) => {
         ) : (
           <MapView
             ref={mapRef}
-            style={styles.map}
+            style={StyleSheet.absoluteFillObject}
+            provider={Platform.OS === 'android' ? PROVIDER_GOOGLE : undefined}
             initialRegion={mapRegion}
+            region={location ? {
+              latitude: location.latitude,
+              longitude: location.longitude,
+              latitudeDelta: 0.01,
+              longitudeDelta: 0.01,
+            } : mapRegion}
             onMapReady={() => {
-              console.log('Map ready');
+              console.log('✅ Map ready and loaded successfully');
+              setIsMapLoading(false);
             }}
-            onError={(error) => console.log('Map error:', error)}
-            showsUserLocation={hasLocationPermission}
+            onError={(error) => {
+              console.log('❌ Map error:', error);
+              setMapError('Failed to load map. Check your internet connection.');
+              setIsMapLoading(false);
+            }}
+            showsUserLocation={hasLocationPermission && !!location}
             showsMyLocationButton={false}
-            showsCompass={false}
+            showsCompass={true}
             rotateEnabled={true}
             scrollEnabled={true}
             zoomEnabled={true}
-            pitchEnabled={false}
+            pitchEnabled={true}
             mapType="standard"
-            loadingEnabled={false}
+            loadingEnabled={true}
+            loadingBackgroundColor="#f8f9fa"
+            loadingIndicatorColor="#DB2899"
             moveOnMarkerPress={false}
-            provider="google"
+            onRegionChangeComplete={onRegionChangeComplete}
           >
             {location && (
               <>
                 <Marker
                   coordinate={location}
                   title="Your Location"
+                  description="Current position"
                   pinColor="#DB2899"
                 />
                 <Circle
@@ -243,6 +277,7 @@ const styles = StyleSheet.create({
     shadowOpacity: 0.15,
     shadowRadius: 8,
     marginBottom: 5,
+    position: 'relative',
   },
   map: {
     flex: 1,
@@ -262,9 +297,47 @@ const styles = StyleSheet.create({
     backgroundColor: '#f0f0f0',
   },
   placeholderText: {
-    fontSize: 16,
+    fontSize: 18,
+    fontWeight: '600',
     color: '#666',
     textAlign: 'center',
+    marginTop: 15,
+  },
+  placeholderSubtext: {
+    fontSize: 14,
+    color: '#999',
+    textAlign: 'center',
+    marginTop: 5,
+  },
+  mapErrorContainer: {
+    flex: 1,
+    justifyContent: 'center',
+    alignItems: 'center',
+    backgroundColor: '#fff',
+    padding: 20,
+  },
+  errorText: {
+    fontSize: 18,
+    fontWeight: '600',
+    color: '#FF6B6B',
+    marginTop: 15,
+  },
+  errorSubtext: {
+    fontSize: 14,
+    color: '#666',
+    textAlign: 'center',
+    marginTop: 5,
+    marginBottom: 20,
+  },
+  retryButton: {
+    backgroundColor: '#DB2899',
+    paddingHorizontal: 20,
+    paddingVertical: 10,
+    borderRadius: 8,
+  },
+  retryText: {
+    color: '#fff',
+    fontWeight: '600',
   },
   loadingText: {
     marginTop: 10,
