@@ -3,6 +3,7 @@ import { View, Text, TextInput, TouchableOpacity, StyleSheet, Alert, StatusBar, 
 import MapView, { Marker, Circle } from 'react-native-maps';
 import * as Location from 'expo-location';
 import { MaterialCommunityIcons, Ionicons, MaterialIcons } from '@expo/vector-icons';
+import LocationPopup from '../shared/LocationPopup';
 
 const Home = ({ navigation }) => {
   const [location, setLocation] = useState(null);
@@ -17,27 +18,40 @@ const Home = ({ navigation }) => {
   const [isMapLoading, setIsMapLoading] = useState(true);
   const [activeService, setActiveService] = useState('Transport');
   const [activeTab, setActiveTab] = useState('Home');
+  const [showLocationPopup, setShowLocationPopup] = useState(false);
+  const [hasLocationPermission, setHasLocationPermission] = useState(false);
   const mapRef = useRef(null);
 
   useEffect(() => {
-    getCurrentLocation();
+    checkLocationPermission();
   }, []);
+
+  const checkLocationPermission = async () => {
+    try {
+      const { status } = await Location.getForegroundPermissionsAsync();
+      if (status === 'granted') {
+        setHasLocationPermission(true);
+        getCurrentLocation();
+      } else {
+        setHasLocationPermission(false);
+        setShowLocationPopup(true);
+        setIsMapLoading(false);
+      }
+    } catch (error) {
+      console.log('Error checking permission:', error);
+      setShowLocationPopup(true);
+      setIsMapLoading(false);
+    }
+  };
 
   const getCurrentLocation = async () => {
     try {
-      console.log('Requesting location permission...');
-      let { status } = await Location.requestForegroundPermissionsAsync();
-      if (status !== 'granted') {
-        Alert.alert('Permission denied', 'Location permission is required to show your position on the map');
-        return;
-      }
-
-      console.log('Permission granted, getting location...');
+      setIsMapLoading(false);
       let currentLocation = await Location.getCurrentPositionAsync({
-        accuracy: Location.Accuracy.High,
+        accuracy: Location.Accuracy.Balanced,
+        maximumAge: 10000,
       });
       const { latitude, longitude } = currentLocation.coords;
-      console.log('Location obtained:', { latitude, longitude });
       
       const newRegion = {
         latitude,
@@ -48,17 +62,21 @@ const Home = ({ navigation }) => {
       
       setLocation({ latitude, longitude });
       setMapRegion(newRegion);
-      setIsMapLoading(false);
       
-      // Animate to user location smoothly
       if (mapRef.current) {
-        mapRef.current.animateToRegion(newRegion, 1000);
+        mapRef.current.animateToRegion(newRegion, 500);
       }
     } catch (error) {
       console.log('Error getting location:', error);
       setIsMapLoading(false);
       Alert.alert('Error', 'Could not get your location');
     }
+  };
+
+  const handleLocationEnabled = (locationData) => {
+    setHasLocationPermission(true);
+    setShowLocationPopup(false);
+    getCurrentLocation();
   };
 
   const onRegionChangeComplete = (region) => {
@@ -93,19 +111,18 @@ const Home = ({ navigation }) => {
         )}
         <MapView
           ref={mapRef}
-          style={[styles.map, isMapLoading && styles.hiddenMap]}
+          style={styles.map}
           region={mapRegion}
           onRegionChangeComplete={onRegionChangeComplete}
-          onMapReady={() => setIsMapLoading(false)}
-          showsUserLocation={true}
+          showsUserLocation={hasLocationPermission}
           showsMyLocationButton={false}
-          showsCompass={true}
+          showsCompass={false}
           rotateEnabled={true}
           scrollEnabled={true}
           zoomEnabled={true}
-          pitchEnabled={true}
+          pitchEnabled={false}
           mapType="standard"
-          loadingEnabled={true}
+          loadingEnabled={false}
           moveOnMarkerPress={false}
         >
           {location && (
@@ -184,19 +201,10 @@ const Home = ({ navigation }) => {
           <Text style={[styles.navText, activeTab === 'Favorites' && styles.activeNavText]}>Favorites</Text>
         </TouchableOpacity>
         
-        <TouchableOpacity style={styles.navItem} onPress={() => handleTabPress('Wallet')}>
+        <TouchableOpacity style={[styles.navItem, styles.walletNavItem]} onPress={() => handleTabPress('Wallet')}>
           <View style={styles.walletButton}>
             <Ionicons name="wallet" size={28} color="#fff" />
           </View>
-        </TouchableOpacity>
-        
-        <TouchableOpacity style={styles.navItem} onPress={() => handleTabPress('Settings')}>
-          <MaterialIcons 
-            name="settings" 
-            size={24} 
-            color={activeTab === 'Settings' ? '#DB2899' : '#666'} 
-          />
-          <Text style={[styles.navText, activeTab === 'Settings' && styles.activeNavText]}>Settings</Text>
         </TouchableOpacity>
         
         <TouchableOpacity style={styles.navItem} onPress={() => handleTabPress('Notifications')}>
@@ -210,7 +218,23 @@ const Home = ({ navigation }) => {
           </View>
           <Text style={[styles.navText, activeTab === 'Notifications' && styles.activeNavText]}>Notifications</Text>
         </TouchableOpacity>
+        
+        <TouchableOpacity style={styles.navItem} onPress={() => handleTabPress('Profile')}>
+          <Ionicons 
+            name="person" 
+            size={24} 
+            color={activeTab === 'Profile' ? '#DB2899' : '#666'} 
+          />
+          <Text style={[styles.navText, activeTab === 'Profile' && styles.activeNavText]}>Profile</Text>
+        </TouchableOpacity>
       </View>
+
+      {/* Location Popup */}
+      <LocationPopup
+        visible={showLocationPopup}
+        onLocationEnabled={handleLocationEnabled}
+        showSkip={false}
+      />
     </View>
   );
 };
@@ -358,6 +382,9 @@ const styles = StyleSheet.create({
     color: '#DB2899',
     fontWeight: '600',
   },
+  walletNavItem: {
+    position: 'relative',
+  },
   walletButton: {
     backgroundColor: '#DB2899',
     borderRadius: 30,
@@ -367,7 +394,10 @@ const styles = StyleSheet.create({
     shadowOffset: { width: 0, height: 3 },
     shadowOpacity: 0.4,
     shadowRadius: 6,
-    transform: [{ scale: 1.1 }],
+    position: 'absolute',
+    top: -35,
+    left: '50%',
+    transform: [{ translateX: -30 }],
   },
   notificationContainer: {
     position: 'relative',
