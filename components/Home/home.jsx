@@ -127,7 +127,9 @@ const Home = ({ navigation }) => {
             zoomEnabled={true}
             pitchEnabled={false}
             mapType="satellite"
-            loadingEnabled={false}
+            loadingEnabled={true}
+            loadingBackgroundColor="#f8f9fa"
+            loadingIndicatorColor="#DB2899"
             moveOnMarkerPress={false}
           >
             {location && (
@@ -164,10 +166,6 @@ const Home = ({ navigation }) => {
               onChangeText={setSearchText}
             />
           </View>
-          
-          <TouchableOpacity style={styles.searchButton}>
-            <Ionicons name="options" size={20} color="#fff" />
-          </TouchableOpacity>
         </View>
       </View>
 
@@ -292,9 +290,6 @@ const styles = StyleSheet.create({
   },
 
   searchContainer: {
-    flexDirection: 'row',
-    alignItems: 'center',
-    gap: 15,
     marginTop: 10,
   },
   searchBar: {
@@ -323,16 +318,7 @@ const styles = StyleSheet.create({
     color: '#333',
     fontWeight: '500',
   },
-  searchButton: {
-    backgroundColor: '#DB2899',
-    borderRadius: 15,
-    padding: 15,
-    elevation: 3,
-    shadowColor: '#DB2899',
-    shadowOffset: { width: 0, height: 2 },
-    shadowOpacity: 0.3,
-    shadowRadius: 4,
-  },
+
   bottomNav: {
     flexDirection: 'row',
     justifyContent: 'space-around',
