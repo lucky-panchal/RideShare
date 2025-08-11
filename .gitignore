@@ -169,9 +169,10 @@ app-example
 *.cer
 *.der
 
-# API Keys and Secrets (add your specific files)
-# config/keys.js
-# config/secrets.json
+# API Keys and Secrets
+config/keys.js
+config/secrets.json
+.env.keys
 
 # RideShare App Specific
 # Database files
@@ -179,13 +180,31 @@ app-example
 *.sqlite
 *.sqlite3
 
-# Maps API Keys
-# config/maps-config.js
-# config/google-maps-key.js
+# Maps API Keys (Security)
+config/maps-config.js
+config/google-maps-key.js
+google-maps-api-key.txt
 
 # Authentication configs
-# config/auth-config.js
-# config/firebase-config.js
+config/auth-config.js
+config/firebase-config.js
+
+# Package lock files
+package-lock.json
+yarn.lock
+pnpm-lock.yaml
+
+# Build artifacts
+build/
+dist/
+out/
+
+# EAS Build
+.easignore
+eas-build-*/
+
+# React Native
+react-native-*/
 
 # Development files
 .expo-shared/
