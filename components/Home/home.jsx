@@ -28,7 +28,19 @@ const Home = ({ navigation }) => {
   }, []);
 
   const checkLocationPermission = async () => {
-    setHasLocationPermission(true);
+    try {
+      let { status } = await Location.requestForegroundPermissionsAsync();
+      if (status !== 'granted') {
+        setShowLocationPopup(true);
+        setHasLocationPermission(false);
+      } else {
+        setHasLocationPermission(true);
+        getCurrentLocation();
+      }
+    } catch (error) {
+      console.log('Permission error:', error);
+      setHasLocationPermission(false);
+    }
     setIsMapLoading(false);
   };
 
@@ -115,12 +127,8 @@ const Home = ({ navigation }) => {
           <MapView
             style={styles.map}
             provider={PROVIDER_GOOGLE}
-            initialRegion={{
-              latitude: 28.6139,
-              longitude: 77.2090,
-              latitudeDelta: 0.05,
-              longitudeDelta: 0.05,
-            }}
+            region={mapRegion}
+            onRegionChangeComplete={onRegionChangeComplete}
             onMapReady={() => {
               console.log('✅ Google Maps loaded successfully!');
               setIsMapLoading(false);
@@ -135,14 +143,26 @@ const Home = ({ navigation }) => {
             zoomEnabled={true}
             scrollEnabled={true}
             rotateEnabled={true}
+            pitchEnabled={true}
+            toolbarEnabled={false}
+            loadingEnabled={true}
+            loadingIndicatorColor="#DB2899"
+            loadingBackgroundColor="#ffffff"
           >
+            {location && (
+              <Marker
+                coordinate={location}
+                title="Your Location"
+                pinColor="red"
+              />
+            )}
             <Marker
               coordinate={{
                 latitude: 28.6139,
                 longitude: 77.2090,
               }}
               title="Delhi"
-              pinColor="red"
+              pinColor="blue"
             />
           </MapView>
         )}
@@ -161,6 +181,11 @@ const Home = ({ navigation }) => {
             fontSize={16}
           />
         </View>
+        
+        <TouchableOpacity style={styles.locationButton} onPress={getCurrentLocation}>
+          <Ionicons name="location" size={20} color="#fff" />
+          <Text style={styles.locationButtonText}>Get My Location</Text>
+        </TouchableOpacity>
       </View>
 
 
@@ -339,6 +364,24 @@ const styles = StyleSheet.create({
     fontSize: 16,
     color: '#333',
     fontWeight: '500',
+  },
+  locationButton: {
+    backgroundColor: '#DB2899',
+    borderRadius: 12,
+    padding: 12,
+    flexDirection: 'row',
+    alignItems: 'center',
+    justifyContent: 'center',
+    marginTop: 10,
+    ':hover': {
+      cursor: 'pointer',
+    },
+  },
+  locationButtonText: {
+    color: '#fff',
+    fontSize: 14,
+    fontWeight: '600',
+    marginLeft: 8,
   },
 
   // Perfect Bottom Navigation
