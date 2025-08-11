@@ -1,5 +1,5 @@
 import React, { useState, useEffect, useRef } from 'react';
-import { View, Text, TextInput, TouchableOpacity, StyleSheet, Alert, StatusBar, ActivityIndicator, Platform } from 'react-native';
+import { View, Text, TextInput, TouchableOpacity, StyleSheet, Alert, StatusBar, ActivityIndicator, Platform, SafeAreaView } from 'react-native';
 import MapView, { Marker, Circle, PROVIDER_GOOGLE } from 'react-native-maps';
 import * as Location from 'expo-location';
 import { MaterialCommunityIcons, Ionicons, MaterialIcons } from '@expo/vector-icons';
@@ -82,7 +82,7 @@ const Home = ({ navigation }) => {
   };
 
   return (
-    <View style={styles.container}>
+    <SafeAreaView style={styles.container}>
       <StatusBar barStyle="dark-content" backgroundColor="#fff" />
       
       {/* Map Section */}
@@ -139,20 +139,18 @@ const Home = ({ navigation }) => {
         )}
       </View>
 
-      {/* Service Section */}
-      <View style={styles.serviceSection}>
-        {/* Search Container */}
-        <View style={styles.searchContainer}>
-          <View style={styles.searchBar}>
-            <Ionicons name="search" size={20} color="#999" style={styles.searchIcon} />
-            <TextInput
-              style={styles.searchInput}
-              placeholder="Where are you going?"
-              placeholderTextColor="#999"
-              value={searchText}
-              onChangeText={setSearchText}
-            />
-          </View>
+      {/* Search Input Section */}
+      <View style={styles.inputSection}>
+        <View style={styles.searchInputContainer}>
+          <Ionicons name="search" size={20} color="#B0B0B0" style={styles.searchIcon} />
+          <TextInput
+            style={styles.searchInput}
+            placeholder="Where are you going?"
+            placeholderTextColor="#B0B0B0"
+            value={searchText}
+            onChangeText={setSearchText}
+            fontSize={16}
+          />
         </View>
       </View>
 
@@ -204,13 +202,61 @@ const Home = ({ navigation }) => {
         </TouchableOpacity>
       </View>
 
+      {/* Perfect Bottom Navigation */}
+      <View style={styles.bottomNavbar}>
+        <TouchableOpacity style={styles.navButton} onPress={() => handleTabPress('Home')}>
+          <Ionicons 
+            name="home" 
+            size={24} 
+            color={activeTab === 'Home' ? '#DB2899' : '#666'} 
+          />
+          <Text style={[styles.navLabel, activeTab === 'Home' && styles.activeNavLabel]}>Home</Text>
+        </TouchableOpacity>
+        
+        <TouchableOpacity style={styles.navButton} onPress={() => handleTabPress('Favorites')}>
+          <Ionicons 
+            name="heart" 
+            size={24} 
+            color={activeTab === 'Favorites' ? '#DB2899' : '#666'} 
+          />
+          <Text style={[styles.navLabel, activeTab === 'Favorites' && styles.activeNavLabel]}>Favorites</Text>
+        </TouchableOpacity>
+        
+        <TouchableOpacity style={styles.centerNavButton} onPress={() => handleTabPress('Wallet')}>
+          <View style={styles.walletIcon}>
+            <Ionicons name="wallet" size={28} color="#fff" />
+          </View>
+        </TouchableOpacity>
+        
+        <TouchableOpacity style={styles.navButton} onPress={() => handleTabPress('Notifications')}>
+          <View style={styles.notificationWrapper}>
+            <MaterialCommunityIcons 
+              name="bell" 
+              size={24} 
+              color={activeTab === 'Notifications' ? '#DB2899' : '#666'} 
+            />
+            {hasNotifications && <View style={styles.notificationDot} />}
+          </View>
+          <Text style={[styles.navLabel, activeTab === 'Notifications' && styles.activeNavLabel]}>Notifications</Text>
+        </TouchableOpacity>
+        
+        <TouchableOpacity style={styles.navButton} onPress={() => handleTabPress('Profile')}>
+          <Ionicons 
+            name="person" 
+            size={24} 
+            color={activeTab === 'Profile' ? '#DB2899' : '#666'} 
+          />
+          <Text style={[styles.navLabel, activeTab === 'Profile' && styles.activeNavLabel]}>Profile</Text>
+        </TouchableOpacity>
+      </View>
+
       {/* Location Popup */}
       <LocationPopup
         visible={showLocationPopup}
         onLocationEnabled={handleLocationEnabled}
         showSkip={false}
       />
-    </View>
+    </SafeAreaView>
   );
 };
 
@@ -298,44 +344,29 @@ const styles = StyleSheet.create({
     fontSize: 16,
     color: '#666',
   },
-  serviceSection: {
-    flex: 0.3,
-    paddingHorizontal: 25,
-    paddingTop: 20,
-    paddingBottom: 20,
+  // Input Section
+  inputSection: {
+    paddingHorizontal: 20,
+    paddingVertical: 15,
     backgroundColor: '#fff',
-    borderTopLeftRadius: 25,
-    borderTopRightRadius: 25,
-    marginTop: -20,
-    elevation: 5,
-    shadowColor: '#000',
-    shadowOffset: { width: 0, height: -2 },
-    shadowOpacity: 0.1,
-    shadowRadius: 6,
   },
-
-  searchContainer: {
-    marginTop: 10,
-  },
-  searchBar: {
-    flex: 1,
+  searchInputContainer: {
     flexDirection: 'row',
     alignItems: 'center',
-    backgroundColor: '#f8f9fa',
-    borderRadius: 15,
-    paddingHorizontal: 18,
-    paddingVertical: 15,
-    borderWidth: 1,
-    borderColor: '#e9ecef',
-    elevation: 2,
+    backgroundColor: '#F9F9F9',
+    borderRadius: 25,
+    paddingHorizontal: 20,
+    paddingVertical: 16,
+    borderWidth: 2,
+    borderColor: '#DB2899',
     shadowColor: '#000',
-    shadowOffset: { width: 0, height: 1 },
-    shadowOpacity: 0.05,
-    shadowRadius: 3,
+    shadowOffset: { width: 0, height: 2 },
+    shadowOpacity: 0.1,
+    shadowRadius: 4,
+    elevation: 3,
   },
   searchIcon: {
-    marginRight: 12,
-    color: '#6c757d',
+    marginRight: 15,
   },
   searchInput: {
     flex: 1,
@@ -344,67 +375,73 @@ const styles = StyleSheet.create({
     fontWeight: '500',
   },
 
-  bottomNav: {
+  // Perfect Bottom Navigation
+  bottomNavbar: {
     flexDirection: 'row',
-    justifyContent: 'space-around',
     alignItems: 'center',
+    justifyContent: 'space-between',
     backgroundColor: '#fff',
-    paddingVertical: 12,
-    paddingHorizontal: 15,
+    paddingVertical: 16,
+    paddingHorizontal: 20,
     borderTopLeftRadius: 25,
     borderTopRightRadius: 25,
-    elevation: 15,
     shadowColor: '#000',
-    shadowOffset: { width: 0, height: -3 },
+    shadowOffset: { width: 0, height: -4 },
     shadowOpacity: 0.15,
-    shadowRadius: 6,
+    shadowRadius: 8,
+    elevation: 20,
     position: 'absolute',
     bottom: 0,
     left: 0,
     right: 0,
+    minHeight: 80,
   },
-  navItem: {
+  navButton: {
     alignItems: 'center',
     justifyContent: 'center',
+    minWidth: 44,
+    minHeight: 44,
+    paddingVertical: 8,
   },
-  navText: {
+  centerNavButton: {
+    alignItems: 'center',
+    justifyContent: 'center',
+    minWidth: 60,
+    minHeight: 60,
+  },
+  navLabel: {
     fontSize: 12,
     color: '#666',
     marginTop: 4,
+    fontWeight: '500',
   },
-  activeNavText: {
+  activeNavLabel: {
     color: '#DB2899',
     fontWeight: '600',
   },
-  walletNavItem: {
-    position: 'relative',
-  },
-  walletButton: {
+  walletIcon: {
     backgroundColor: '#DB2899',
     borderRadius: 30,
-    padding: 15,
-    elevation: 5,
+    padding: 16,
+    elevation: 8,
     shadowColor: '#DB2899',
-    shadowOffset: { width: 0, height: 3 },
+    shadowOffset: { width: 0, height: 4 },
     shadowOpacity: 0.4,
-    shadowRadius: 6,
-    position: 'absolute',
-    top: -35,
-    left: '50%',
-    transform: [{ translateX: -30 }],
+    shadowRadius: 8,
+    transform: [{ translateY: -8 }],
   },
-  notificationContainer: {
+  notificationWrapper: {
     position: 'relative',
   },
-  notificationBadge: {
+  notificationDot: {
     position: 'absolute',
-    top: -3,
-    right: -3,
-    width: 10,
-    height: 10,
-    borderRadius: 5,
+    top: -2,
+    right: -2,
+    width: 8,
+    height: 8,
+    borderRadius: 4,
     backgroundColor: '#DB2899',
-    borderWidth: 2,
+    borderWidth: 1,
     borderColor: '#fff',
   },
 });
