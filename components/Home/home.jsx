@@ -46,12 +46,13 @@ const Home = ({ navigation }) => {
 
   const getCurrentLocation = async () => {
     try {
-      setIsMapLoading(false);
+      console.log('Getting current location...');
       let currentLocation = await Location.getCurrentPositionAsync({
         accuracy: Location.Accuracy.Balanced,
         maximumAge: 10000,
       });
       const { latitude, longitude } = currentLocation.coords;
+      console.log('Location obtained:', { latitude, longitude });
       
       const newRegion = {
         latitude,
@@ -62,6 +63,7 @@ const Home = ({ navigation }) => {
       
       setLocation({ latitude, longitude });
       setMapRegion(newRegion);
+      setIsMapLoading(false);
       
       if (mapRef.current) {
         mapRef.current.animateToRegion(newRegion, 500);
@@ -101,47 +103,55 @@ const Home = ({ navigation }) => {
       
       {/* Map Section */}
       <View style={styles.mapContainer}>
-        {isMapLoading && (
-          <View style={styles.mapLoadingContainer}>
-            <View style={styles.mapSkeleton}>
-              <ActivityIndicator size="large" color="#DB2899" />
-              <Text style={styles.loadingText}>Loading map...</Text>
-            </View>
+        {!hasLocationPermission ? (
+          <View style={styles.mapPlaceholder}>
+            <Text style={styles.placeholderText}>Map requires location permission</Text>
           </View>
+        ) : isMapLoading ? (
+          <View style={styles.mapLoadingContainer}>
+            <ActivityIndicator size="large" color="#DB2899" />
+            <Text style={styles.loadingText}>Loading map...</Text>
+          </View>
+        ) : (
+          <MapView
+            ref={mapRef}
+            style={styles.map}
+            region={mapRegion}
+            onRegionChangeComplete={onRegionChangeComplete}
+            onMapReady={() => {
+              console.log('Map ready');
+              setIsMapLoading(false);
+            }}
+            onError={(error) => console.log('Map error:', error)}
+            showsUserLocation={hasLocationPermission}
+            showsMyLocationButton={false}
+            showsCompass={false}
+            rotateEnabled={true}
+            scrollEnabled={true}
+            zoomEnabled={true}
+            pitchEnabled={false}
+            mapType="standard"
+            loadingEnabled={false}
+            moveOnMarkerPress={false}
+          >
+            {location && (
+              <>
+                <Marker
+                  coordinate={location}
+                  title="Your Location"
+                  pinColor="#DB2899"
+                />
+                <Circle
+                  center={location}
+                  radius={500}
+                  strokeColor="#DB2899"
+                  fillColor="rgba(219, 40, 153, 0.2)"
+                  strokeWidth={2}
+                />
+              </>
+            )}
+          </MapView>
         )}
-        <MapView
-          ref={mapRef}
-          style={styles.map}
-          region={mapRegion}
-          onRegionChangeComplete={onRegionChangeComplete}
-          showsUserLocation={hasLocationPermission}
-          showsMyLocationButton={false}
-          showsCompass={false}
-          rotateEnabled={true}
-          scrollEnabled={true}
-          zoomEnabled={true}
-          pitchEnabled={false}
-          mapType="standard"
-          loadingEnabled={false}
-          moveOnMarkerPress={false}
-        >
-          {location && (
-            <>
-              <Marker
-                coordinate={location}
-                title="Your Location"
-                pinColor="#DB2899"
-              />
-              <Circle
-                center={location}
-                radius={500}
-                strokeColor="#DB2899"
-                fillColor="rgba(219, 40, 153, 0.2)"
-                strokeWidth={2}
-              />
-            </>
-          )}
-        </MapView>
       </View>
 
       {/* Service Section */}
@@ -246,6 +256,8 @@ const styles = StyleSheet.create({
   },
   mapContainer: {
     flex: 0.6,
+    minHeight: 300,
+    width: '100%',
     borderBottomLeftRadius: 20,
     borderBottomRightRadius: 20,
     overflow: 'hidden',
@@ -257,29 +269,30 @@ const styles = StyleSheet.create({
   },
   map: {
     flex: 1,
+    width: '100%',
+    height: '100%',
   },
   mapLoadingContainer: {
-    position: 'absolute',
-    top: 0,
-    left: 0,
-    right: 0,
-    bottom: 0,
+    flex: 1,
+    justifyContent: 'center',
+    alignItems: 'center',
     backgroundColor: '#f5f5f5',
-    zIndex: 1,
   },
-  mapSkeleton: {
+  mapPlaceholder: {
     flex: 1,
     justifyContent: 'center',
     alignItems: 'center',
     backgroundColor: '#f0f0f0',
   },
+  placeholderText: {
+    fontSize: 16,
+    color: '#666',
+    textAlign: 'center',
+  },
   loadingText: {
     marginTop: 10,
     fontSize: 16,
     color: '#666',
-  },
-  hiddenMap: {
-    opacity: 0,
   },
   serviceSection: {
     flex: 0.3,
