@@ -52,7 +52,14 @@ const Wallet = ({ navigation }) => {
         <View style={styles.placeholder} />
       </View>
 
-      <ScrollView style={styles.scrollContainer} showsVerticalScrollIndicator={false}>
+      <ScrollView 
+        style={styles.scrollContainer} 
+        showsVerticalScrollIndicator={false}
+        bounces={true}
+        alwaysBounceVertical={true}
+        decelerationRate="normal"
+        contentInsetAdjustmentBehavior="automatic"
+      >
         {/* Balance Overview */}
         <View style={styles.balanceSection}>
           <View style={styles.balanceCard}>

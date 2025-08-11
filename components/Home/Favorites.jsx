@@ -36,7 +36,14 @@ const Favorites = ({ navigation }) => {
       
       <Text style={styles.screenTitle}>Favourite</Text>
       
-      <ScrollView style={styles.scrollContainer} showsVerticalScrollIndicator={false}>
+      <ScrollView 
+        style={styles.scrollContainer} 
+        showsVerticalScrollIndicator={false}
+        bounces={true}
+        alwaysBounceVertical={true}
+        decelerationRate="normal"
+        contentInsetAdjustmentBehavior="automatic"
+      >
         {favorites.length === 0 ? (
           <View style={styles.emptyState}>
             <Ionicons name="heart-outline" size={60} color="#ccc" />

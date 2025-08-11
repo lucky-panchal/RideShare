@@ -87,7 +87,14 @@ const Notifications = ({ navigation }) => {
         </View>
       </View>
       
-      <ScrollView style={styles.scrollContainer} showsVerticalScrollIndicator={false}>
+      <ScrollView 
+        style={styles.scrollContainer} 
+        showsVerticalScrollIndicator={false}
+        bounces={true}
+        alwaysBounceVertical={true}
+        decelerationRate="normal"
+        contentInsetAdjustmentBehavior="automatic"
+      >
         {Object.entries(notificationsData).map(([dayGroup, notifications]) => (
           <View key={dayGroup} style={styles.dayGroup}>
             <Text style={styles.dayHeader}>{dayGroup}</Text>
