@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { View, Text, StyleSheet, TouchableOpacity, ScrollView, Modal, TextInput, StatusBar, Alert } from 'react-native';
-import { Ionicons, MaterialIcons, MaterialCommunityIcons } from '@expo/vector-icons';
+import { Ionicons, MaterialIcons } from '@expo/vector-icons';
+import BottomNavbar from '../shared/BottomNavbar';
 
 const Wallet = ({ navigation }) => {
   const [walletBalance, setWalletBalance] = useState(500);
@@ -10,8 +11,6 @@ const Wallet = ({ navigation }) => {
   const [showSuccessModal, setShowSuccessModal] = useState(false);
   const [addAmount, setAddAmount] = useState('');
   const [selectedPaymentMethod, setSelectedPaymentMethod] = useState('card');
-  const [activeTab] = useState('Wallet');
-
   const [paymentMethods] = useState([
     { id: 1, type: 'Visa', number: '**** **** **** 1234', icon: 'credit-card' },
     { id: 2, type: 'Mastercard', number: '**** **** **** 5678', icon: 'credit-card' },
@@ -38,11 +37,7 @@ const Wallet = ({ navigation }) => {
     }
   };
 
-  const handleTabPress = (tabName) => {
-    if (tabName !== 'Wallet') {
-      navigation.navigate(tabName);
-    }
-  };
+
 
   return (
     <View style={styles.container}>
@@ -205,34 +200,7 @@ const Wallet = ({ navigation }) => {
         </View>
       </Modal>
 
-      {/* Bottom Navigation */}
-      <View style={styles.bottomNav}>
-        <TouchableOpacity style={styles.navItem} onPress={() => handleTabPress('Home')}>
-          <Ionicons name="home" size={24} color={activeTab === 'Home' ? '#DB2899' : '#666'} />
-          <Text style={[styles.navText, activeTab === 'Home' && styles.activeNavText]}>Home</Text>
-        </TouchableOpacity>
-        
-        <TouchableOpacity style={styles.navItem} onPress={() => handleTabPress('Favorites')}>
-          <Ionicons name="heart" size={24} color={activeTab === 'Favorites' ? '#DB2899' : '#666'} />
-          <Text style={[styles.navText, activeTab === 'Favorites' && styles.activeNavText]}>Favorites</Text>
-        </TouchableOpacity>
-        
-        <TouchableOpacity style={styles.navItem} onPress={() => handleTabPress('Wallet')}>
-          <View style={styles.walletButton}>
-            <Ionicons name="wallet" size={28} color="#fff" />
-          </View>
-        </TouchableOpacity>
-        
-        <TouchableOpacity style={styles.navItem} onPress={() => handleTabPress('Settings')}>
-          <MaterialIcons name="settings" size={24} color={activeTab === 'Settings' ? '#DB2899' : '#666'} />
-          <Text style={[styles.navText, activeTab === 'Settings' && styles.activeNavText]}>Settings</Text>
-        </TouchableOpacity>
-        
-        <TouchableOpacity style={styles.navItem} onPress={() => handleTabPress('Notifications')}>
-          <MaterialCommunityIcons name="bell" size={24} color={activeTab === 'Notifications' ? '#DB2899' : '#666'} />
-          <Text style={[styles.navText, activeTab === 'Notifications' && styles.activeNavText]}>Notifications</Text>
-        </TouchableOpacity>
-      </View>
+      <BottomNavbar activeTab="Wallet" navigation={navigation} />
     </View>
   );
 };
@@ -571,49 +539,7 @@ const styles = StyleSheet.create({
     fontSize: 16,
     fontWeight: 'bold',
   },
-  bottomNav: {
-    flexDirection: 'row',
-    justifyContent: 'space-around',
-    alignItems: 'center',
-    backgroundColor: '#fff',
-    paddingVertical: 12,
-    paddingHorizontal: 15,
-    borderTopLeftRadius: 25,
-    borderTopRightRadius: 25,
-    elevation: 15,
-    shadowColor: '#000',
-    shadowOffset: { width: 0, height: -3 },
-    shadowOpacity: 0.15,
-    shadowRadius: 6,
-    position: 'absolute',
-    bottom: 0,
-    left: 0,
-    right: 0,
-  },
-  navItem: {
-    alignItems: 'center',
-    justifyContent: 'center',
-  },
-  navText: {
-    fontSize: 12,
-    color: '#666',
-    marginTop: 4,
-  },
-  activeNavText: {
-    color: '#DB2899',
-    fontWeight: '600',
-  },
-  walletButton: {
-    backgroundColor: '#DB2899',
-    borderRadius: 30,
-    padding: 15,
-    elevation: 5,
-    shadowColor: '#DB2899',
-    shadowOffset: { width: 0, height: 3 },
-    shadowOpacity: 0.4,
-    shadowRadius: 6,
-    transform: [{ scale: 1.1 }],
-  },
+
 });
 
 export default Wallet;

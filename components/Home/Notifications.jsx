@@ -1,9 +1,9 @@
 import React, { useState } from 'react';
 import { View, Text, StyleSheet, TouchableOpacity, ScrollView, StatusBar } from 'react-native';
-import { Ionicons, MaterialCommunityIcons, MaterialIcons } from '@expo/vector-icons';
+import { Ionicons, MaterialCommunityIcons } from '@expo/vector-icons';
+import BottomNavbar from '../shared/BottomNavbar';
 
 const Notifications = ({ navigation }) => {
-  const [activeTab] = useState('Notifications');
   const [hasUnreadNotifications] = useState(true);
 
   const notificationsData = {
@@ -48,11 +48,7 @@ const Notifications = ({ navigation }) => {
     ]
   };
 
-  const handleTabPress = (tabName) => {
-    if (tabName !== 'Notifications') {
-      navigation.navigate(tabName);
-    }
-  };
+
 
   const handleNotificationPress = (notificationId) => {
     console.log('Notification pressed:', notificationId);
@@ -100,53 +96,7 @@ const Notifications = ({ navigation }) => {
         ))}
       </ScrollView>
 
-      {/* Bottom Navigation */}
-      <View style={styles.bottomNav}>
-        <TouchableOpacity style={styles.navItem} onPress={() => handleTabPress('Home')}>
-          <Ionicons 
-            name="home" 
-            size={24} 
-            color={activeTab === 'Home' ? '#DB2899' : '#666'} 
-          />
-          <Text style={[styles.navText, activeTab === 'Home' && styles.activeNavText]}>Home</Text>
-        </TouchableOpacity>
-        
-        <TouchableOpacity style={styles.navItem} onPress={() => handleTabPress('Favorites')}>
-          <Ionicons 
-            name="heart" 
-            size={24} 
-            color={activeTab === 'Favorites' ? '#DB2899' : '#666'} 
-          />
-          <Text style={[styles.navText, activeTab === 'Favorites' && styles.activeNavText]}>Favorites</Text>
-        </TouchableOpacity>
-        
-        <TouchableOpacity style={styles.navItem} onPress={() => handleTabPress('Wallet')}>
-          <View style={styles.walletButton}>
-            <Ionicons name="wallet" size={28} color="#fff" />
-          </View>
-        </TouchableOpacity>
-        
-        <TouchableOpacity style={styles.navItem} onPress={() => handleTabPress('Settings')}>
-          <MaterialIcons 
-            name="settings" 
-            size={24} 
-            color={activeTab === 'Settings' ? '#DB2899' : '#666'} 
-          />
-          <Text style={[styles.navText, activeTab === 'Settings' && styles.activeNavText]}>Settings</Text>
-        </TouchableOpacity>
-        
-        <TouchableOpacity style={styles.navItem} onPress={() => handleTabPress('Notifications')}>
-          <View style={styles.notificationContainer}>
-            <MaterialCommunityIcons 
-              name="bell" 
-              size={24} 
-              color={activeTab === 'Notifications' ? '#DB2899' : '#666'} 
-            />
-            {hasUnreadNotifications && <View style={styles.notificationBadge} />}
-          </View>
-          <Text style={[styles.navText, activeTab === 'Notifications' && styles.activeNavText]}>Notifications</Text>
-        </TouchableOpacity>
-      </View>
+      <BottomNavbar activeTab="Notifications" navigation={navigation} hasNotifications={hasUnreadNotifications} />
     </View>
   );
 };
@@ -239,63 +189,7 @@ const styles = StyleSheet.create({
     color: '#999',
     fontWeight: '500',
   },
-  bottomNav: {
-    flexDirection: 'row',
-    justifyContent: 'space-around',
-    alignItems: 'center',
-    backgroundColor: '#fff',
-    paddingVertical: 12,
-    paddingHorizontal: 15,
-    borderTopLeftRadius: 25,
-    borderTopRightRadius: 25,
-    elevation: 15,
-    shadowColor: '#000',
-    shadowOffset: { width: 0, height: -3 },
-    shadowOpacity: 0.15,
-    shadowRadius: 6,
-    position: 'absolute',
-    bottom: 0,
-    left: 0,
-    right: 0,
-  },
-  navItem: {
-    alignItems: 'center',
-    justifyContent: 'center',
-  },
-  navText: {
-    fontSize: 12,
-    color: '#666',
-    marginTop: 4,
-  },
-  activeNavText: {
-    color: '#DB2899',
-    fontWeight: '600',
-  },
-  walletButton: {
-    backgroundColor: '#DB2899',
-    borderRadius: 30,
-    padding: 15,
-    elevation: 5,
-    shadowColor: '#DB2899',
-    shadowOffset: { width: 0, height: 3 },
-    shadowOpacity: 0.4,
-    shadowRadius: 6,
-    transform: [{ scale: 1.1 }],
-  },
-  notificationContainer: {
-    position: 'relative',
-  },
-  notificationBadge: {
-    position: 'absolute',
-    top: -3,
-    right: -3,
-    width: 10,
-    height: 10,
-    borderRadius: 5,
-    backgroundColor: '#DB2899',
-    borderWidth: 2,
-    borderColor: '#fff',
-  },
+
 });
 
 export default Notifications;

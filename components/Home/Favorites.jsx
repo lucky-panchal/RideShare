@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { View, Text, StyleSheet, TouchableOpacity, ScrollView, StatusBar } from 'react-native';
-import { Ionicons, MaterialCommunityIcons, MaterialIcons } from '@expo/vector-icons';
+import { Ionicons } from '@expo/vector-icons';
+import BottomNavbar from '../shared/BottomNavbar';
 
 const Favorites = ({ navigation }) => {
   const [favorites] = useState([
@@ -20,17 +21,9 @@ const Favorites = ({ navigation }) => {
       address: '789 Fitness Blvd, Health District, IL 62702'
     }
   ]);
-  const [activeTab] = useState('Favorites');
-
   const handleDelete = (id) => {
     // Mock delete functionality - disabled for now
     console.log('Delete favorite with id:', id);
-  };
-
-  const handleTabPress = (tabName) => {
-    if (tabName !== 'Favorites') {
-      navigation.navigate(tabName);
-    }
   };
 
   return (
@@ -70,50 +63,7 @@ const Favorites = ({ navigation }) => {
         )}
       </ScrollView>
 
-      {/* Bottom Navigation */}
-      <View style={styles.bottomNav}>
-        <TouchableOpacity style={styles.navItem} onPress={() => handleTabPress('Home')}>
-          <Ionicons 
-            name="home" 
-            size={24} 
-            color={activeTab === 'Home' ? '#DB2899' : '#666'} 
-          />
-          <Text style={[styles.navText, activeTab === 'Home' && styles.activeNavText]}>Home</Text>
-        </TouchableOpacity>
-        
-        <TouchableOpacity style={styles.navItem} onPress={() => handleTabPress('Favorites')}>
-          <Ionicons 
-            name="heart" 
-            size={24} 
-            color={activeTab === 'Favorites' ? '#DB2899' : '#666'} 
-          />
-          <Text style={[styles.navText, activeTab === 'Favorites' && styles.activeNavText]}>Favorites</Text>
-        </TouchableOpacity>
-        
-        <TouchableOpacity style={styles.navItem} onPress={() => handleTabPress('Wallet')}>
-          <View style={styles.walletButton}>
-            <Ionicons name="wallet" size={28} color="#fff" />
-          </View>
-        </TouchableOpacity>
-        
-        <TouchableOpacity style={styles.navItem} onPress={() => handleTabPress('Settings')}>
-          <MaterialIcons 
-            name="settings" 
-            size={24} 
-            color={activeTab === 'Settings' ? '#DB2899' : '#666'} 
-          />
-          <Text style={[styles.navText, activeTab === 'Settings' && styles.activeNavText]}>Settings</Text>
-        </TouchableOpacity>
-        
-        <TouchableOpacity style={styles.navItem} onPress={() => handleTabPress('Notifications')}>
-          <MaterialCommunityIcons 
-            name="bell" 
-            size={24} 
-            color={activeTab === 'Notifications' ? '#DB2899' : '#666'} 
-          />
-          <Text style={[styles.navText, activeTab === 'Notifications' && styles.activeNavText]}>Notifications</Text>
-        </TouchableOpacity>
-      </View>
+      <BottomNavbar activeTab="Favorites" navigation={navigation} />
     </View>
   );
 };
@@ -195,49 +145,7 @@ const styles = StyleSheet.create({
     color: '#ccc',
     textAlign: 'center',
   },
-  bottomNav: {
-    flexDirection: 'row',
-    justifyContent: 'space-around',
-    alignItems: 'center',
-    backgroundColor: '#fff',
-    paddingVertical: 12,
-    paddingHorizontal: 15,
-    borderTopLeftRadius: 25,
-    borderTopRightRadius: 25,
-    elevation: 15,
-    shadowColor: '#000',
-    shadowOffset: { width: 0, height: -3 },
-    shadowOpacity: 0.15,
-    shadowRadius: 6,
-    position: 'absolute',
-    bottom: 0,
-    left: 0,
-    right: 0,
-  },
-  navItem: {
-    alignItems: 'center',
-    justifyContent: 'center',
-  },
-  navText: {
-    fontSize: 12,
-    color: '#666',
-    marginTop: 4,
-  },
-  activeNavText: {
-    color: '#DB2899',
-    fontWeight: '600',
-  },
-  walletButton: {
-    backgroundColor: '#DB2899',
-    borderRadius: 30,
-    padding: 15,
-    elevation: 5,
-    shadowColor: '#DB2899',
-    shadowOffset: { width: 0, height: 3 },
-    shadowOpacity: 0.4,
-    shadowRadius: 6,
-    transform: [{ scale: 1.1 }],
-  },
+
 });
 
 export default Favorites;
