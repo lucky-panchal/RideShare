@@ -43,23 +43,29 @@ const Wallet = ({ navigation }) => {
     <View style={styles.container}>
       <StatusBar barStyle="dark-content" backgroundColor="#fff" />
       
-      {/* Header */}
-      <View style={styles.header}>
-        <TouchableOpacity style={styles.backButton} onPress={() => navigation.goBack()}>
-          <Ionicons name="arrow-back" size={24} color="#333" />
-        </TouchableOpacity>
-        <Text style={styles.screenTitle}>Wallet</Text>
-        <View style={styles.placeholder} />
-      </View>
-
       <ScrollView 
-        style={styles.scrollContainer} 
+        style={styles.fullScrollContainer}
         showsVerticalScrollIndicator={false}
         bounces={true}
         alwaysBounceVertical={true}
-        decelerationRate="normal"
+        decelerationRate={0.98}
+        scrollEventThrottle={16}
         contentInsetAdjustmentBehavior="automatic"
+        nestedScrollEnabled={true}
+        keyboardShouldPersistTaps="handled"
+        removeClippedSubviews={true}
+        contentContainerStyle={styles.fullScrollContent}
       >
+        {/* Header */}
+        <View style={styles.header}>
+          <TouchableOpacity style={styles.backButton} onPress={() => navigation.goBack()}>
+            <Ionicons name="arrow-back" size={24} color="#333" />
+          </TouchableOpacity>
+          <Text style={styles.screenTitle}>Wallet</Text>
+          <View style={styles.placeholder} />
+        </View>
+
+        <View style={styles.contentArea}>
         {/* Balance Overview */}
         <View style={styles.balanceSection}>
           <View style={styles.balanceCard}>
@@ -117,6 +123,7 @@ const Wallet = ({ navigation }) => {
               </Text>
             </View>
           ))}
+        </View>
         </View>
       </ScrollView>
 
@@ -228,6 +235,9 @@ const styles = StyleSheet.create({
   },
   backButton: {
     padding: 10,
+    ':hover': {
+      cursor: 'pointer',
+    },
   },
   screenTitle: {
     fontSize: 20,
@@ -237,10 +247,15 @@ const styles = StyleSheet.create({
   placeholder: {
     width: 44,
   },
-  scrollContainer: {
+  fullScrollContainer: {
     flex: 1,
+    marginBottom: 100,
+  },
+  fullScrollContent: {
+    paddingBottom: 40,
+  },
+  contentArea: {
     paddingHorizontal: 20,
-    marginBottom: 90,
   },
   balanceSection: {
     flexDirection: 'row',
@@ -303,6 +318,9 @@ const styles = StyleSheet.create({
     shadowOffset: { width: 0, height: 2 },
     shadowOpacity: 0.3,
     shadowRadius: 4,
+    ':hover': {
+      cursor: 'pointer',
+    },
   },
   addMoneyText: {
     color: '#fff',
@@ -356,6 +374,9 @@ const styles = StyleSheet.create({
     borderWidth: 2,
     borderColor: '#DB2899',
     borderStyle: 'dashed',
+    ':hover': {
+      cursor: 'pointer',
+    },
   },
   addPaymentText: {
     color: '#DB2899',
@@ -452,6 +473,9 @@ const styles = StyleSheet.create({
     borderWidth: 1,
     borderColor: '#ddd',
     alignItems: 'center',
+    ':hover': {
+      cursor: 'pointer',
+    },
   },
   selectedMethod: {
     backgroundColor: '#DB2899',
@@ -492,6 +516,9 @@ const styles = StyleSheet.create({
     borderWidth: 1,
     borderColor: '#ddd',
     alignItems: 'center',
+    ':hover': {
+      cursor: 'pointer',
+    },
   },
   cancelButtonText: {
     fontSize: 16,
@@ -503,6 +530,9 @@ const styles = StyleSheet.create({
     borderRadius: 8,
     backgroundColor: '#DB2899',
     alignItems: 'center',
+    ':hover': {
+      cursor: 'pointer',
+    },
   },
   confirmButtonText: {
     fontSize: 16,
@@ -540,6 +570,9 @@ const styles = StyleSheet.create({
     paddingHorizontal: 30,
     paddingVertical: 12,
     borderRadius: 8,
+    ':hover': {
+      cursor: 'pointer',
+    },
   },
   successButtonText: {
     color: '#fff',

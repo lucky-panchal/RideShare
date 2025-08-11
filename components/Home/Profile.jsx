@@ -31,6 +31,9 @@ const styles = StyleSheet.create({
     alignSelf: 'flex-start',
     padding: 15,
     marginLeft: 5,
+    ':hover': {
+      cursor: 'pointer',
+    },
   },
   content: {
     flex: 1,

@@ -82,6 +82,9 @@ const styles = StyleSheet.create({
   navItem: {
     alignItems: 'center',
     justifyContent: 'center',
+    ':hover': {
+      cursor: 'pointer',
+    },
   },
   navText: {
     fontSize: 12,

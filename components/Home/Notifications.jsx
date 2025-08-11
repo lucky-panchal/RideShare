@@ -73,34 +73,41 @@ const Notifications = ({ navigation }) => {
     <View style={styles.container}>
       <StatusBar barStyle="dark-content" backgroundColor="#fff" />
       
-      {/* Header */}
-      <View style={styles.header}>
-        <TouchableOpacity style={styles.backButton} onPress={() => navigation.goBack()}>
-          <Ionicons name="arrow-back" size={24} color="#333" />
-        </TouchableOpacity>
-        
-        <Text style={styles.screenTitle}>Notification</Text>
-        
-        <View style={styles.bellContainer}>
-          <MaterialCommunityIcons name="bell" size={24} color="#DB2899" />
-          {hasUnreadNotifications && <View style={styles.bellBadge} />}
-        </View>
-      </View>
-      
       <ScrollView 
-        style={styles.scrollContainer} 
+        style={styles.fullScrollContainer}
         showsVerticalScrollIndicator={false}
         bounces={true}
         alwaysBounceVertical={true}
-        decelerationRate="normal"
+        decelerationRate={0.98}
+        scrollEventThrottle={16}
         contentInsetAdjustmentBehavior="automatic"
+        nestedScrollEnabled={true}
+        keyboardShouldPersistTaps="handled"
+        removeClippedSubviews={true}
+        contentContainerStyle={styles.fullScrollContent}
       >
-        {Object.entries(notificationsData).map(([dayGroup, notifications]) => (
-          <View key={dayGroup} style={styles.dayGroup}>
-            <Text style={styles.dayHeader}>{dayGroup}</Text>
-            {notifications.map(renderNotificationCard)}
+        {/* Header */}
+        <View style={styles.header}>
+          <TouchableOpacity style={styles.backButton} onPress={() => navigation.goBack()}>
+            <Ionicons name="arrow-back" size={24} color="#333" />
+          </TouchableOpacity>
+          
+          <Text style={styles.screenTitle}>Notification</Text>
+          
+          <View style={styles.bellContainer}>
+            <MaterialCommunityIcons name="bell" size={24} color="#DB2899" />
+            {hasUnreadNotifications && <View style={styles.bellBadge} />}
           </View>
-        ))}
+        </View>
+        
+        <View style={styles.contentArea}>
+          {Object.entries(notificationsData).map(([dayGroup, notifications]) => (
+            <View key={dayGroup} style={styles.dayGroup}>
+              <Text style={styles.dayHeader}>{dayGroup}</Text>
+              {notifications.map(renderNotificationCard)}
+            </View>
+          ))}
+        </View>
       </ScrollView>
 
       <BottomNavbar activeTab="Notifications" navigation={navigation} hasNotifications={hasUnreadNotifications} />
@@ -124,6 +131,9 @@ const styles = StyleSheet.create({
   },
   backButton: {
     padding: 10,
+    ':hover': {
+      cursor: 'pointer',
+    },
   },
   screenTitle: {
     fontSize: 20,
@@ -145,10 +155,15 @@ const styles = StyleSheet.create({
     borderRadius: 4,
     backgroundColor: '#DB2899',
   },
-  scrollContainer: {
+  fullScrollContainer: {
     flex: 1,
+    marginBottom: 100,
+  },
+  fullScrollContent: {
+    paddingBottom: 40,
+  },
+  contentArea: {
     paddingHorizontal: 20,
-    marginBottom: 90,
   },
   dayGroup: {
     marginBottom: 25,
@@ -170,6 +185,9 @@ const styles = StyleSheet.create({
     shadowOffset: { width: 0, height: 1 },
     shadowOpacity: 0.1,
     shadowRadius: 3,
+    ':hover': {
+      cursor: 'pointer',
+    },
   },
   highlightedCard: {
     backgroundColor: '#e8f5e8',

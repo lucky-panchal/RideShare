@@ -85,6 +85,9 @@ const styles = StyleSheet.create({
     alignSelf: 'flex-start',
     padding: 15,
     marginLeft: 5,
+    ':hover': {
+      cursor: 'pointer',
+    },
   },
   screenTitle: {
     fontSize: 24,
@@ -133,6 +136,9 @@ const styles = StyleSheet.create({
     padding: 10,
     borderRadius: 8,
     backgroundColor: '#f8f8f8',
+    ':hover': {
+      cursor: 'pointer',
+    },
   },
   emptyState: {
     flex: 1,

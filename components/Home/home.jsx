@@ -114,18 +114,27 @@ const Home = ({ navigation }) => {
         ) : (
           <MapView
             style={styles.map}
+            provider={PROVIDER_GOOGLE}
             initialRegion={{
               latitude: 28.6139,
               longitude: 77.2090,
-              latitudeDelta: 0.1,
-              longitudeDelta: 0.1,
+              latitudeDelta: 0.05,
+              longitudeDelta: 0.05,
             }}
             onMapReady={() => {
-              console.log('Map is ready!');
+              console.log('✅ Google Maps loaded successfully!');
               setIsMapLoading(false);
             }}
+            onError={(error) => {
+              console.log('❌ Map error:', error);
+              setMapError('Map failed to load');
+            }}
             showsUserLocation={true}
-            showsMyLocationButton={true}
+            showsMyLocationButton={false}
+            mapType="standard"
+            zoomEnabled={true}
+            scrollEnabled={true}
+            rotateEnabled={true}
           >
             <Marker
               coordinate={{
@@ -154,53 +163,7 @@ const Home = ({ navigation }) => {
         </View>
       </View>
 
-      {/* Bottom Navigation - 5 Icons */}
-      <View style={styles.bottomNav}>
-        <TouchableOpacity style={styles.navItem} onPress={() => handleTabPress('Home')}>
-          <Ionicons 
-            name="home" 
-            size={24} 
-            color={activeTab === 'Home' ? '#DB2899' : '#666'} 
-          />
-          <Text style={[styles.navText, activeTab === 'Home' && styles.activeNavText]}>Home</Text>
-        </TouchableOpacity>
-        
-        <TouchableOpacity style={styles.navItem} onPress={() => handleTabPress('Favorites')}>
-          <Ionicons 
-            name="heart" 
-            size={24} 
-            color={activeTab === 'Favorites' ? '#DB2899' : '#666'} 
-          />
-          <Text style={[styles.navText, activeTab === 'Favorites' && styles.activeNavText]}>Favorites</Text>
-        </TouchableOpacity>
-        
-        <TouchableOpacity style={[styles.navItem, styles.walletNavItem]} onPress={() => handleTabPress('Wallet')}>
-          <View style={styles.walletButton}>
-            <Ionicons name="wallet" size={28} color="#fff" />
-          </View>
-        </TouchableOpacity>
-        
-        <TouchableOpacity style={styles.navItem} onPress={() => handleTabPress('Notifications')}>
-          <View style={styles.notificationContainer}>
-            <MaterialCommunityIcons 
-              name="bell" 
-              size={24} 
-              color={activeTab === 'Notifications' ? '#DB2899' : '#666'} 
-            />
-            {hasNotifications && <View style={styles.notificationBadge} />}
-          </View>
-          <Text style={[styles.navText, activeTab === 'Notifications' && styles.activeNavText]}>Notifications</Text>
-        </TouchableOpacity>
-        
-        <TouchableOpacity style={styles.navItem} onPress={() => handleTabPress('Profile')}>
-          <Ionicons 
-            name="person" 
-            size={24} 
-            color={activeTab === 'Profile' ? '#DB2899' : '#666'} 
-          />
-          <Text style={[styles.navText, activeTab === 'Profile' && styles.activeNavText]}>Profile</Text>
-        </TouchableOpacity>
-      </View>
+
 
       {/* Perfect Bottom Navigation */}
       <View style={styles.bottomNavbar}>
@@ -364,6 +327,9 @@ const styles = StyleSheet.create({
     shadowOpacity: 0.1,
     shadowRadius: 4,
     elevation: 3,
+    ':hover': {
+      cursor: 'pointer',
+    },
   },
   searchIcon: {
     marginRight: 15,
@@ -402,12 +368,18 @@ const styles = StyleSheet.create({
     minWidth: 44,
     minHeight: 44,
     paddingVertical: 8,
+    ':hover': {
+      cursor: 'pointer',
+    },
   },
   centerNavButton: {
     alignItems: 'center',
     justifyContent: 'center',
     minWidth: 60,
     minHeight: 60,
+    ':hover': {
+      cursor: 'pointer',
+    },
   },
   navLabel: {
     fontSize: 12,
