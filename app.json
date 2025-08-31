@@ -8,6 +8,9 @@
     "scheme": "myonboardingapp",
     "userInterfaceStyle": "automatic",
     "newArchEnabled": true,
+    "extra": {
+      "googleMapsApiKey": "AIzaSyCxcCXkBZ_q_U-akixwLNJOFRFSAr4npxc"
+    },
     "ios": {
       "supportsTablet": true,
       "config": {
@@ -39,6 +42,12 @@
           "imageWidth": 200,
           "resizeMode": "contain",
           "backgroundColor": "#ffffff"
+        }
+      ],
+      [
+        "expo-location",
+        {
+          "locationAlwaysAndWhenInUsePermission": "Allow $(PRODUCT_NAME) to use your location."
         }
       ]
     ]
