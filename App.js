@@ -24,6 +24,8 @@ import Favorites from './components/Home/Favorites';
 import Wallet from './components/Home/Wallet';
 import Profile from './components/Home/Profile';
 import Notifications from './components/Home/Notifications';
+import MapTest from './components/shared/MapTest';
+import SimpleHome from './components/Home/SimpleHome';
 
 const Stack = createStackNavigator();
 const Tab = createBottomTabNavigator();
@@ -111,6 +113,8 @@ function App() {
         <Stack.Screen name="Wallet" component={Wallet} />
         <Stack.Screen name="Profile" component={Profile} />
         <Stack.Screen name="Notifications" component={Notifications} />
+        <Stack.Screen name="MapTest" component={MapTest} />
+        <Stack.Screen name="SimpleHome" component={SimpleHome} />
       </Stack.Navigator>
     </NavigationContainer>
   );
