@@ -157,8 +157,8 @@ const Home = ({ navigation }) => {
           <MapView
             ref={mapRef}
             style={styles.map}
-
             region={mapRegion}
+            initialRegion={mapRegion}
             onRegionChangeComplete={onRegionChangeComplete}
             onMapReady={() => {
               console.log('✅ Google Maps loaded successfully!');
@@ -170,13 +170,15 @@ const Home = ({ navigation }) => {
               setMapError('Map failed to load. Check your internet connection.');
               setIsMapLoading(false);
             }}
-            showsUserLocation={true}
+            showsUserLocation={hasLocationPermission}
             showsMyLocationButton={false}
-            mapType="normal"
+            mapType="standard"
             zoomEnabled={true}
             scrollEnabled={true}
-            rotateEnabled={true}
-            pitchEnabled={true}
+            rotateEnabled={false}
+            pitchEnabled={false}
+            loadingEnabled={true}
+            loadingIndicatorColor="#DB2899"
           >
             {location && (
               <Marker
