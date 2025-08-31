@@ -104,7 +104,7 @@ export default function LocationPopup({ visible, onLocationEnabled, showSkip = f
             </View>
             
             <Text style={styles.instructionText}>
-              Choose your location to start find the request around you
+              Choose your location to start finding requests around you
             </Text>
             
             <View style={styles.buttonsContainer}>
