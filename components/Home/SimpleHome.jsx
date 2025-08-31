@@ -44,7 +44,13 @@ const SimpleHome = () => {
       <MapView
         style={styles.map}
         region={region}
+        initialRegion={region}
         showsUserLocation={true}
+        mapType="standard"
+        zoomEnabled={true}
+        scrollEnabled={true}
+        rotateEnabled={false}
+        pitchEnabled={false}
         onMapReady={() => console.log('✅ Map Ready!')}
         onError={(error) => console.log('❌ Map Error:', error)}
       >
