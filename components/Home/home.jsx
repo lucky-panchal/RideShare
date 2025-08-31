@@ -46,6 +46,7 @@ const Home = ({ navigation }) => {
       if (status !== 'granted') {
         setShowLocationPopup(true);
         setHasLocationPermission(false);
+        setIsMapLoading(false);
       } else {
         setHasLocationPermission(true);
         getCurrentLocation();
@@ -53,8 +54,8 @@ const Home = ({ navigation }) => {
     } catch (error) {
       console.log('Permission error:', error);
       setHasLocationPermission(false);
+      setIsMapLoading(false);
     }
-    setIsMapLoading(false);
   };
 
   const getCurrentLocation = async () => {
@@ -162,8 +163,10 @@ const Home = ({ navigation }) => {
             onRegionChangeComplete={onRegionChangeComplete}
             onMapReady={() => {
               console.log('✅ Google Maps loaded successfully!');
-              setIsMapLoading(false);
-              setMapError(null);
+              setTimeout(() => {
+                setIsMapLoading(false);
+                setMapError(null);
+              }, 100);
             }}
             onError={(error) => {
               console.log('❌ Map error:', error?.message || 'Unknown map error');
