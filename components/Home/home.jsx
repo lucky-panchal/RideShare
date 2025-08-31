@@ -1,6 +1,6 @@
 import React, { useState, useEffect, useRef } from 'react';
 import { View, Text, TextInput, TouchableOpacity, StyleSheet, Alert, StatusBar, ActivityIndicator, Platform, SafeAreaView } from 'react-native';
-import MapView, { Marker, Circle, PROVIDER_GOOGLE } from 'react-native-maps';
+import MapView, { Marker } from 'react-native-maps';
 import * as Location from 'expo-location';
 import { MaterialCommunityIcons, Ionicons, MaterialIcons } from '@expo/vector-icons';
 import LocationPopup from '../shared/LocationPopup';
@@ -18,6 +18,7 @@ const Home = ({ navigation }) => {
   const [isMapLoading, setIsMapLoading] = useState(true);
   const [mapError, setMapError] = useState(null);
 
+
   const [activeTab, setActiveTab] = useState('Home');
   const [showLocationPopup, setShowLocationPopup] = useState(false);
   const [hasLocationPermission, setHasLocationPermission] = useState(false);
@@ -26,6 +27,18 @@ const Home = ({ navigation }) => {
   useEffect(() => {
     checkLocationPermission();
   }, []);
+
+  useEffect(() => {
+    if (location && mapRef.current && hasLocationPermission) {
+      const newRegion = {
+        latitude: location.latitude,
+        longitude: location.longitude,
+        latitudeDelta: 0.01,
+        longitudeDelta: 0.01,
+      };
+      mapRef.current.animateToRegion(newRegion, 1000);
+    }
+  }, [location, hasLocationPermission]);
 
   const checkLocationPermission = async () => {
     try {
@@ -50,9 +63,16 @@ const Home = ({ navigation }) => {
       let currentLocation = await Location.getCurrentPositionAsync({
         accuracy: Location.Accuracy.Balanced,
         maximumAge: 10000,
+        timeout: 15000,
       });
       const { latitude, longitude } = currentLocation.coords;
-      console.log('Location obtained:', { latitude, longitude });
+      
+      // Sanitize coordinates before logging
+      const sanitizedCoords = {
+        lat: parseFloat(latitude.toFixed(6)),
+        lng: parseFloat(longitude.toFixed(6))
+      };
+      console.log('Location obtained:', sanitizedCoords);
       
       const newRegion = {
         latitude,
@@ -63,15 +83,23 @@ const Home = ({ navigation }) => {
       
       setLocation({ latitude, longitude });
       setMapRegion(newRegion);
-      
-      setTimeout(() => {
-        if (mapRef.current) {
-          mapRef.current.animateToRegion(newRegion, 1000);
-        }
-      }, 500);
     } catch (error) {
-      console.log('Error getting location:', error);
-      Alert.alert('Error', 'Could not get your location');
+      console.log('Location error:', error.code || 'Unknown error');
+      
+      // Better error handling with specific messages
+      let errorMessage = 'Could not get your location';
+      if (error.code === 'E_LOCATION_TIMEOUT') {
+        errorMessage = 'Location request timed out. Please try again.';
+      } else if (error.code === 'E_LOCATION_UNAVAILABLE') {
+        errorMessage = 'Location services unavailable. Please check your GPS.';
+      } else if (error.code === 'E_LOCATION_SETTINGS_UNSATISFIED') {
+        errorMessage = 'Please enable high accuracy location in settings.';
+      }
+      
+      Alert.alert('Location Error', errorMessage, [
+        { text: 'Retry', onPress: getCurrentLocation },
+        { text: 'Cancel', style: 'cancel' }
+      ]);
     }
   };
 
@@ -104,9 +132,11 @@ const Home = ({ navigation }) => {
             <Ionicons name="warning" size={50} color="#FF6B6B" />
             <Text style={styles.errorText}>Map Error</Text>
             <Text style={styles.errorSubtext}>{mapError}</Text>
+
             <TouchableOpacity style={styles.retryButton} onPress={() => {
               setMapError(null);
               setIsMapLoading(true);
+
               checkLocationPermission();
             }}>
               <Text style={styles.retryText}>Retry</Text>
@@ -125,29 +155,28 @@ const Home = ({ navigation }) => {
           </View>
         ) : (
           <MapView
+            ref={mapRef}
             style={styles.map}
-            provider={PROVIDER_GOOGLE}
+
             region={mapRegion}
             onRegionChangeComplete={onRegionChangeComplete}
             onMapReady={() => {
               console.log('✅ Google Maps loaded successfully!');
               setIsMapLoading(false);
+              setMapError(null);
             }}
             onError={(error) => {
-              console.log('❌ Map error:', error);
-              setMapError('Map failed to load');
+              console.log('❌ Map error:', error?.message || 'Unknown map error');
+              setMapError('Map failed to load. Check your internet connection.');
+              setIsMapLoading(false);
             }}
             showsUserLocation={true}
             showsMyLocationButton={false}
-            mapType="standard"
+            mapType="normal"
             zoomEnabled={true}
             scrollEnabled={true}
             rotateEnabled={true}
             pitchEnabled={true}
-            toolbarEnabled={false}
-            loadingEnabled={true}
-            loadingIndicatorColor="#DB2899"
-            loadingBackgroundColor="#ffffff"
           >
             {location && (
               <Marker
@@ -182,9 +211,22 @@ const Home = ({ navigation }) => {
           />
         </View>
         
-        <TouchableOpacity style={styles.locationButton} onPress={getCurrentLocation}>
+        <TouchableOpacity 
+          style={styles.locationButton} 
+          onPress={getCurrentLocation}
+          disabled={isMapLoading}
+        >
           <Ionicons name="location" size={20} color="#fff" />
-          <Text style={styles.locationButtonText}>Get My Location</Text>
+          <Text style={styles.locationButtonText}>
+            {isMapLoading ? 'Loading...' : 'Get My Location'}
+          </Text>
+        </TouchableOpacity>
+        
+        <TouchableOpacity 
+          style={styles.debugButton} 
+          onPress={() => navigation.navigate('SimpleHome')}
+        >
+          <Text style={styles.debugButtonText}>Test Simple Map</Text>
         </TouchableOpacity>
       </View>
 
@@ -327,6 +369,7 @@ const styles = StyleSheet.create({
     color: '#fff',
     fontWeight: '600',
   },
+
   loadingText: {
     marginTop: 10,
     fontSize: 16,
@@ -352,9 +395,6 @@ const styles = StyleSheet.create({
     shadowOpacity: 0.1,
     shadowRadius: 4,
     elevation: 3,
-    ':hover': {
-      cursor: 'pointer',
-    },
   },
   searchIcon: {
     marginRight: 15,
@@ -373,15 +413,24 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     justifyContent: 'center',
     marginTop: 10,
-    ':hover': {
-      cursor: 'pointer',
-    },
   },
   locationButtonText: {
     color: '#fff',
     fontSize: 14,
     fontWeight: '600',
     marginLeft: 8,
+  },
+  debugButton: {
+    backgroundColor: '#FF6B6B',
+    borderRadius: 8,
+    padding: 10,
+    marginTop: 10,
+    alignItems: 'center',
+  },
+  debugButtonText: {
+    color: '#fff',
+    fontSize: 14,
+    fontWeight: '600',
   },
 
   // Perfect Bottom Navigation
@@ -411,18 +460,12 @@ const styles = StyleSheet.create({
     minWidth: 44,
     minHeight: 44,
     paddingVertical: 8,
-    ':hover': {
-      cursor: 'pointer',
-    },
   },
   centerNavButton: {
     alignItems: 'center',
     justifyContent: 'center',
     minWidth: 60,
     minHeight: 60,
-    ':hover': {
-      cursor: 'pointer',
-    },
   },
   navLabel: {
     fontSize: 12,
