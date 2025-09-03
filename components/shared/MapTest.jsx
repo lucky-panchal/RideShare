@@ -4,7 +4,7 @@ import { View, Text, StyleSheet, Dimensions, Platform } from 'react-native';
 // Platform-specific imports
 let MapView;
 if (Platform.OS === 'web') {
-  MapView = require('../WebMap').default;
+  MapView = require('./WebMap').default;
 } else {
   MapView = require('react-native-maps').default;
 }
