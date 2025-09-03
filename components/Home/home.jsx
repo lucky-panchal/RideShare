@@ -1,16 +1,18 @@
 import React, { useState, useEffect, useRef } from 'react';
 import { View, Text, TextInput, TouchableOpacity, StyleSheet, Alert, StatusBar, ActivityIndicator, Platform, SafeAreaView } from 'react-native';
 import * as Location from 'expo-location';
+import WebMap from '../shared/WebMap';
 
-// Platform-specific imports
-let MapView, Marker;
-if (Platform.OS === 'web') {
-  MapView = require('../shared/WebMap').default;
-  Marker = ({ children, ...props }) => children || null;
-} else {
-  const Maps = require('react-native-maps');
-  MapView = Maps.default;
-  Marker = Maps.Marker;
+// Conditional imports
+let NativeMapView, NativeMarker;
+if (Platform.OS !== 'web') {
+  try {
+    const Maps = require('react-native-maps');
+    NativeMapView = Maps.default;
+    NativeMarker = Maps.Marker;
+  } catch (e) {
+    console.log('react-native-maps not available');
+  }
 }
 import { MaterialCommunityIcons, Ionicons, MaterialIcons } from '@expo/vector-icons';
 import LocationPopup from '../shared/LocationPopup';
@@ -165,50 +167,57 @@ const Home = ({ navigation }) => {
             <Text style={styles.loadingText}>Loading map...</Text>
           </View>
         ) : (
-          <MapView
-            ref={mapRef}
-            style={styles.map}
-            region={mapRegion}
-            initialRegion={mapRegion}
-            onRegionChangeComplete={onRegionChangeComplete}
-            onMapReady={() => {
-              console.log('✅ Google Maps loaded successfully!');
-              setTimeout(() => {
-                setIsMapLoading(false);
-                setMapError(null);
-              }, 100);
-            }}
-            onError={(error) => {
-              console.log('❌ Map error:', error?.message || 'Unknown map error');
-              setMapError('Map failed to load. Check your internet connection.');
-              setIsMapLoading(false);
-            }}
-            showsUserLocation={hasLocationPermission}
-            showsMyLocationButton={false}
-            mapType="standard"
-            zoomEnabled={true}
-            scrollEnabled={true}
-            rotateEnabled={false}
-            pitchEnabled={false}
-            loadingEnabled={true}
-            loadingIndicatorColor="#DB2899"
-          >
-            {location && (
-              <Marker
-                coordinate={location}
-                title="Your Location"
-                pinColor="red"
-              />
-            )}
-            <Marker
-              coordinate={{
-                latitude: 28.6139,
-                longitude: 77.2090,
-              }}
-              title="Delhi"
-              pinColor="blue"
+          {Platform.OS === 'web' ? (
+            <WebMap
+              style={styles.map}
+              region={mapRegion}
             />
-          </MapView>
+          ) : (
+            <NativeMapView
+              ref={mapRef}
+              style={styles.map}
+              region={mapRegion}
+              initialRegion={mapRegion}
+              onRegionChangeComplete={onRegionChangeComplete}
+              onMapReady={() => {
+                console.log('✅ Google Maps loaded successfully!');
+                setTimeout(() => {
+                  setIsMapLoading(false);
+                  setMapError(null);
+                }, 100);
+              }}
+              onError={(error) => {
+                console.log('❌ Map error:', error?.message || 'Unknown map error');
+                setMapError('Map failed to load. Check your internet connection.');
+                setIsMapLoading(false);
+              }}
+              showsUserLocation={hasLocationPermission}
+              showsMyLocationButton={false}
+              mapType="standard"
+              zoomEnabled={true}
+              scrollEnabled={true}
+              rotateEnabled={false}
+              pitchEnabled={false}
+              loadingEnabled={true}
+              loadingIndicatorColor="#DB2899"
+            >
+              {location && (
+                <NativeMarker
+                  coordinate={location}
+                  title="Your Location"
+                  pinColor="red"
+                />
+              )}
+              <NativeMarker
+                coordinate={{
+                  latitude: 28.6139,
+                  longitude: 77.2090,
+                }}
+                title="Delhi"
+                pinColor="blue"
+              />
+            </NativeMapView>
+          )}
         )}
       </View>
 
