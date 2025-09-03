@@ -1,6 +1,13 @@
 import React from 'react';
-import { View, Text, StyleSheet, Dimensions } from 'react-native';
-import MapView from 'react-native-maps';
+import { View, Text, StyleSheet, Dimensions, Platform } from 'react-native';
+
+// Platform-specific imports
+let MapView;
+if (Platform.OS === 'web') {
+  MapView = require('../WebMap').default;
+} else {
+  MapView = require('react-native-maps').default;
+}
 
 const { width, height } = Dimensions.get('window');
 

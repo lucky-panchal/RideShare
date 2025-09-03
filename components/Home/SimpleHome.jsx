@@ -1,7 +1,17 @@
 import React, { useState, useEffect } from 'react';
 import { View, StyleSheet, Alert, Platform } from 'react-native';
-import MapView, { Marker } from 'react-native-maps';
 import * as Location from 'expo-location';
+
+// Platform-specific imports
+let MapView, Marker;
+if (Platform.OS === 'web') {
+  MapView = require('../shared/WebMap').default;
+  Marker = ({ children, ...props }) => children || null;
+} else {
+  const Maps = require('react-native-maps');
+  MapView = Maps.default;
+  Marker = Maps.Marker;
+}
 
 const SimpleHome = () => {
   const [location, setLocation] = useState(null);

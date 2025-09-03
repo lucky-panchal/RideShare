@@ -1,7 +1,17 @@
 import React, { useState, useEffect, useRef } from 'react';
 import { View, Text, TextInput, TouchableOpacity, StyleSheet, Alert, StatusBar, ActivityIndicator, Platform, SafeAreaView } from 'react-native';
-import MapView, { Marker } from 'react-native-maps';
 import * as Location from 'expo-location';
+
+// Platform-specific imports
+let MapView, Marker;
+if (Platform.OS === 'web') {
+  MapView = require('../shared/WebMap').default;
+  Marker = ({ children, ...props }) => children || null;
+} else {
+  const Maps = require('react-native-maps');
+  MapView = Maps.default;
+  Marker = Maps.Marker;
+}
 import { MaterialCommunityIcons, Ionicons, MaterialIcons } from '@expo/vector-icons';
 import LocationPopup from '../shared/LocationPopup';
 
