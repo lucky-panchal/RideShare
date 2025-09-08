@@ -16,16 +16,15 @@ if (Platform.OS !== 'web') {
 }
 import { MaterialCommunityIcons, Ionicons, MaterialIcons } from '@expo/vector-icons';
 import LocationPopup from '../shared/LocationPopup';
+import QuickSearch from '../location/QuickSearch';
 
-const Home = ({ navigation }) => {
+const Home = ({ navigation, route }) => {
   const [location, setLocation] = useState(null);
-  const [mapRegion, setMapRegion] = useState({
-    latitude: 28.6139,
-    longitude: 77.2090,
-    latitudeDelta: 0.05,
-    longitudeDelta: 0.05,
-  });
-  const [searchText, setSearchText] = useState('');
+  const [mapRegion, setMapRegion] = useState(null);
+  const [pickupLocation, setPickupLocation] = useState('Current Location');
+  const [dropLocation, setDropLocation] = useState('');
+  const [showQuickSearch, setShowQuickSearch] = useState(false);
+  const [searchType, setSearchType] = useState('pickup');
   const [hasNotifications, setHasNotifications] = useState(true);
   const [isMapLoading, setIsMapLoading] = useState(true);
   const [mapError, setMapError] = useState(null);
@@ -34,11 +33,40 @@ const Home = ({ navigation }) => {
   const [activeTab, setActiveTab] = useState('Home');
   const [showLocationPopup, setShowLocationPopup] = useState(false);
   const [hasLocationPermission, setHasLocationPermission] = useState(false);
+  const [hasAskedPermission, setHasAskedPermission] = useState(false);
   const mapRef = useRef(null);
 
   useEffect(() => {
-    checkLocationPermission();
+    checkInitialPermission();
   }, []);
+
+  useEffect(() => {
+    if (!mapRegion && location) {
+      const newRegion = {
+        latitude: location.latitude,
+        longitude: location.longitude,
+        latitudeDelta: 0.01,
+        longitudeDelta: 0.01,
+      };
+      setMapRegion(newRegion);
+    }
+  }, [location]);
+
+  useEffect(() => {
+    // Handle location selection from search
+    if (route.params?.selectedLocation) {
+      const { selectedLocation, locationType } = route.params;
+      
+      if (locationType === 'pickup') {
+        setPickupLocation(selectedLocation.name || selectedLocation.address);
+      } else if (locationType === 'drop') {
+        setDropLocation(selectedLocation.name || selectedLocation.address);
+      }
+      
+      // Clear the params to prevent re-triggering
+      navigation.setParams({ selectedLocation: null, locationType: null });
+    }
+  }, [route.params]);
 
   useEffect(() => {
     if (location && mapRef.current && hasLocationPermission) {
@@ -52,74 +80,145 @@ const Home = ({ navigation }) => {
     }
   }, [location, hasLocationPermission]);
 
-  const checkLocationPermission = async () => {
+  const checkInitialPermission = async () => {
     try {
-      let { status } = await Location.requestForegroundPermissionsAsync();
-      if (status !== 'granted') {
-        setShowLocationPopup(true);
-        setHasLocationPermission(false);
+      // Only check existing permission, don't request
+      let { status } = await Location.getForegroundPermissionsAsync();
+      
+      if (status === 'granted') {
+        console.log('✅ Location permission already granted');
+        setHasLocationPermission(true);
+        setHasAskedPermission(true);
+        // Don't auto-get location, wait for user tap
+        setIsMapLoading(false);
+      } else if (!hasAskedPermission) {
+        // Ask permission only once on first launch
+        console.log('🔐 Requesting location permission...');
+        const result = await Location.requestForegroundPermissionsAsync();
+        setHasAskedPermission(true);
+        
+        if (result.status === 'granted') {
+          setHasLocationPermission(true);
+          console.log('✅ Permission granted');
+        } else {
+          console.log('❌ Permission denied');
+          setShowLocationPopup(true);
+        }
         setIsMapLoading(false);
       } else {
-        setHasLocationPermission(true);
-        getCurrentLocation();
+        setIsMapLoading(false);
       }
     } catch (error) {
       console.log('Permission error:', error);
-      setHasLocationPermission(false);
       setIsMapLoading(false);
     }
   };
 
-  const getCurrentLocation = async () => {
+  const getLocationFromFreeAPI = async () => {
     try {
-      console.log('Getting current location...');
-      let currentLocation = await Location.getCurrentPositionAsync({
-        accuracy: Location.Accuracy.Balanced,
-        maximumAge: 10000,
-        timeout: 15000,
-      });
-      const { latitude, longitude } = currentLocation.coords;
+      console.log('🌍 Getting location from free API...');
       
-      // Sanitize coordinates before logging
-      const sanitizedCoords = {
-        lat: parseFloat(latitude.toFixed(6)),
-        lng: parseFloat(longitude.toFixed(6))
-      };
-      console.log('Location obtained:', sanitizedCoords);
+      // Using ipgeolocation.io - free tier: 1000 requests/day
+      const response = await fetch('https://api.ipgeolocation.io/ipgeo?apiKey=free');
+      const data = await response.json();
       
-      const newRegion = {
-        latitude,
-        longitude,
-        latitudeDelta: 0.01,
-        longitudeDelta: 0.01,
-      };
-      
-      setLocation({ latitude, longitude });
-      setMapRegion(newRegion);
+      if (data.latitude && data.longitude) {
+        console.log('✅ Free API location:', {
+          lat: data.latitude,
+          lng: data.longitude,
+          city: data.city,
+          state: data.state_prov,
+          country: data.country_name
+        });
+        
+        return {
+          latitude: parseFloat(data.latitude),
+          longitude: parseFloat(data.longitude),
+          city: data.city,
+          state: data.state_prov,
+          country: data.country_name
+        };
+      }
     } catch (error) {
-      console.log('Location error:', error.code || 'Unknown error');
+      console.log('Free API failed, trying backup...');
       
-      // Better error handling with specific messages
-      let errorMessage = 'Could not get your location';
-      if (error.code === 'E_LOCATION_TIMEOUT') {
-        errorMessage = 'Location request timed out. Please try again.';
-      } else if (error.code === 'E_LOCATION_UNAVAILABLE') {
-        errorMessage = 'Location services unavailable. Please check your GPS.';
-      } else if (error.code === 'E_LOCATION_SETTINGS_UNSATISFIED') {
-        errorMessage = 'Please enable high accuracy location in settings.';
+      // Backup: ipapi.co (free tier: 1000 requests/day)
+      try {
+        const response = await fetch('https://ipapi.co/json/');
+        const data = await response.json();
+        
+        if (data.latitude && data.longitude) {
+          return {
+            latitude: data.latitude,
+            longitude: data.longitude,
+            city: data.city,
+            state: data.region,
+            country: data.country_name
+          };
+        }
+      } catch (backupError) {
+        console.log('Backup API also failed');
+      }
+    }
+    
+    return null;
+  };
+
+  const getCurrentLocation = async () => {
+    setIsMapLoading(true);
+    
+    try {
+      console.log('🔍 Getting location...');
+      
+      // Use free IP geolocation API
+      const locationData = await getLocationFromFreeAPI();
+      
+      if (locationData) {
+        const newRegion = {
+          latitude: locationData.latitude,
+          longitude: locationData.longitude,
+          latitudeDelta: 0.01,
+          longitudeDelta: 0.01,
+        };
+        
+        setLocation({ 
+          latitude: locationData.latitude, 
+          longitude: locationData.longitude 
+        });
+        setMapRegion(newRegion);
+        
+        // Create readable location name
+        let locationName = 'Current Location';
+        if (locationData.city && locationData.state) {
+          locationName = `${locationData.city}, ${locationData.state}`;
+        } else if (locationData.city) {
+          locationName = `${locationData.city}, ${locationData.country}`;
+        } else if (locationData.country) {
+          locationName = locationData.country;
+        }
+        
+        setPickupLocation(locationName);
+        setIsMapLoading(false);
+        
+        console.log('✅ Location set:', locationName);
+        return;
       }
       
-      Alert.alert('Location Error', errorMessage, [
-        { text: 'Retry', onPress: getCurrentLocation },
-        { text: 'Cancel', style: 'cancel' }
-      ]);
+      // Fallback
+      setPickupLocation('Current Location');
+      setIsMapLoading(false);
+      
+    } catch (error) {
+      console.log('❌ Location failed:', error.message);
+      setIsMapLoading(false);
+      setPickupLocation('Current Location');
     }
   };
 
   const handleLocationEnabled = (locationData) => {
     setHasLocationPermission(true);
     setShowLocationPopup(false);
-    getCurrentLocation();
+    // Don't auto-get location, wait for user tap
   };
 
   const onRegionChangeComplete = (region) => {
@@ -171,7 +270,7 @@ const Home = ({ navigation }) => {
             style={styles.map}
             region={mapRegion}
           />
-        ) : (
+        ) : mapRegion ? (
           <NativeMapView
               ref={mapRef}
               style={styles.map}
@@ -207,58 +306,73 @@ const Home = ({ navigation }) => {
                   pinColor="red"
                 />
               )}
-              <NativeMarker
-                coordinate={{
-                  latitude: 28.6139,
-                  longitude: 77.2090,
-                }}
-                title="Delhi"
-                pinColor="blue"
-              />
+
             </NativeMapView>
-        )
+        ) : (
+          <View style={styles.mapPlaceholder}>
+            <Ionicons name="location-outline" size={50} color="#999" />
+            <Text style={styles.placeholderText}>Tap current location to view map</Text>
+            <Text style={styles.placeholderSubtext}>Location permission granted</Text>
+          </View>
         )}
       </View>
 
-      {/* Search Input Section */}
+      {/* Location Input Section */}
       <View style={styles.inputSection}>
-        <View style={styles.searchInputContainer}>
-          <Ionicons name="search" size={20} color="#B0B0B0" style={styles.searchIcon} />
-          <TextInput
-            style={styles.searchInput}
-            placeholder="Where are you going?"
-            placeholderTextColor="#B0B0B0"
-            value={searchText}
-            onChangeText={setSearchText}
-            fontSize={16}
-          />
+        {/* Pickup Location */}
+        <View style={styles.locationInputContainer}>
+          <View style={styles.locationIcon}>
+            <Ionicons name="location" size={20} color="#4CAF50" />
+          </View>
+          <View style={styles.locationTextContainer}>
+            <Text style={styles.locationLabel}>Pickup Location</Text>
+            <Text style={styles.locationText} numberOfLines={1}>{pickupLocation}</Text>
+          </View>
+          <View style={styles.pickupOptions}>
+            <TouchableOpacity 
+              style={styles.optionButton}
+              onPress={getCurrentLocation}
+            >
+              <Ionicons name="locate" size={16} color="#4CAF50" />
+            </TouchableOpacity>
+            <TouchableOpacity 
+              style={styles.optionButton}
+              onPress={() => {
+                setSearchType('pickup');
+                setShowQuickSearch(true);
+              }}
+            >
+              <Ionicons name="search" size={16} color="#4CAF50" />
+            </TouchableOpacity>
+          </View>
         </View>
-        
+
+        {/* Drop Location */}
         <TouchableOpacity 
-          style={styles.locationButton} 
-          onPress={getCurrentLocation}
-          disabled={isMapLoading}
+          style={styles.locationInputContainer}
+          onPress={() => {
+            setSearchType('drop');
+            setShowQuickSearch(true);
+          }}
         >
-          <Ionicons name="location" size={20} color="#fff" />
-          <Text style={styles.locationButtonText}>
-            {isMapLoading ? 'Loading...' : 'Get My Location'}
-          </Text>
+          <View style={styles.locationIcon}>
+            <Ionicons name="location-outline" size={20} color="#DB2899" />
+          </View>
+          <View style={styles.locationTextContainer}>
+            <Text style={styles.locationLabel}>Drop Location</Text>
+            <Text style={[styles.locationText, !dropLocation && styles.placeholderText]} numberOfLines={1}>
+              {dropLocation || 'Where to?'}
+            </Text>
+          </View>
+          <Ionicons name="chevron-forward" size={20} color="#999" />
         </TouchableOpacity>
-        
-        <TouchableOpacity 
-          style={styles.debugButton} 
-          onPress={() => navigation.navigate('SimpleHome')}
-        >
-          <Text style={styles.debugButtonText}>Test Simple Map</Text>
-        </TouchableOpacity>
-        
-        <TouchableOpacity 
-          style={styles.locationSelectButton} 
-          onPress={() => navigation.navigate('LocationStack')}
-        >
-          <Ionicons name="location" size={20} color="#fff" />
-          <Text style={styles.locationSelectButtonText}>Select Location</Text>
-        </TouchableOpacity>
+
+        {/* Book Ride Button */}
+        {dropLocation && (
+          <TouchableOpacity style={styles.bookRideButton}>
+            <Text style={styles.bookRideText}>Book Ride</Text>
+          </TouchableOpacity>
+        )}
       </View>
 
 
@@ -316,6 +430,24 @@ const Home = ({ navigation }) => {
         visible={showLocationPopup}
         onLocationEnabled={handleLocationEnabled}
         showSkip={false}
+      />
+
+      {/* Quick Search Modal */}
+      <QuickSearch
+        visible={showQuickSearch}
+        onClose={() => setShowQuickSearch(false)}
+        locationType={searchType}
+        onLocationSelect={async (location) => {
+          if (location.type === 'current') {
+            await getCurrentLocation();
+          } else {
+            if (searchType === 'pickup') {
+              setPickupLocation(location.name);
+            } else {
+              setDropLocation(location.name);
+            }
+          }
+        }}
       />
     </SafeAreaView>
   );
@@ -411,72 +543,77 @@ const styles = StyleSheet.create({
     paddingHorizontal: 20,
     paddingVertical: 15,
     backgroundColor: '#fff',
-  },
-  searchInputContainer: {
-    flexDirection: 'row',
-    alignItems: 'center',
-    backgroundColor: '#F9F9F9',
-    borderRadius: 25,
-    paddingHorizontal: 20,
-    paddingVertical: 16,
-    borderWidth: 2,
-    borderColor: '#DB2899',
+    borderTopLeftRadius: 20,
+    borderTopRightRadius: 20,
+    marginTop: -20,
+    elevation: 5,
     shadowColor: '#000',
-    shadowOffset: { width: 0, height: 2 },
+    shadowOffset: { width: 0, height: -2 },
     shadowOpacity: 0.1,
     shadowRadius: 4,
-    elevation: 3,
   },
-  searchIcon: {
-    marginRight: 15,
+  locationInputContainer: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    paddingVertical: 16,
+    paddingHorizontal: 16,
+    backgroundColor: '#f8f9fa',
+    borderRadius: 12,
+    marginBottom: 12,
+    borderWidth: 1,
+    borderColor: '#e0e0e0',
   },
-  searchInput: {
+  locationIcon: {
+    width: 32,
+    height: 32,
+    borderRadius: 16,
+    backgroundColor: '#fff',
+    justifyContent: 'center',
+    alignItems: 'center',
+    marginRight: 12,
+  },
+  locationTextContainer: {
     flex: 1,
+  },
+  locationLabel: {
+    fontSize: 12,
+    color: '#666',
+    marginBottom: 2,
+  },
+  locationText: {
     fontSize: 16,
     color: '#333',
     fontWeight: '500',
   },
-  locationButton: {
+  placeholderText: {
+    color: '#999',
+    fontWeight: '400',
+  },
+  pickupOptions: {
+    flexDirection: 'row',
+    gap: 8,
+  },
+  optionButton: {
+    width: 32,
+    height: 32,
+    borderRadius: 16,
+    backgroundColor: '#f0f8f0',
+    justifyContent: 'center',
+    alignItems: 'center',
+    borderWidth: 1,
+    borderColor: '#4CAF50',
+  },
+  bookRideButton: {
     backgroundColor: '#DB2899',
     borderRadius: 12,
-    padding: 12,
-    flexDirection: 'row',
+    paddingVertical: 16,
     alignItems: 'center',
-    justifyContent: 'center',
-    marginTop: 10,
+    marginTop: 8,
   },
-  locationButtonText: {
+  bookRideText: {
     color: '#fff',
-    fontSize: 14,
+    fontSize: 16,
     fontWeight: '600',
-    marginLeft: 8,
-  },
-  debugButton: {
-    backgroundColor: '#FF6B6B',
-    borderRadius: 8,
-    padding: 10,
-    marginTop: 10,
-    alignItems: 'center',
-  },
-  debugButtonText: {
-    color: '#fff',
-    fontSize: 14,
-    fontWeight: '600',
-  },
-  locationSelectButton: {
-    backgroundColor: '#4CAF50',
-    borderRadius: 12,
-    padding: 12,
-    flexDirection: 'row',
-    alignItems: 'center',
-    justifyContent: 'center',
-    marginTop: 10,
-  },
-  locationSelectButtonText: {
-    color: '#fff',
-    fontSize: 14,
-    fontWeight: '600',
-    marginLeft: 8,
   },
 
   // Perfect Bottom Navigation

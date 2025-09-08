@@ -1,13 +1,32 @@
 import React, { useState } from 'react';
-import { View, Text, TextInput, TouchableOpacity, Image, StyleSheet } from 'react-native';
+import { View, Text, TextInput, TouchableOpacity, Image, StyleSheet, Alert } from 'react-native';
 
 const SignIn = ({ navigation }) => {
   const [emailOrPhone, setEmailOrPhone] = useState('');
   const [password, setPassword] = useState('');
 
   const handleSignIn = () => {
-    // Navigate to SendVerification after sign in attempt
-    navigation.navigate('SendVerification');
+    // Input validation
+    if (!emailOrPhone.trim()) {
+      Alert.alert('Error', 'Please enter your email or phone number');
+      return;
+    }
+    if (!password.trim()) {
+      Alert.alert('Error', 'Please enter your password');
+      return;
+    }
+    if (password.length < 6) {
+      Alert.alert('Error', 'Password must be at least 6 characters');
+      return;
+    }
+    
+    try {
+      console.log('Sign in attempt for:', emailOrPhone.includes('@') ? 'email' : 'phone');
+      navigation.navigate('SendVerification');
+    } catch (error) {
+      console.error('Sign in error:', error);
+      Alert.alert('Error', 'Sign in failed. Please try again.');
+    }
   };
 
   const handleForgotPassword = () => {

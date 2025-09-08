@@ -202,7 +202,7 @@ const LocationRecent = ({ navigation }) => {
               <View style={styles.routeInfo}>
                 <Text style={styles.routeLabel}>From</Text>
                 <Text style={styles.routeAddress}>
-                  1901 Thornridge Cir. Shiloh, Hawaii 81063
+                  Current Location
                 </Text>
               </View>
             </View>

@@ -24,7 +24,7 @@ const MapTest = () => {
           longitudeDelta: 0.05,
         }}
         onMapReady={() => console.log('✅ Test Map Ready')}
-        onError={(error) => console.log('❌ Test Map Error:', error)}
+        onError={(error) => console.log('❌ Test Map Error:', error?.message ? encodeURIComponent(error.message) : 'Unknown error')}
       />
     </View>
   );

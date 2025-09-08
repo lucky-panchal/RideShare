@@ -122,7 +122,7 @@ const LocationConfirm = ({ navigation }) => {
               <View style={styles.locationInfo}>
                 <Text style={styles.locationTitle}>Current location</Text>
                 <Text style={styles.locationAddress}>
-                  1901 Thornridge Cir. Shiloh, Hawaii 81063
+                  Current Location
                 </Text>
               </View>
             </TouchableOpacity>

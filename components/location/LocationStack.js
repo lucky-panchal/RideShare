@@ -3,6 +3,9 @@ import { createStackNavigator } from '@react-navigation/stack';
 import LocationConfirm from './LocationConfirm';
 import LocationInput from './LocationInput';
 import LocationRecent from './LocationRecent';
+import LocationManager from './LocationManager';
+import LocationSearch from './LocationSearch';
+import LocationFavorites from './LocationFavorites';
 
 const Stack = createStackNavigator();
 
@@ -66,6 +69,27 @@ const LocationStack = () => {
         component={LocationRecent}
         options={{
           title: 'Recent Places',
+        }}
+      />
+      <Stack.Screen 
+        name="LocationManager" 
+        component={LocationManager}
+        options={{
+          title: 'Manage Locations',
+        }}
+      />
+      <Stack.Screen 
+        name="LocationSearch" 
+        component={LocationSearch}
+        options={{
+          title: 'Search Location',
+        }}
+      />
+      <Stack.Screen 
+        name="LocationFavorites" 
+        component={LocationFavorites}
+        options={{
+          title: 'Favorite Locations',
         }}
       />
     </Stack.Navigator>

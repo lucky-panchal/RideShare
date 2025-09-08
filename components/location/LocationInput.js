@@ -31,7 +31,7 @@ const { width, height } = Dimensions.get('window');
 
 const LocationInput = ({ navigation }) => {
   const [modalVisible, setModalVisible] = useState(true);
-  const [currentLocation, setCurrentLocation] = useState('1901 Thornridge Cir. Shiloh, Hawaii 81063');
+  const [currentLocation, setCurrentLocation] = useState('Current Location');
   const [destinationLocation, setDestinationLocation] = useState('');
   const translateY = useRef(new Animated.Value(0)).current;
 
@@ -46,21 +46,21 @@ const LocationInput = ({ navigation }) => {
     {
       id: 1,
       name: 'Office',
-      address: '2464 Royal Ln. Mesa, New Jersey 45463',
+      address: 'Office Location',
       distance: '2.5 km',
       icon: 'business',
     },
     {
       id: 2,
       name: 'Coffee Shop',
-      address: '1234 Main St. Downtown, California 90210',
+      address: 'Coffee Shop',
       distance: '1.2 km',
       icon: 'local-cafe',
     },
     {
       id: 3,
       name: 'Shopping Center',
-      address: '5678 Oak Ave. Westside, Texas 75001',
+      address: 'Shopping Center',
       distance: '3.8 km',
       icon: 'local-mall',
     },

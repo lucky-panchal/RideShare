@@ -76,14 +76,6 @@ const Notifications = ({ navigation }) => {
       <ScrollView 
         style={styles.fullScrollContainer}
         showsVerticalScrollIndicator={false}
-        bounces={true}
-        alwaysBounceVertical={true}
-        decelerationRate={0.98}
-        scrollEventThrottle={16}
-        contentInsetAdjustmentBehavior="automatic"
-        nestedScrollEnabled={true}
-        keyboardShouldPersistTaps="handled"
-        removeClippedSubviews={true}
         contentContainerStyle={styles.fullScrollContent}
       >
         {/* Header */}
@@ -131,9 +123,6 @@ const styles = StyleSheet.create({
   },
   backButton: {
     padding: 10,
-    ':hover': {
-      cursor: 'pointer',
-    },
   },
   screenTitle: {
     fontSize: 20,
@@ -185,9 +174,6 @@ const styles = StyleSheet.create({
     shadowOffset: { width: 0, height: 1 },
     shadowOpacity: 0.1,
     shadowRadius: 3,
-    ':hover': {
-      cursor: 'pointer',
-    },
   },
   highlightedCard: {
     backgroundColor: '#e8f5e8',
