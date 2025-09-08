@@ -26,6 +26,7 @@ import Profile from './components/Home/Profile';
 import Notifications from './components/Home/Notifications';
 import MapTest from './components/shared/MapTest';
 import SimpleHome from './components/Home/SimpleHome';
+import LocationStack from './components/location/LocationStack';
 
 const Stack = createStackNavigator();
 const Tab = createBottomTabNavigator();
@@ -115,6 +116,7 @@ function App() {
         <Stack.Screen name="Notifications" component={Notifications} />
         <Stack.Screen name="MapTest" component={MapTest} />
         <Stack.Screen name="SimpleHome" component={SimpleHome} />
+        <Stack.Screen name="LocationStack" component={LocationStack} />
       </Stack.Navigator>
     </NavigationContainer>
   );

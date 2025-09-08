@@ -251,6 +251,14 @@ const Home = ({ navigation }) => {
         >
           <Text style={styles.debugButtonText}>Test Simple Map</Text>
         </TouchableOpacity>
+        
+        <TouchableOpacity 
+          style={styles.locationSelectButton} 
+          onPress={() => navigation.navigate('LocationStack')}
+        >
+          <Ionicons name="location" size={20} color="#fff" />
+          <Text style={styles.locationSelectButtonText}>Select Location</Text>
+        </TouchableOpacity>
       </View>
 
 
@@ -454,6 +462,21 @@ const styles = StyleSheet.create({
     color: '#fff',
     fontSize: 14,
     fontWeight: '600',
+  },
+  locationSelectButton: {
+    backgroundColor: '#4CAF50',
+    borderRadius: 12,
+    padding: 12,
+    flexDirection: 'row',
+    alignItems: 'center',
+    justifyContent: 'center',
+    marginTop: 10,
+  },
+  locationSelectButtonText: {
+    color: '#fff',
+    fontSize: 14,
+    fontWeight: '600',
+    marginLeft: 8,
   },
 
   // Perfect Bottom Navigation
