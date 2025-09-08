@@ -166,14 +166,13 @@ const Home = ({ navigation }) => {
             <ActivityIndicator size="large" color="#DB2899" />
             <Text style={styles.loadingText}>Loading map...</Text>
           </View>
+        ) : Platform.OS === 'web' ? (
+          <WebMap
+            style={styles.map}
+            region={mapRegion}
+          />
         ) : (
-          {Platform.OS === 'web' ? (
-            <WebMap
-              style={styles.map}
-              region={mapRegion}
-            />
-          ) : (
-            <NativeMapView
+          <NativeMapView
               ref={mapRef}
               style={styles.map}
               region={mapRegion}
@@ -217,7 +216,7 @@ const Home = ({ navigation }) => {
                 pinColor="blue"
               />
             </NativeMapView>
-          )}
+        )
         )}
       </View>
 
