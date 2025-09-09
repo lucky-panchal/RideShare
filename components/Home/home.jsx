@@ -114,54 +114,74 @@ const Home = ({ navigation, route }) => {
     }
   };
 
-  const getLocationFromFreeAPI = async () => {
+  const getRealTimeLocation = async () => {
     try {
-      console.log('🌍 Getting location from free API...');
+      console.log('🌍 Getting real-time location...');
       
-      // Using ipgeolocation.io - free tier: 1000 requests/day
-      const response = await fetch('https://api.ipgeolocation.io/ipgeo?apiKey=free');
+      // Primary: ipapi.co - more accurate, real-time IP geolocation
+      const response = await fetch('https://ipapi.co/json/');
       const data = await response.json();
       
-      if (data.latitude && data.longitude) {
-        console.log('✅ Free API location:', {
+      if (data.latitude && data.longitude && !data.error) {
+        console.log('✅ Real-time location:', {
           lat: data.latitude,
           lng: data.longitude,
           city: data.city,
-          state: data.state_prov,
-          country: data.country_name
+          region: data.region,
+          country: data.country_name,
+          accuracy: 'City-level'
         });
         
         return {
           latitude: parseFloat(data.latitude),
           longitude: parseFloat(data.longitude),
           city: data.city,
-          state: data.state_prov,
-          country: data.country_name
+          state: data.region,
+          country: data.country_name,
+          accuracy: 'high'
         };
       }
     } catch (error) {
-      console.log('Free API failed, trying backup...');
-      
-      // Backup: ipapi.co (free tier: 1000 requests/day)
-      try {
-        const response = await fetch('https://ipapi.co/json/');
-        const data = await response.json();
-        
-        if (data.latitude && data.longitude) {
-          return {
-            latitude: data.latitude,
-            longitude: data.longitude,
-            city: data.city,
-            state: data.region,
-            country: data.country_name
-          };
-        }
-      } catch (backupError) {
-        console.log('Backup API also failed');
-      }
+      console.log('Primary API failed, trying backup...');
     }
     
-    return null;
+    // Backup: ip-api.com - free, no key required
+    try {
+      const response = await fetch('http://ip-api.com/json/');
+      const data = await response.json();
+      
+      if (data.status === 'success' && data.lat && data.lon) {
+        console.log('✅ Backup location:', {
+          lat: data.lat,
+          lng: data.lon,
+          city: data.city,
+          region: data.regionName,
+          country: data.country
+        });
+        
+        return {
+          latitude: parseFloat(data.lat),
+          longitude: parseFloat(data.lon),
+          city: data.city,
+          state: data.regionName,
+          country: data.country,
+          accuracy: 'medium'
+        };
+      }
+    } catch (backupError) {
+      console.log('Backup API also failed');
+    }
+    
+    // Final fallback: Default location (Delhi, India)
+    console.log('🏙️ Using default location (Delhi)');
+    return {
+      latitude: 28.6139,
+      longitude: 77.2090,
+      city: 'Delhi',
+      state: 'Delhi',
+      country: 'India',
+      accuracy: 'default'
+    };
   };
 
   const getCurrentLocation = async () => {
@@ -170,8 +190,8 @@ const Home = ({ navigation, route }) => {
     try {
       console.log('🔍 Getting location...');
       
-      // Use free IP geolocation API
-      const locationData = await getLocationFromFreeAPI();
+      // Use real-time IP geolocation API
+      const locationData = await getRealTimeLocation();
       
       if (locationData) {
         const newRegion = {
