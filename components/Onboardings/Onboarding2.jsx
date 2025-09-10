@@ -6,7 +6,7 @@ import Svg, { Circle } from 'react-native-svg';
 const { height: screenHeight } = Dimensions.get('window');
 const AnimatedCircle = Animated.createAnimatedComponent(Circle);
 
-export default function Onboarding2() {
+export default function Onboarding2({ onNext }) {
   const navigation = useNavigation();
   const progressAnim = useRef(new Animated.Value(0)).current;
   const scaleAnim = useRef(new Animated.Value(1)).current;
@@ -63,7 +63,7 @@ export default function Onboarding2() {
         <Animated.View style={[styles.button, { transform: [{ scale: scaleAnim }] }]}>
           <TouchableOpacity 
             style={styles.buttonInner}
-            onPress={() => navigation.navigate('Onboarding3')}
+            onPress={onNext || (() => navigation.navigate('Onboarding3'))}
           >
             <Image
               source={require('../../assets/Onboardings/Arrow.png')}

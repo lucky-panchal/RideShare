@@ -397,53 +397,7 @@ const Home = ({ navigation, route }) => {
 
 
 
-      {/* Perfect Bottom Navigation */}
-      <View style={styles.bottomNavbar}>
-        <TouchableOpacity style={styles.navButton} onPress={() => handleTabPress('Home')}>
-          <Ionicons 
-            name="home" 
-            size={24} 
-            color={activeTab === 'Home' ? '#DB2899' : '#666'} 
-          />
-          <Text style={[styles.navLabel, activeTab === 'Home' && styles.activeNavLabel]}>Home</Text>
-        </TouchableOpacity>
-        
-        <TouchableOpacity style={styles.navButton} onPress={() => handleTabPress('Favorites')}>
-          <Ionicons 
-            name="heart" 
-            size={24} 
-            color={activeTab === 'Favorites' ? '#DB2899' : '#666'} 
-          />
-          <Text style={[styles.navLabel, activeTab === 'Favorites' && styles.activeNavLabel]}>Favorites</Text>
-        </TouchableOpacity>
-        
-        <TouchableOpacity style={styles.centerNavButton} onPress={() => handleTabPress('Wallet')}>
-          <View style={styles.walletIcon}>
-            <Ionicons name="wallet" size={28} color="#fff" />
-          </View>
-        </TouchableOpacity>
-        
-        <TouchableOpacity style={styles.navButton} onPress={() => handleTabPress('Notifications')}>
-          <View style={styles.notificationWrapper}>
-            <MaterialCommunityIcons 
-              name="bell" 
-              size={24} 
-              color={activeTab === 'Notifications' ? '#DB2899' : '#666'} 
-            />
-            {hasNotifications && <View style={styles.notificationDot} />}
-          </View>
-          <Text style={[styles.navLabel, activeTab === 'Notifications' && styles.activeNavLabel]}>Notifications</Text>
-        </TouchableOpacity>
-        
-        <TouchableOpacity style={styles.navButton} onPress={() => handleTabPress('Profile')}>
-          <Ionicons 
-            name="person" 
-            size={24} 
-            color={activeTab === 'Profile' ? '#DB2899' : '#666'} 
-          />
-          <Text style={[styles.navLabel, activeTab === 'Profile' && styles.activeNavLabel]}>Profile</Text>
-        </TouchableOpacity>
-      </View>
+
 
       {/* Location Popup */}
       <LocationPopup
@@ -636,75 +590,7 @@ const styles = StyleSheet.create({
     fontWeight: '600',
   },
 
-  // Perfect Bottom Navigation
-  bottomNavbar: {
-    flexDirection: 'row',
-    alignItems: 'center',
-    justifyContent: 'space-between',
-    backgroundColor: '#fff',
-    paddingVertical: 16,
-    paddingHorizontal: 20,
-    borderTopLeftRadius: 25,
-    borderTopRightRadius: 25,
-    shadowColor: '#000',
-    shadowOffset: { width: 0, height: -4 },
-    shadowOpacity: 0.15,
-    shadowRadius: 8,
-    elevation: 20,
-    position: 'absolute',
-    bottom: 0,
-    left: 0,
-    right: 0,
-    minHeight: 80,
-  },
-  navButton: {
-    alignItems: 'center',
-    justifyContent: 'center',
-    minWidth: 44,
-    minHeight: 44,
-    paddingVertical: 8,
-  },
-  centerNavButton: {
-    alignItems: 'center',
-    justifyContent: 'center',
-    minWidth: 60,
-    minHeight: 60,
-  },
-  navLabel: {
-    fontSize: 12,
-    color: '#666',
-    marginTop: 4,
-    fontWeight: '500',
-  },
-  activeNavLabel: {
-    color: '#DB2899',
-    fontWeight: '600',
-  },
-  walletIcon: {
-    backgroundColor: '#DB2899',
-    borderRadius: 30,
-    padding: 16,
-    elevation: 8,
-    shadowColor: '#DB2899',
-    shadowOffset: { width: 0, height: 4 },
-    shadowOpacity: 0.4,
-    shadowRadius: 8,
-    transform: [{ translateY: -8 }],
-  },
-  notificationWrapper: {
-    position: 'relative',
-  },
-  notificationDot: {
-    position: 'absolute',
-    top: -2,
-    right: -2,
-    width: 8,
-    height: 8,
-    borderRadius: 4,
-    backgroundColor: '#DB2899',
-    borderWidth: 1,
-    borderColor: '#fff',
-  },
+
 });
 
 export default Home;

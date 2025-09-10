@@ -3,10 +3,9 @@ import { NavigationContainer } from '@react-navigation/native';
 import { createStackNavigator, CardStyleInterpolators, TransitionIOSSpec } from '@react-navigation/stack';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import { Easing } from 'react-native';
+import { smoothSlideTransition } from './components/shared/PageTransition';
 import { registerRootComponent } from 'expo';
-import Onboarding1 from './components/Onboardings/Onboarding1';
-import Onboarding2 from './components/Onboardings/Onboarding2';
-import Onboarding3 from './components/Onboardings/Onboarding3';
+import OnboardingSwiper from './components/Onboardings/OnboardingSwiper';
 import EnableLocation from './components/Authentications/EnableLocation';
 import Welcome from './components/Authentications/WelcomePage';
 import SignUp from './components/Authentications/SignUp';
@@ -19,11 +18,7 @@ import SendVerification2 from './components/Authentications/SendVerification2';
 import PhoneVerifyOtp from './components/Authentications/PhoneVerifyOtp';
 import PhoneVerifyOtp2 from './components/Authentications/PhoneVerifyOtp2';
 import SetNewPassword from './components/Authentications/SetNewPassword';
-import Home from './components/Home/Home';
-import Favorites from './components/Home/Favorites';
-import Wallet from './components/Home/Wallet';
-import Profile from './components/Home/Profile';
-import Notifications from './components/Home/Notifications';
+import MainHomeContainer from './components/Home/MainHomeContainer';
 import MapTest from './components/shared/MapTest';
 import SimpleHome from './components/Home/SimpleHome';
 import LocationStack from './components/location/LocationStack';
@@ -31,14 +26,7 @@ import LocationStack from './components/location/LocationStack';
 const Stack = createStackNavigator();
 const Tab = createBottomTabNavigator();
 
-// Bottom Tab Navigator for Home Screen
-function HomeTabs() {
-  return (
-    <Tab.Navigator screenOptions={{ headerShown: false, tabBarStyle: { display: 'none' } }}>
-      <Tab.Screen name="HomeMain" component={Home} />
-    </Tab.Navigator>
-  );
-}
+
 
 function App() {
   return (
@@ -46,36 +34,7 @@ function App() {
       <Stack.Navigator 
         screenOptions={{ 
           headerShown: false,
-          cardStyleInterpolator: ({ current, next, layouts }) => {
-            return {
-              cardStyle: {
-                transform: [
-                  {
-                    translateX: current.progress.interpolate({
-                      inputRange: [0, 1],
-                      outputRange: [layouts.screen.width, 0],
-                    }),
-                  },
-                  {
-                    scale: current.progress.interpolate({
-                      inputRange: [0, 1],
-                      outputRange: [0.9, 1],
-                    }),
-                  },
-                ],
-                opacity: current.progress.interpolate({
-                  inputRange: [0, 0.5, 1],
-                  outputRange: [0, 0.8, 1],
-                }),
-              },
-              overlayStyle: {
-                opacity: current.progress.interpolate({
-                  inputRange: [0, 1],
-                  outputRange: [0, 0.1],
-                }),
-              },
-            };
-          },
+          cardStyleInterpolator: smoothSlideTransition,
           transitionSpec: {
             open: {
               animation: 'timing',
@@ -94,9 +53,7 @@ function App() {
           },
         }}
       >
-        <Stack.Screen name="Onboarding1" component={Onboarding1} />
-        <Stack.Screen name="Onboarding2" component={Onboarding2} />
-        <Stack.Screen name="Onboarding3" component={Onboarding3} />
+        <Stack.Screen name="Onboarding1" component={OnboardingSwiper} />
         <Stack.Screen name="EnableLocation" component={EnableLocation} />
         <Stack.Screen name="WelcomePage" component={Welcome} />
         <Stack.Screen name="SignUp" component={SignUp} />
@@ -109,11 +66,7 @@ function App() {
         <Stack.Screen name="PhoneVerifyOtp" component={PhoneVerifyOtp} />
         <Stack.Screen name="PhoneVerifyOtp2" component={PhoneVerifyOtp2} />
         <Stack.Screen name="SetNewPassword" component={SetNewPassword} />
-        <Stack.Screen name="Home" component={HomeTabs} />
-        <Stack.Screen name="Favorites" component={Favorites} />
-        <Stack.Screen name="Wallet" component={Wallet} />
-        <Stack.Screen name="Profile" component={Profile} />
-        <Stack.Screen name="Notifications" component={Notifications} />
+        <Stack.Screen name="Home" component={MainHomeContainer} />
         <Stack.Screen name="MapTest" component={MapTest} />
         <Stack.Screen name="SimpleHome" component={SimpleHome} />
         <Stack.Screen name="LocationStack" component={LocationStack} />
