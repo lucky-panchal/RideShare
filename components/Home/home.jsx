@@ -311,7 +311,7 @@ const Home = ({ navigation, route }) => {
               }}
               showsUserLocation={hasLocationPermission}
               showsMyLocationButton={false}
-              mapType="standard"
+              mapType="satellite"
               zoomEnabled={true}
               scrollEnabled={true}
               rotateEnabled={false}
