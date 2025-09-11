@@ -64,11 +64,14 @@
 ### 🏠 Core App Features
 - **Interactive Maps** with real-time location
 - **Location Selection** (3-screen flow like Uber)
+- **Transport Selection** (Car, Bike, Scooty, Taxi)
+- **Vehicle Selection** with scrollable list and images
 - **Recent Places** with distance calculations
 - **Bottom Navigation** (Home, Favorites, Wallet, Notifications, Profile)
 - **Notifications System** with real-time updates
 - **Wallet Integration** for payments
 - **Favorites Management** for frequent locations
+- **Swiper Integration** for smooth transitions
 
 ### 🗺️ Advanced Location Services
 - **Address Input** with auto-complete
@@ -78,9 +81,18 @@
 - **Platform-specific Maps** (Native + Web fallback)
 
 ### 🎯 Onboarding Experience
-- **3-Screen Welcome Flow** with animations
+- **3-Screen Welcome Flow** with swiper animations
 - **Professional UI/UX** matching industry standards
 - **Smooth Transitions** between screens
+- **Custom Swiper Components** for enhanced UX
+
+### 🚗 Transport & Vehicle System
+- **Transport Categories** (Car, Bike, Scooty, Taxi)
+- **Vehicle Selection** with real images
+- **Indian Vehicle Models** (Alto, Swift, Fortuner, Honda Livo, etc.)
+- **Price & Specifications** display
+- **Scrollable Vehicle Lists** for scalability
+- **Consistent Image Sizing** and direction
 
 ---
 
@@ -92,9 +104,13 @@ RideShare/
 │   ├── 🔐 Authentications/     # Sign in, Sign up, OTP, etc.
 │   ├── 🏠 Home/               # Main app screens
 │   ├── 📍 location/           # Location selection flow
-│   ├── 🎯 Onboardings/        # Welcome screens
-│   └── 🔧 shared/             # Reusable components
-├── 🎨 assets/                 # Images, icons, fonts
+│   ├── 🎯 Onboardings/        # Welcome screens with swiper
+│   ├── 🚗 transport/          # Transport & vehicle selection
+│   └── 🔧 shared/             # Reusable components (Swiper, etc.)
+├── 🎨 assets/
+│   ├── 🖼️ images/             # General images
+│   ├── 🚗 Vehicles/           # Vehicle images (cars, bikes, etc.)
+│   └── 🎯 Onboardings/        # Onboarding assets
 ├── 🤖 android/                # Android-specific files
 ├── ⚙️ config/                 # Configuration files
 ├── 📄 App.js                  # Main app entry point
@@ -158,6 +174,8 @@ npx expo start -c
 ### UI/UX
 - **@expo/vector-icons** - Icon library
 - **React Native Animations** - Smooth transitions
+- **react-native-swiper** - Swiper components
+- **react-native-pager-view** - Enhanced page views
 - **Custom Components** - Reusable UI elements
 
 ### Development Tools
@@ -307,6 +325,10 @@ test: Add component unit tests
 - ✅ Map integration
 - ✅ Basic navigation
 - ✅ Security improvements
+- ✅ Swiper integration
+- ✅ Transport selection system
+- ✅ Vehicle selection with images
+- ✅ Scrollable vehicle lists
 
 ### 🎯 Next Phase
 - 🔲 Real-time ride tracking
