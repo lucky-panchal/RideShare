@@ -389,7 +389,13 @@ const Home = ({ navigation, route }) => {
 
         {/* Book Ride Button */}
         {dropLocation && (
-          <TouchableOpacity style={styles.bookRideButton}>
+          <TouchableOpacity 
+            style={styles.bookRideButton}
+            onPress={() => navigation.navigate('SelectTransport', {
+              pickupLocation,
+              dropLocation
+            })}
+          >
             <Text style={styles.bookRideText}>Book Ride</Text>
           </TouchableOpacity>
         )}
