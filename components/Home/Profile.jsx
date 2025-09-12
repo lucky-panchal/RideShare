@@ -1,7 +1,7 @@
 import React from 'react';
 import { View, Text, StyleSheet, TouchableOpacity } from 'react-native';
 import { Ionicons } from '@expo/vector-icons';
-import BottomNavbar from '../shared/BottomNavbar';
+
 
 const Profile = ({ navigation }) => {
   return (
@@ -16,7 +16,7 @@ const Profile = ({ navigation }) => {
         <Text style={styles.subtitle}>Manage your account and preferences</Text>
       </View>
       
-      <BottomNavbar activeTab="Profile" navigation={navigation} />
+
     </View>
   );
 };
