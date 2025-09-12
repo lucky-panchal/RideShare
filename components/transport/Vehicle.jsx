@@ -8,6 +8,7 @@ const Vehicle = ({ route }) => {
   const { transportType, pickupLocation, dropLocation } = route?.params || {};
   const [selectedVehicle, setSelectedVehicle] = useState(null);
 
+  
   // Vehicle data based on transport type
   const vehicleData = {
     car: [
@@ -99,7 +100,7 @@ const Vehicle = ({ route }) => {
     ],
     taxi: [
       {
-        id: 'taxi_img',
+        id: 'taxi_img_1',
         name: 'Taxi',
         type: 'Manual',
         seats: '4 seats',
@@ -108,13 +109,13 @@ const Vehicle = ({ route }) => {
         image: require('../../assets/Vehicles/Taxi_img.png'),
       },
       {
-        id: 'swift_taxi',
-        name: 'Swift',
+        id: 'taxi_img_2',
+        name: 'Taxi',
         type: 'Manual',
         seats: '4 seats',
         fuel: 'Petrol',
-        price: '₹120/hour',
-        image: require('../../assets/Vehicles/Swift_Car.png'),
+        price: '₹100/hour',
+        image: require('../../assets/Vehicles/Taxi_img.png'),
       },
     ],
   };
@@ -128,8 +129,12 @@ const Vehicle = ({ route }) => {
 
   const handleBookVehicle = () => {
     if (selectedVehicle) {
-      // Navigate to booking confirmation
-      console.log('Vehicle booked:', selectedVehicle);
+      navigation.navigate('RideMap', {
+        pickupLocation,
+        dropLocation,
+        selectedVehicle,
+        transportType
+      });
     }
   };
 
@@ -226,6 +231,7 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     paddingHorizontal: 20,
     paddingVertical: 15,
+    paddingTop: 50,
   },
   titleContainer: {
     paddingHorizontal: 20,
