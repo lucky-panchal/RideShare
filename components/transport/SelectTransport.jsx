@@ -8,6 +8,7 @@ const SelectTransport = ({ route }) => {
   const [selectedTransport, setSelectedTransport] = useState(null);
   const { pickupLocation, dropLocation } = route?.params || {};
 
+  
   const transportOptions = [
     { id: 'car', name: 'Car', icon: 'car', price: '₹120', time: '5 min' },
     { id: 'bike', name: 'Bike', icon: 'bicycle', price: '₹60', time: '3 min' },
@@ -38,8 +39,7 @@ const SelectTransport = ({ route }) => {
         <TouchableOpacity onPress={() => navigation.goBack()}>
           <Ionicons name="chevron-back" size={24} color="#333" />
         </TouchableOpacity>
-        <Text style={styles.headerTitle}>Select transport</Text>
-        <View style={{ width: 24 }} />
+        <View style={{ flex: 1 }} />
       </View>
 
       {/* Route Info */}
@@ -106,11 +106,9 @@ const styles = StyleSheet.create({
   header: {
     flexDirection: 'row',
     alignItems: 'center',
-    justifyContent: 'space-between',
     paddingHorizontal: 20,
     paddingVertical: 15,
-    borderBottomWidth: 1,
-    borderBottomColor: '#f0f0f0',
+    paddingTop: 50,
   },
   headerTitle: {
     fontSize: 18,
