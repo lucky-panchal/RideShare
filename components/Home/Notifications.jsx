@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { View, Text, StyleSheet, TouchableOpacity, ScrollView, StatusBar } from 'react-native';
 import { Ionicons, MaterialCommunityIcons } from '@expo/vector-icons';
-import BottomNavbar from '../shared/BottomNavbar';
+
 
 const Notifications = ({ navigation }) => {
   const [hasUnreadNotifications] = useState(true);
@@ -102,7 +102,7 @@ const Notifications = ({ navigation }) => {
         </View>
       </ScrollView>
 
-      <BottomNavbar activeTab="Notifications" navigation={navigation} hasNotifications={hasUnreadNotifications} />
+
     </View>
   );
 };
