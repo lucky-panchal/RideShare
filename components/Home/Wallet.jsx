@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { View, Text, StyleSheet, TouchableOpacity, ScrollView, Modal, TextInput, StatusBar, Alert } from 'react-native';
 import { Ionicons, MaterialIcons } from '@expo/vector-icons';
-import BottomNavbar from '../shared/BottomNavbar';
+
 
 const Wallet = ({ navigation }) => {
   const [walletBalance, setWalletBalance] = useState(500);
@@ -214,7 +214,7 @@ const Wallet = ({ navigation }) => {
         </View>
       </Modal>
 
-      <BottomNavbar activeTab="Wallet" navigation={navigation} />
+
     </View>
   );
 };
