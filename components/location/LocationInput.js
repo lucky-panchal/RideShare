@@ -33,14 +33,13 @@ const LocationInput = ({ navigation }) => {
   const [modalVisible, setModalVisible] = useState(true);
   const [currentLocation, setCurrentLocation] = useState('Current Location');
   const [destinationLocation, setDestinationLocation] = useState('');
-  const translateY = useRef(new Animated.Value(0)).current;
-
-  const mapRegion = {
+  const [mapRegion, setMapRegion] = useState({
     latitude: 28.6139,
     longitude: 77.2090,
     latitudeDelta: 0.01,
     longitudeDelta: 0.01,
-  };
+  });
+  const translateY = useRef(new Animated.Value(0)).current;
 
   const recentPlaces = [
     {
@@ -49,6 +48,7 @@ const LocationInput = ({ navigation }) => {
       address: 'Office Location',
       distance: '2.5 km',
       icon: 'business',
+      coordinates: { latitude: 28.6200, longitude: 77.2100 },
     },
     {
       id: 2,
@@ -56,6 +56,7 @@ const LocationInput = ({ navigation }) => {
       address: 'Coffee Shop',
       distance: '1.2 km',
       icon: 'local-cafe',
+      coordinates: { latitude: 28.6150, longitude: 77.2080 },
     },
     {
       id: 3,
@@ -63,6 +64,7 @@ const LocationInput = ({ navigation }) => {
       address: 'Shopping Center',
       distance: '3.8 km',
       icon: 'local-mall',
+      coordinates: { latitude: 28.6180, longitude: 77.2120 },
     },
   ];
 
@@ -98,8 +100,46 @@ const LocationInput = ({ navigation }) => {
   };
 
   const handlePlaceSelect = (place) => {
-    setDestinationLocation(place.address);
-    navigation.navigate('LocationRecent');
+    setDestinationLocation(place.address || place.name);
+    // Update map region based on selected place
+    if (place.coordinates) {
+      setMapRegion({
+        latitude: place.coordinates.latitude,
+        longitude: place.coordinates.longitude,
+        latitudeDelta: 0.01,
+        longitudeDelta: 0.01,
+      });
+    }
+    // Navigate back with selected location data
+    navigation.navigate('Home', {
+      selectedDestination: place.name || place.address,
+      destinationCoords: place.coordinates
+    });
+  };
+
+  const handleCurrentLocationChange = (location) => {
+    setCurrentLocation(location);
+    // Update map to current location if "Current Location" is selected
+    if (location === 'Current Location') {
+      // Use device's current location coordinates
+      navigator.geolocation?.getCurrentPosition(
+        (position) => {
+          setMapRegion({
+            latitude: position.coords.latitude,
+            longitude: position.coords.longitude,
+            latitudeDelta: 0.01,
+            longitudeDelta: 0.01,
+          });
+        },
+        (error) => console.log('Location error:', error)
+      );
+    }
+  };
+
+  const handleDestinationChange = (destination) => {
+    setDestinationLocation(destination);
+    // If user types a location, you can geocode it to get coordinates
+    // For now, we'll keep the current region until a specific place is selected
   };
 
   return (
@@ -159,7 +199,7 @@ const LocationInput = ({ navigation }) => {
                     <TextInput
                       style={styles.textInput}
                       value={currentLocation}
-                      onChangeText={setCurrentLocation}
+                      onChangeText={handleCurrentLocationChange}
                       placeholder="Enter current location"
                       placeholderTextColor="#999"
                     />
@@ -179,7 +219,7 @@ const LocationInput = ({ navigation }) => {
                     <TextInput
                       style={styles.textInput}
                       value={destinationLocation}
-                      onChangeText={setDestinationLocation}
+                      onChangeText={handleDestinationChange}
                       placeholder="Enter destination"
                       placeholderTextColor="#999"
                       autoFocus={true}
