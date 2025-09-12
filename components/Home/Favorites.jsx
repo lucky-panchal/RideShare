@@ -70,7 +70,7 @@ const Favorites = ({ navigation }) => {
         )}
       </ScrollView>
 
-      <BottomNavbar activeTab="Favorites" navigation={navigation} />
+
     </View>
   );
 };
