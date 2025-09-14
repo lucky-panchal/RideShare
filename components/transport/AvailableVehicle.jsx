@@ -9,29 +9,29 @@ const AvailableVehicle = ({ route }) => {
 
   const vehicleData = {
     car: [
-      { id: 1, name: 'Alto', type: 'Automatic | 3 seats | Octane', price: '₹120', image: require('../../assets/Vehicles/Alto_car.png') },
-      { id: 2, name: 'Swift', type: 'Automatic | 4 seats | Octane', price: '₹150', image: require('../../assets/Vehicles/Swift_Car.png') },
-      { id: 3, name: 'Fortuner', type: 'Automatic | 7 seats | Diesel', price: '₹300', image: require('../../assets/Vehicles/Fortuner_Car.png') },
-      { id: 4, name: 'Alto', type: 'Automatic | 3 seats | Octane', price: '₹120', image: require('../../assets/Vehicles/Alto_car.png') },
-      { id: 5, name: 'Swift', type: 'Automatic | 4 seats | Octane', price: '₹150', image: require('../../assets/Vehicles/Swift_Car.png') },
+      { id: 1, name: 'Maruti Suzuki Alto', type: 'Automatic | 3 seats | Octane', price: '₹120', image: require('../../assets/Vehicles/Alto_car.png') },
+      { id: 2, name: 'Maruti Suzuki Swift', type: 'Automatic | 4 seats | Octane', price: '₹150', image: require('../../assets/Vehicles/Swift_Car.png') },
+      { id: 3, name: 'Toyota Fortuner', type: 'Automatic | 7 seats | Diesel', price: '₹300', image: require('../../assets/Vehicles/Fortuner_Car.png') },
+      { id: 4, name: 'Maruti Suzuki Alto', type: 'Automatic | 3 seats | Octane', price: '₹120', image: require('../../assets/Vehicles/Alto_car.png') },
+      { id: 5, name: 'Maruti Suzuki Swift', type: 'Automatic | 4 seats | Octane', price: '₹150', image: require('../../assets/Vehicles/Swift_Car.png') },
     ],
     bike: [
-      { id: 1, name: 'Sport Bike', type: 'Manual | 2 seats | Petrol', price: '₹60', image: require('../../assets/Vehicles/Bike1_img.png') },
-      { id: 2, name: 'Classic Bike', type: 'Manual | 2 seats | Petrol', price: '₹65', image: require('../../assets/Vehicles/Bike2_img.png') },
-      { id: 3, name: 'Racing Bike', type: 'Manual | 2 seats | Petrol', price: '₹70', image: require('../../assets/Vehicles/Bike3_img.png') },
-      { id: 4, name: 'Cruiser Bike', type: 'Manual | 2 seats | Petrol', price: '₹75', image: require('../../assets/Vehicles/Bike4_img.png') },
-      { id: 5, name: 'Sport Bike', type: 'Manual | 2 seats | Petrol', price: '₹60', image: require('../../assets/Vehicles/Bike1_img.png') },
+      { id: 1, name: 'Honda Livo', type: 'Manual | 2 seats | Petrol', price: '₹60', image: require('../../assets/Vehicles/Bike1_img.png') },
+      { id: 2, name: 'TVS Victor', type: 'Manual | 2 seats | Petrol', price: '₹65', image: require('../../assets/Vehicles/Bike2_img.png') },
+      { id: 3, name: 'Hero Passion Pro', type: 'Manual | 2 seats | Petrol', price: '₹70', image: require('../../assets/Vehicles/Bike3_img.png') },
+      { id: 4, name: 'Hero Splendor Plus', type: 'Manual | 2 seats | Petrol', price: '₹75', image: require('../../assets/Vehicles/Bike4_img.png') },
+      { id: 5, name: 'Honda Livo', type: 'Manual | 2 seats | Petrol', price: '₹60', image: require('../../assets/Vehicles/Bike1_img.png') },
     ],
     scooty: [
-      { id: 1, name: 'Activa 125', type: 'Automatic | 2 seats | Petrol', price: '₹80', image: require('../../assets/Vehicles/Activa1_img.png') },
-      { id: 2, name: 'Activa 6G', type: 'Automatic | 2 seats | Petrol', price: '₹85', image: require('../../assets/Vehicles/Activa2_img.png') },
-      { id: 3, name: 'Activa 125', type: 'Automatic | 2 seats | Petrol', price: '₹80', image: require('../../assets/Vehicles/Activa1_img.png') },
-      { id: 4, name: 'Activa 6G', type: 'Automatic | 2 seats | Petrol', price: '₹85', image: require('../../assets/Vehicles/Activa2_img.png') },
+      { id: 1, name: 'Honda Activa 125', type: 'Automatic | 2 seats | Petrol', price: '₹80', image: require('../../assets/Vehicles/Activa1_img.png') },
+      { id: 2, name: 'Honda Activa 6G', type: 'Automatic | 2 seats | Petrol', price: '₹85', image: require('../../assets/Vehicles/Activa2_img.png') },
+      { id: 3, name: 'Honda Activa 125', type: 'Automatic | 2 seats | Petrol', price: '₹80', image: require('../../assets/Vehicles/Activa1_img.png') },
+      { id: 4, name: 'Honda Activa 6G', type: 'Automatic | 2 seats | Petrol', price: '₹85', image: require('../../assets/Vehicles/Activa2_img.png') },
     ],
     taxi: [
-      { id: 1, name: 'Premium Taxi', type: 'Automatic | 4 seats | Diesel', price: '₹200', image: require('../../assets/Vehicles/Taxi_img.png') },
-      { id: 2, name: 'Luxury Taxi', type: 'Automatic | 4 seats | Diesel', price: '₹250', image: require('../../assets/Vehicles/Taxi_img.png') },
-      { id: 3, name: 'Premium Taxi', type: 'Automatic | 4 seats | Diesel', price: '₹200', image: require('../../assets/Vehicles/Taxi_img.png') },
+      { id: 1, name: 'Tata Indica', type: 'Automatic | 4 seats | Diesel', price: '₹200', image: require('../../assets/Vehicles/Taxi_img.png') },
+      { id: 2, name: 'Mahindra Logan', type: 'Automatic | 4 seats | Diesel', price: '₹250', image: require('../../assets/Vehicles/Taxi_img.png') },
+      { id: 3, name: 'Tata Indica', type: 'Automatic | 4 seats | Diesel', price: '₹200', image: require('../../assets/Vehicles/Taxi_img.png') },
     ],
   };
 
