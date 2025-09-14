@@ -138,6 +138,14 @@ const Vehicle = ({ route }) => {
     }
   };
 
+  const handleViewList = () => {
+    navigation.navigate('AvailableVehicle', {
+      transportType,
+      pickupLocation,
+      dropLocation
+    });
+  };
+
   return (
     <SafeAreaView style={styles.container}>
       <StatusBar barStyle="dark-content" backgroundColor="#fff" />
@@ -154,6 +162,10 @@ const Vehicle = ({ route }) => {
       <View style={styles.titleContainer}>
         <Text style={styles.title}>Available {transportTitle} for ride</Text>
         <Text style={styles.subtitle}>{currentVehicles.length} {transportTitle} found</Text>
+        <TouchableOpacity style={styles.viewListButton} onPress={handleViewList}>
+          <Text style={styles.viewListText}>View List</Text>
+          <Ionicons name="chevron-forward" size={16} color="#DB2899" />
+        </TouchableOpacity>
       </View>
 
       {/* Scrollable Vehicle List */}
@@ -182,20 +194,7 @@ const Vehicle = ({ route }) => {
               </View>
               <Text style={styles.vehiclePrice}>{vehicle.price}</Text>
               
-              <TouchableOpacity 
-                style={[
-                  styles.viewButton,
-                  selectedVehicle?.id === vehicle.id && styles.selectedButton
-                ]}
-                onPress={() => handleVehicleSelect(vehicle)}
-              >
-                <Text style={[
-                  styles.viewButtonText,
-                  selectedVehicle?.id === vehicle.id && styles.selectedButtonText
-                ]}>
-                  View {transportType} list
-                </Text>
-              </TouchableOpacity>
+
             </View>
             
             <View style={styles.vehicleImageContainer}>
@@ -361,6 +360,24 @@ const styles = StyleSheet.create({
     color: '#fff',
     fontSize: 16,
     fontWeight: '600',
+  },
+  viewListButton: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    backgroundColor: '#f8f9fa',
+    paddingHorizontal: 15,
+    paddingVertical: 10,
+    borderRadius: 20,
+    alignSelf: 'flex-start',
+    marginTop: 10,
+    borderWidth: 1,
+    borderColor: '#DB2899',
+  },
+  viewListText: {
+    color: '#DB2899',
+    fontSize: 14,
+    fontWeight: '600',
+    marginRight: 5,
   },
 });
 
