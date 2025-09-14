@@ -146,6 +146,15 @@ const Vehicle = ({ route }) => {
     });
   };
 
+  const handleVehicleImagePress = (vehicle) => {
+    navigation.navigate('VehicleDetails', {
+      vehicle,
+      transportType,
+      pickupLocation,
+      dropLocation
+    });
+  };
+
   return (
     <SafeAreaView style={styles.container}>
       <StatusBar barStyle="dark-content" backgroundColor="#fff" />
@@ -197,13 +206,16 @@ const Vehicle = ({ route }) => {
 
             </View>
             
-            <View style={styles.vehicleImageContainer}>
+            <TouchableOpacity 
+              style={styles.vehicleImageContainer}
+              onPress={() => handleVehicleImagePress(vehicle)}
+            >
               <Image 
                 source={vehicle.image} 
                 style={styles.vehicleImage}
                 resizeMode="contain"
               />
-            </View>
+            </TouchableOpacity>
           </TouchableOpacity>
         ))}
       </ScrollView>
