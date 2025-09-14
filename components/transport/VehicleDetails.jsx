@@ -101,7 +101,7 @@ const VehicleDetails = ({ route }) => {
       }
     },
     bike3: {
-      name: 'Passion Pro',
+      name: 'Hero Passion Pro',
       rating: 4.2,
       reviews: 2103,
       specifications: {
@@ -119,7 +119,7 @@ const VehicleDetails = ({ route }) => {
       }
     },
     bike4: {
-      name: 'Splendor',
+      name: 'Hero Splendor Plus',
       rating: 4.1,
       reviews: 3421,
       specifications: {
