@@ -24,6 +24,8 @@ import SimpleHome from './components/Home/SimpleHome';
 import LocationStack from './components/location/LocationStack';
 import SelectTransport from './components/transport/SelectTransport';
 import Vehicle from './components/transport/Vehicle';
+import AvailableVehicle from './components/transport/AvailableVehicle';
+import RideMap from './components/transport/RideMap';
 
 const Stack = createStackNavigator();
 const Tab = createBottomTabNavigator();
@@ -74,6 +76,8 @@ function App() {
         <Stack.Screen name="LocationStack" component={LocationStack} />
         <Stack.Screen name="SelectTransport" component={SelectTransport} />
         <Stack.Screen name="Vehicle" component={Vehicle} />
+        <Stack.Screen name="AvailableVehicle" component={AvailableVehicle} />
+        <Stack.Screen name="RideMap" component={RideMap} />
       </Stack.Navigator>
     </NavigationContainer>
   );
