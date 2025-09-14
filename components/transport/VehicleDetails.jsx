@@ -65,61 +65,61 @@ const VehicleDetails = ({ route }) => {
     },
     // Bikes
     bike1: {
-      name: 'Honda CB Shine',
+      name: 'Honda Livo',
       rating: 4.3,
       reviews: 1834,
       specifications: {
-        maxPower: '10.7hp',
+        maxPower: '8.36hp',
         fuel: '65km per litre',
         maxSpeed: '95kmh',
         acceleration: '0-60kmh 6sec'
       },
       features: {
-        model: 'CB Shine SP',
-        capacity: '125cc',
+        model: 'Livo 110',
+        capacity: '110cc',
         color: 'Red',
         fuelType: 'Petrol',
         gearType: 'Manual'
       }
     },
     bike2: {
-      name: 'TVS Apache RTR',
+      name: 'TVS Victor',
       rating: 4.4,
       reviews: 1567,
       specifications: {
-        maxPower: '17.8hp',
-        fuel: '45km per litre',
-        maxSpeed: '114kmh',
-        acceleration: '0-60kmh 4.5sec'
+        maxPower: '9.6hp',
+        fuel: '62km per litre',
+        maxSpeed: '100kmh',
+        acceleration: '0-60kmh 5.5sec'
       },
       features: {
-        model: 'Apache RTR 200',
-        capacity: '200cc',
+        model: 'Victor 110',
+        capacity: '110cc',
         color: 'Blue',
         fuelType: 'Petrol',
         gearType: 'Manual'
       }
     },
     bike3: {
-      name: 'Bajaj Pulsar',
+      name: 'Passion Pro',
       rating: 4.2,
       reviews: 2103,
       specifications: {
-        maxPower: '14hp',
-        fuel: '50km per litre',
-        maxSpeed: '105kmh',
-        acceleration: '0-60kmh 5sec'
+        maxPower: '9.15hp',
+        fuel: '68km per litre',
+        maxSpeed: '102kmh',
+        acceleration: '0-60kmh 5.8sec'
       },
       features: {
-        model: 'Pulsar 150',
-        capacity: '150cc',
+        model: 'Passion Pro TR',
+        capacity: '113cc',
         color: 'Black',
         fuelType: 'Petrol',
         gearType: 'Manual'
       }
     },
     bike4: {
-      name: 'Hero Splendor Plus',
+      name: 'Splendor',
       rating: 4.1,
       reviews: 3421,
       specifications: {
@@ -212,7 +212,24 @@ const VehicleDetails = ({ route }) => {
     }
   };
 
-  const currentVehicle = vehicleSpecs[vehicle?.id] || vehicleSpecs.alto_car;
+  const currentVehicle = vehicleSpecs[vehicle?.id] || {
+    name: vehicle?.name || 'Unknown Vehicle',
+    rating: 4.0,
+    reviews: 100,
+    specifications: {
+      maxPower: 'N/A',
+      fuel: 'N/A',
+      maxSpeed: 'N/A',
+      acceleration: 'N/A'
+    },
+    features: {
+      model: 'Standard',
+      capacity: 'N/A',
+      color: 'Standard',
+      fuelType: 'Petrol',
+      gearType: 'Manual'
+    }
+  };
 
   const handleBookLater = () => {
     console.log('Book later:', vehicle);
