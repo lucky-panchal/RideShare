@@ -14,7 +14,7 @@ const Vehicle = ({ route }) => {
     car: [
       {
         id: 'alto_car',
-        name: 'Alto',
+        name: 'Maruti Suzuki Alto',
         type: 'Manual',
         seats: '4 seats',
         fuel: 'Petrol',
@@ -23,7 +23,7 @@ const Vehicle = ({ route }) => {
       },
       {
         id: 'swift_car',
-        name: 'Swift',
+        name: 'Maruti Suzuki Swift',
         type: 'Manual',
         seats: '4 seats',
         fuel: 'Petrol',
@@ -32,7 +32,7 @@ const Vehicle = ({ route }) => {
       },
       {
         id: 'fortuner_car',
-        name: 'Fortuner',
+        name: 'Toyota Fortuner',
         type: 'Automatic',
         seats: '7 seats',
         fuel: 'Diesel',
@@ -61,7 +61,7 @@ const Vehicle = ({ route }) => {
       },
       {
         id: 'bike3',
-        name: 'Passion Pro',
+        name: 'Hero Passion Pro',
         type: 'Manual',
         seats: '2 seats',
         fuel: 'Petrol',
@@ -70,7 +70,7 @@ const Vehicle = ({ route }) => {
       },
       {
         id: 'bike4',
-        name: 'Splendor',
+        name: 'Hero Splendor Plus',
         type: 'Manual',
         seats: '2 seats',
         fuel: 'Petrol',
@@ -81,7 +81,7 @@ const Vehicle = ({ route }) => {
     scooty: [
       {
         id: 'activa1',
-        name: 'Activa1',
+        name: 'Honda Activa 6G',
         type: 'Automatic',
         seats: '2 seats',
         fuel: 'Petrol',
@@ -90,7 +90,7 @@ const Vehicle = ({ route }) => {
       },
       {
         id: 'activa2',
-        name: 'Activa2',
+        name: 'Honda Activa 125',
         type: 'Automatic',
         seats: '2 seats',
         fuel: 'Petrol',
@@ -101,7 +101,7 @@ const Vehicle = ({ route }) => {
     taxi: [
       {
         id: 'taxi_img_1',
-        name: 'Taxi',
+        name: 'Tata Indica',
         type: 'Manual',
         seats: '4 seats',
         fuel: 'Petrol',
@@ -110,7 +110,7 @@ const Vehicle = ({ route }) => {
       },
       {
         id: 'taxi_img_2',
-        name: 'Taxi',
+        name: 'Mahindra Logan',
         type: 'Manual',
         seats: '4 seats',
         fuel: 'Petrol',
