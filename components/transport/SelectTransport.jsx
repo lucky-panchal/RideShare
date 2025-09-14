@@ -30,6 +30,14 @@ const SelectTransport = ({ route }) => {
     }
   };
 
+  const handleViewList = (transportType) => {
+    navigation.navigate('AvailableVehicle', {
+      transportType,
+      pickupLocation,
+      dropLocation
+    });
+  };
+
   return (
     <SafeAreaView style={styles.container}>
       <StatusBar barStyle="dark-content" backgroundColor="#fff" />
@@ -84,6 +92,12 @@ const SelectTransport = ({ route }) => {
             </Text>
             <Text style={styles.transportPrice}>{transport.price}</Text>
             <Text style={styles.transportTime}>{transport.time}</Text>
+            <TouchableOpacity 
+              style={styles.viewListButton}
+              onPress={() => handleViewList(transport.id)}
+            >
+              <Text style={styles.viewListText}>View List</Text>
+            </TouchableOpacity>
           </TouchableOpacity>
         ))}
       </View>
@@ -203,6 +217,18 @@ const styles = StyleSheet.create({
   confirmText: {
     color: '#fff',
     fontSize: 16,
+    fontWeight: '600',
+  },
+  viewListButton: {
+    backgroundColor: '#DB2899',
+    paddingHorizontal: 12,
+    paddingVertical: 6,
+    borderRadius: 15,
+    marginTop: 8,
+  },
+  viewListText: {
+    color: '#fff',
+    fontSize: 12,
     fontWeight: '600',
   },
 });
