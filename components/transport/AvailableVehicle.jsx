@@ -9,29 +9,369 @@ const AvailableVehicle = ({ route }) => {
 
   const vehicleData = {
     car: [
-      { id: 1, name: 'Maruti Suzuki Alto', type: 'Automatic | 3 seats | Octane', price: '₹120', image: require('../../assets/Vehicles/Alto_car.png') },
-      { id: 2, name: 'Maruti Suzuki Swift', type: 'Automatic | 4 seats | Octane', price: '₹150', image: require('../../assets/Vehicles/Swift_Car.png') },
-      { id: 3, name: 'Toyota Fortuner', type: 'Automatic | 7 seats | Diesel', price: '₹300', image: require('../../assets/Vehicles/Fortuner_Car.png') },
-      { id: 4, name: 'Maruti Suzuki Alto', type: 'Automatic | 3 seats | Octane', price: '₹120', image: require('../../assets/Vehicles/Alto_car.png') },
-      { id: 5, name: 'Maruti Suzuki Swift', type: 'Automatic | 4 seats | Octane', price: '₹150', image: require('../../assets/Vehicles/Swift_Car.png') },
+      { 
+        id: 1, 
+        name: 'Maruti Suzuki Alto', 
+        type: 'Manual | 4 seats | Petrol | AC | GPS', 
+        price: '₹120', 
+        image: require('../../assets/Vehicles/Alto_car.png'),
+        specifications: {
+          engine: '0.8L Petrol',
+          mileage: '22 kmpl',
+          maxSpeed: '140 kmh',
+          transmission: 'Manual',
+          safetyFeatures: 'ABS, Airbags, Seatbelts'
+        },
+        modifications: {
+          gpsTracking: 'Real-time GPS enabled',
+          airConditioning: 'Climate control AC',
+          musicSystem: 'Bluetooth audio system',
+          phoneCharging: 'USB charging ports',
+          sanitization: 'Sanitized after each ride'
+        }
+      },
+      { 
+        id: 2, 
+        name: 'Maruti Suzuki Swift', 
+        type: 'Manual | 4 seats | Petrol | AC | GPS', 
+        price: '₹150', 
+        image: require('../../assets/Vehicles/Swift_Car.png'),
+        specifications: {
+          engine: '1.2L Petrol',
+          mileage: '23 kmpl',
+          maxSpeed: '165 kmh',
+          transmission: 'Manual',
+          safetyFeatures: 'ABS, EBD, Airbags, Central locking'
+        },
+        modifications: {
+          gpsTracking: 'Advanced GPS navigation',
+          airConditioning: 'Dual zone AC',
+          musicSystem: 'Premium sound system',
+          phoneCharging: 'Fast charging ports',
+          comfortFeatures: 'Premium seats, armrest'
+        }
+      },
+      { 
+        id: 3, 
+        name: 'Toyota Fortuner', 
+        type: 'Automatic | 7 seats | Diesel | AC | GPS', 
+        price: '₹300', 
+        image: require('../../assets/Vehicles/Fortuner_Car.png'),
+        specifications: {
+          engine: '2.7L Diesel',
+          mileage: '14 kmpl',
+          maxSpeed: '180 kmh',
+          transmission: 'Automatic',
+          safetyFeatures: 'ABS, EBD, VSC, Hill assist, 7 Airbags'
+        },
+        modifications: {
+          gpsTracking: 'Premium GPS with live traffic',
+          airConditioning: 'Automatic climate control',
+          musicSystem: 'Premium JBL sound system',
+          phoneCharging: 'Wireless charging pad',
+          luxuryFeatures: 'Leather seats, sunroof, LED lights'
+        }
+      },
+      { 
+        id: 4, 
+        name: 'Maruti Suzuki Alto', 
+        type: 'Manual | 4 seats | Petrol | AC | GPS', 
+        price: '₹120', 
+        image: require('../../assets/Vehicles/Alto_car.png'),
+        specifications: {
+          engine: '0.8L Petrol',
+          mileage: '22 kmpl',
+          maxSpeed: '140 kmh',
+          transmission: 'Manual',
+          safetyFeatures: 'ABS, Airbags, Seatbelts'
+        },
+        modifications: {
+          gpsTracking: 'Real-time GPS enabled',
+          airConditioning: 'Climate control AC',
+          musicSystem: 'Bluetooth audio system',
+          phoneCharging: 'USB charging ports',
+          sanitization: 'Sanitized after each ride'
+        }
+      },
+      { 
+        id: 5, 
+        name: 'Maruti Suzuki Swift', 
+        type: 'Manual | 4 seats | Petrol | AC | GPS', 
+        price: '₹150', 
+        image: require('../../assets/Vehicles/Swift_Car.png'),
+        specifications: {
+          engine: '1.2L Petrol',
+          mileage: '23 kmpl',
+          maxSpeed: '165 kmh',
+          transmission: 'Manual',
+          safetyFeatures: 'ABS, EBD, Airbags, Central locking'
+        },
+        modifications: {
+          gpsTracking: 'Advanced GPS navigation',
+          airConditioning: 'Dual zone AC',
+          musicSystem: 'Premium sound system',
+          phoneCharging: 'Fast charging ports',
+          comfortFeatures: 'Premium seats, armrest'
+        }
+      },
     ],
     bike: [
-      { id: 1, name: 'Honda Livo', type: 'Manual | 2 seats | Petrol', price: '₹60', image: require('../../assets/Vehicles/Bike1_img.png') },
-      { id: 2, name: 'TVS Victor', type: 'Manual | 2 seats | Petrol', price: '₹65', image: require('../../assets/Vehicles/Bike2_img.png') },
-      { id: 3, name: 'Hero Passion Pro', type: 'Manual | 2 seats | Petrol', price: '₹70', image: require('../../assets/Vehicles/Bike3_img.png') },
-      { id: 4, name: 'Hero Splendor Plus', type: 'Manual | 2 seats | Petrol', price: '₹75', image: require('../../assets/Vehicles/Bike4_img.png') },
-      { id: 5, name: 'Honda Livo', type: 'Manual | 2 seats | Petrol', price: '₹60', image: require('../../assets/Vehicles/Bike1_img.png') },
+      { 
+        id: 1, 
+        name: 'Honda Livo', 
+        type: 'Manual | 2 seats | Petrol | GPS | Helmet', 
+        price: '₹60', 
+        image: require('../../assets/Vehicles/Bike1_img.png'),
+        specifications: {
+          engine: '110cc Single Cylinder',
+          mileage: '65 kmpl',
+          maxSpeed: '95 kmh',
+          transmission: 'Manual 4-speed',
+          safetyFeatures: 'LED headlight, Digital meter, Disc brake'
+        },
+        modifications: {
+          gpsTracking: 'Real-time GPS tracking',
+          safetyGear: 'ISI certified helmets provided',
+          storageBox: 'Under-seat storage compartment',
+          phoneHolder: 'Secure mobile mount',
+          weatherProtection: 'Rain cover and knee guards'
+        }
+      },
+      { 
+        id: 2, 
+        name: 'TVS Victor', 
+        type: 'Manual | 2 seats | Petrol | GPS | Helmet', 
+        price: '₹65', 
+        image: require('../../assets/Vehicles/Bike2_img.png'),
+        specifications: {
+          engine: '110cc Single Cylinder',
+          mileage: '62 kmpl',
+          maxSpeed: '100 kmh',
+          transmission: 'Manual 4-speed',
+          safetyFeatures: 'LED DRL, Digital console, Sync brake'
+        },
+        modifications: {
+          gpsTracking: 'Advanced GPS with route optimization',
+          safetyGear: 'Premium helmets and reflective jackets',
+          storageBox: 'Lockable storage compartment',
+          phoneHolder: 'Anti-vibration phone mount',
+          comfortFeatures: 'Cushioned seat, backrest'
+        }
+      },
+      { 
+        id: 3, 
+        name: 'Hero Passion Pro', 
+        type: 'Manual | 2 seats | Petrol | GPS | Helmet', 
+        price: '₹70', 
+        image: require('../../assets/Vehicles/Bike3_img.png'),
+        specifications: {
+          engine: '113cc Single Cylinder',
+          mileage: '68 kmpl',
+          maxSpeed: '102 kmh',
+          transmission: 'Manual 4-speed',
+          safetyFeatures: 'LED headlight, Digital meter, IBS'
+        },
+        modifications: {
+          gpsTracking: 'GPS with live location sharing',
+          safetyGear: 'DOT approved helmets',
+          storageBox: 'Spacious under-seat storage',
+          phoneHolder: 'Waterproof phone holder',
+          additionalFeatures: 'USB charging, LED indicators'
+        }
+      },
+      { 
+        id: 4, 
+        name: 'Hero Splendor Plus', 
+        type: 'Manual | 2 seats | Petrol | GPS | Helmet', 
+        price: '₹75', 
+        image: require('../../assets/Vehicles/Bike4_img.png'),
+        specifications: {
+          engine: '97cc Single Cylinder',
+          mileage: '70 kmpl',
+          maxSpeed: '85 kmh',
+          transmission: 'Manual 4-speed',
+          safetyFeatures: 'LED headlight, Analog meter, Drum brake'
+        },
+        modifications: {
+          gpsTracking: 'Basic GPS tracking system',
+          safetyGear: 'Standard helmets and safety gear',
+          storageBox: 'Compact storage space',
+          phoneHolder: 'Basic phone mounting system',
+          economyFeatures: 'Fuel efficient, low maintenance'
+        }
+      },
+      { 
+        id: 5, 
+        name: 'Honda Livo', 
+        type: 'Manual | 2 seats | Petrol | GPS | Helmet', 
+        price: '₹60', 
+        image: require('../../assets/Vehicles/Bike1_img.png'),
+        specifications: {
+          engine: '110cc Single Cylinder',
+          mileage: '65 kmpl',
+          maxSpeed: '95 kmh',
+          transmission: 'Manual 4-speed',
+          safetyFeatures: 'LED headlight, Digital meter, Disc brake'
+        },
+        modifications: {
+          gpsTracking: 'Real-time GPS tracking',
+          safetyGear: 'ISI certified helmets provided',
+          storageBox: 'Under-seat storage compartment',
+          phoneHolder: 'Secure mobile mount',
+          weatherProtection: 'Rain cover and knee guards'
+        }
+      },
     ],
     scooty: [
-      { id: 1, name: 'Honda Activa 125', type: 'Automatic | 2 seats | Petrol', price: '₹80', image: require('../../assets/Vehicles/Activa1_img.png') },
-      { id: 2, name: 'Honda Activa 6G', type: 'Automatic | 2 seats | Petrol', price: '₹85', image: require('../../assets/Vehicles/Activa2_img.png') },
-      { id: 3, name: 'Honda Activa 125', type: 'Automatic | 2 seats | Petrol', price: '₹80', image: require('../../assets/Vehicles/Activa1_img.png') },
-      { id: 4, name: 'Honda Activa 6G', type: 'Automatic | 2 seats | Petrol', price: '₹85', image: require('../../assets/Vehicles/Activa2_img.png') },
+      { 
+        id: 1, 
+        name: 'Honda Activa 125', 
+        type: 'Automatic | 2 seats | Petrol | GPS | Helmet', 
+        price: '₹80', 
+        image: require('../../assets/Vehicles/Activa1_img.png'),
+        specifications: {
+          engine: '125cc Single Cylinder',
+          mileage: '58 kmpl',
+          maxSpeed: '87 kmh',
+          transmission: 'Automatic CVT',
+          safetyFeatures: 'LED headlight, Digital meter, CBS'
+        },
+        modifications: {
+          gpsTracking: 'Real-time GPS with route guidance',
+          safetyGear: 'Premium ISI helmets provided',
+          storageSpace: '18L under-seat storage',
+          phoneCharging: '12V charging socket',
+          comfortFeatures: 'Comfortable seat, smooth suspension'
+        }
+      },
+      { 
+        id: 2, 
+        name: 'Honda Activa 6G', 
+        type: 'Automatic | 2 seats | Petrol | GPS | Helmet', 
+        price: '₹85', 
+        image: require('../../assets/Vehicles/Activa2_img.png'),
+        specifications: {
+          engine: '110cc Single Cylinder',
+          mileage: '60 kmpl',
+          maxSpeed: '83 kmh',
+          transmission: 'Automatic CVT',
+          safetyFeatures: 'LED headlight, Fully digital meter, CBS'
+        },
+        modifications: {
+          gpsTracking: 'Advanced GPS navigation system',
+          safetyGear: 'Lightweight certified helmets',
+          storageSpace: '18L lockable under-seat storage',
+          phoneCharging: 'USB charging port',
+          smartFeatures: 'Bluetooth connectivity, mobile app'
+        }
+      },
+      { 
+        id: 3, 
+        name: 'Honda Activa 125', 
+        type: 'Automatic | 2 seats | Petrol | GPS | Helmet', 
+        price: '₹80', 
+        image: require('../../assets/Vehicles/Activa1_img.png'),
+        specifications: {
+          engine: '125cc Single Cylinder',
+          mileage: '58 kmpl',
+          maxSpeed: '87 kmh',
+          transmission: 'Automatic CVT',
+          safetyFeatures: 'LED headlight, Digital meter, CBS'
+        },
+        modifications: {
+          gpsTracking: 'Real-time GPS with route guidance',
+          safetyGear: 'Premium ISI helmets provided',
+          storageSpace: '18L under-seat storage',
+          phoneCharging: '12V charging socket',
+          comfortFeatures: 'Comfortable seat, smooth suspension'
+        }
+      },
+      { 
+        id: 4, 
+        name: 'Honda Activa 6G', 
+        type: 'Automatic | 2 seats | Petrol | GPS | Helmet', 
+        price: '₹85', 
+        image: require('../../assets/Vehicles/Activa2_img.png'),
+        specifications: {
+          engine: '110cc Single Cylinder',
+          mileage: '60 kmpl',
+          maxSpeed: '83 kmh',
+          transmission: 'Automatic CVT',
+          safetyFeatures: 'LED headlight, Fully digital meter, CBS'
+        },
+        modifications: {
+          gpsTracking: 'Advanced GPS navigation system',
+          safetyGear: 'Lightweight certified helmets',
+          storageSpace: '18L lockable under-seat storage',
+          phoneCharging: 'USB charging port',
+          smartFeatures: 'Bluetooth connectivity, mobile app'
+        }
+      },
     ],
     taxi: [
-      { id: 1, name: 'Tata Indica', type: 'Automatic | 4 seats | Diesel', price: '₹200', image: require('../../assets/Vehicles/Taxi_img.png') },
-      { id: 2, name: 'Mahindra Logan', type: 'Automatic | 4 seats | Diesel', price: '₹250', image: require('../../assets/Vehicles/Taxi_img.png') },
-      { id: 3, name: 'Tata Indica', type: 'Automatic | 4 seats | Diesel', price: '₹200', image: require('../../assets/Vehicles/Taxi_img.png') },
+      { 
+        id: 1, 
+        name: 'Tata Indica', 
+        type: 'Manual | 4 seats | Diesel | AC | GPS', 
+        price: '₹200', 
+        image: require('../../assets/Vehicles/Taxi_img.png'),
+        specifications: {
+          engine: '1.4L Diesel',
+          mileage: '20 kmpl',
+          maxSpeed: '150 kmh',
+          transmission: 'Manual 5-speed',
+          safetyFeatures: 'ABS, Airbags, Central locking, Power steering'
+        },
+        modifications: {
+          gpsTracking: 'Professional GPS tracking system',
+          airConditioning: 'Rear AC vents for passenger comfort',
+          entertainmentSystem: 'Music system with AUX input',
+          phoneCharging: 'Multiple USB charging points',
+          professionalService: 'Uniformed driver, clean interior'
+        }
+      },
+      { 
+        id: 2, 
+        name: 'Mahindra Logan', 
+        type: 'Manual | 4 seats | Diesel | AC | GPS', 
+        price: '₹250', 
+        image: require('../../assets/Vehicles/Taxi_img.png'),
+        specifications: {
+          engine: '1.5L Diesel',
+          mileage: '19 kmpl',
+          maxSpeed: '160 kmh',
+          transmission: 'Manual 5-speed',
+          safetyFeatures: 'ABS, EBD, Airbags, Central locking'
+        },
+        modifications: {
+          gpsTracking: 'Advanced GPS with live tracking',
+          airConditioning: 'Dual zone climate control',
+          entertainmentSystem: 'Premium audio with Bluetooth',
+          phoneCharging: 'Fast charging USB ports',
+          luxuryFeatures: 'Spacious interior, reading lights'
+        }
+      },
+      { 
+        id: 3, 
+        name: 'Tata Indica', 
+        type: 'Manual | 4 seats | Diesel | AC | GPS', 
+        price: '₹200', 
+        image: require('../../assets/Vehicles/Taxi_img.png'),
+        specifications: {
+          engine: '1.4L Diesel',
+          mileage: '20 kmpl',
+          maxSpeed: '150 kmh',
+          transmission: 'Manual 5-speed',
+          safetyFeatures: 'ABS, Airbags, Central locking, Power steering'
+        },
+        modifications: {
+          gpsTracking: 'Professional GPS tracking system',
+          airConditioning: 'Rear AC vents for passenger comfort',
+          entertainmentSystem: 'Music system with AUX input',
+          phoneCharging: 'Multiple USB charging points',
+          professionalService: 'Uniformed driver, clean interior'
+        }
+      },
     ],
   };
 
