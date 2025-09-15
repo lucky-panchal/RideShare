@@ -213,21 +213,24 @@ const VehicleDetails = ({ route }) => {
   };
 
   const currentVehicle = vehicleSpecs[vehicle?.id] || {
-    name: vehicle?.name || 'Unknown Vehicle',
-    rating: 4.0,
-    reviews: 100,
+    name: vehicle?.name || 'Standard Vehicle',
+    rating: 4.2,
+    reviews: 150,
     specifications: {
-      maxPower: 'N/A',
-      fuel: 'N/A',
-      maxSpeed: 'N/A',
-      acceleration: 'N/A'
+      maxPower: '75hp',
+      fuel: '20km per litre',
+      maxSpeed: '120kmh',
+      acceleration: '0-60kmh 10sec'
     },
     features: {
-      model: 'Standard',
-      capacity: 'N/A',
-      color: 'Standard',
+      model: 'Standard Model',
+      capacity: '75hp',
+      color: 'White',
       fuelType: 'Petrol',
-      gearType: 'Manual'
+      gearType: 'Manual',
+      safetyFeatures: 'Basic safety features',
+      comfortFeatures: 'Standard comfort package',
+      technology: 'Basic infotainment system'
     }
   };
 
