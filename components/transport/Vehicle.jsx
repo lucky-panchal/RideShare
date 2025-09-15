@@ -20,6 +20,20 @@ const Vehicle = ({ route }) => {
         fuel: 'Petrol',
         price: '₹120/hour',
         image: require('../../assets/Vehicles/Alto_car.png'),
+        specifications: {
+          engine: '0.8L F8D Petrol Engine',
+          mileage: '22.05 kmpl',
+          maxSpeed: '140 kmh',
+          transmission: 'Manual 5-speed',
+          safetyFeatures: 'Driver Airbag, ABS, Seatbelt reminder'
+        },
+        modifications: {
+          gpsTracking: 'Real-time GPS tracking system',
+          airConditioning: 'Manual AC with heater',
+          musicSystem: 'Bluetooth enabled audio system',
+          phoneCharging: 'USB charging port',
+          comfortFeatures: 'Power steering, central locking'
+        }
       },
       {
         id: 'swift_car',
@@ -29,6 +43,20 @@ const Vehicle = ({ route }) => {
         fuel: 'Petrol',
         price: '₹150/hour',
         image: require('../../assets/Vehicles/Swift_Car.png'),
+        specifications: {
+          engine: '1.2L K12M Petrol Engine',
+          mileage: '23.20 kmpl',
+          maxSpeed: '165 kmh',
+          transmission: 'Manual 5-speed',
+          safetyFeatures: 'Dual Airbags, ABS with EBD, ISOFIX'
+        },
+        modifications: {
+          gpsTracking: 'Advanced GPS with navigation',
+          airConditioning: 'Automatic climate control',
+          musicSystem: 'SmartPlay touchscreen with Android Auto',
+          phoneCharging: 'Fast charging USB ports',
+          comfortFeatures: 'Keyless entry, push button start'
+        }
       },
       {
         id: 'fortuner_car',
@@ -38,6 +66,20 @@ const Vehicle = ({ route }) => {
         fuel: 'Diesel',
         price: '₹300/hour',
         image: require('../../assets/Vehicles/Fortuner_Car.png'),
+        specifications: {
+          engine: '2.8L GD Diesel Engine',
+          mileage: '14.2 kmpl',
+          maxSpeed: '180 kmh',
+          transmission: 'Automatic 6-speed',
+          safetyFeatures: '7 Airbags, VSC, Hill Start Assist, TPMS'
+        },
+        modifications: {
+          gpsTracking: 'Premium GPS with live traffic updates',
+          airConditioning: 'Dual zone automatic climate control',
+          musicSystem: 'Premium JBL sound system with wireless charging',
+          phoneCharging: 'Wireless charging pad + multiple USB ports',
+          luxuryFeatures: 'Leather seats, sunroof, LED headlights'
+        }
       },
     ],
     bike: [
@@ -49,6 +91,20 @@ const Vehicle = ({ route }) => {
         fuel: 'Petrol',
         price: '₹80/hour',
         image: require('../../assets/Vehicles/Bike1_img.png'),
+        specifications: {
+          engine: '109.51cc Single Cylinder',
+          mileage: '65 kmpl',
+          maxSpeed: '95 kmh',
+          transmission: 'Manual 4-speed',
+          safetyFeatures: 'LED headlight, Digital speedometer, Disc brake'
+        },
+        modifications: {
+          gpsTracking: 'Real-time GPS tracking device',
+          safetyGear: 'ISI certified helmets provided',
+          storageBox: 'Under-seat storage compartment',
+          phoneHolder: 'Secure mobile mounting system',
+          weatherProtection: 'Rain cover and protective gear'
+        }
       },
       {
         id: 'bike2',
@@ -58,6 +114,20 @@ const Vehicle = ({ route }) => {
         fuel: 'Petrol',
         price: '₹100/hour',
         image: require('../../assets/Vehicles/Bike2_img.png'),
+        specifications: {
+          engine: '109.7cc Single Cylinder',
+          mileage: '62 kmpl',
+          maxSpeed: '100 kmh',
+          transmission: 'Manual 4-speed',
+          safetyFeatures: 'LED DRL, Digital console, SBT (Sync Brake Technology)'
+        },
+        modifications: {
+          gpsTracking: 'Advanced GPS with route optimization',
+          safetyGear: 'Premium helmets and reflective jackets',
+          storageBox: 'Lockable under-seat storage',
+          phoneHolder: 'Anti-vibration phone mount',
+          comfortFeatures: 'Cushioned seat with backrest'
+        }
       },
       {
         id: 'bike3',
@@ -67,6 +137,20 @@ const Vehicle = ({ route }) => {
         fuel: 'Petrol',
         price: '₹110/hour',
         image: require('../../assets/Vehicles/Bike3_img.png'),
+        specifications: {
+          engine: '113.2cc Single Cylinder',
+          mileage: '68 kmpl',
+          maxSpeed: '102 kmh',
+          transmission: 'Manual 4-speed',
+          safetyFeatures: 'LED headlight, Digital meter, IBS (Integrated Braking System)'
+        },
+        modifications: {
+          gpsTracking: 'GPS with live location sharing',
+          safetyGear: 'DOT approved safety helmets',
+          storageBox: 'Spacious under-seat storage',
+          phoneHolder: 'Waterproof phone holder',
+          additionalFeatures: 'USB charging port, LED indicators'
+        }
       },
       {
         id: 'bike4',
@@ -76,6 +160,20 @@ const Vehicle = ({ route }) => {
         fuel: 'Petrol',
         price: '₹120/hour',
         image: require('../../assets/Vehicles/Bike4_img.png'),
+        specifications: {
+          engine: '97.2cc Single Cylinder',
+          mileage: '70 kmpl',
+          maxSpeed: '85 kmh',
+          transmission: 'Manual 4-speed',
+          safetyFeatures: 'LED headlight, Analog-digital meter, Drum brakes'
+        },
+        modifications: {
+          gpsTracking: 'Basic GPS tracking system',
+          safetyGear: 'Standard certified helmets',
+          storageBox: 'Compact storage compartment',
+          phoneHolder: 'Basic phone mounting bracket',
+          economyFeatures: 'Fuel efficient engine, low maintenance cost'
+        }
       },
     ],
     scooty: [
@@ -87,6 +185,20 @@ const Vehicle = ({ route }) => {
         fuel: 'Petrol',
         price: '₹60/hour',
         image: require('../../assets/Vehicles/Activa1_img.png'),
+        specifications: {
+          engine: '109.51cc Single Cylinder',
+          mileage: '60 kmpl',
+          maxSpeed: '83 kmh',
+          transmission: 'Automatic V-Matic',
+          safetyFeatures: 'LED headlight, Fully digital meter, CBS'
+        },
+        modifications: {
+          gpsTracking: 'Real-time GPS with route guidance',
+          safetyGear: 'Lightweight ISI certified helmets',
+          storageSpace: '18L under-seat storage with mobile charging',
+          phoneCharging: 'USB charging socket',
+          smartFeatures: 'Bluetooth connectivity, mobile app integration'
+        }
       },
       {
         id: 'activa2',
@@ -96,6 +208,20 @@ const Vehicle = ({ route }) => {
         fuel: 'Petrol',
         price: '₹70/hour',
         image: require('../../assets/Vehicles/Activa2_img.png'),
+        specifications: {
+          engine: '124cc Single Cylinder',
+          mileage: '58 kmpl',
+          maxSpeed: '87 kmh',
+          transmission: 'Automatic V-Matic',
+          safetyFeatures: 'LED headlight, Digital meter, CBS with Equalizer'
+        },
+        modifications: {
+          gpsTracking: 'Advanced GPS navigation system',
+          safetyGear: 'Premium lightweight helmets',
+          storageSpace: '18L lockable under-seat storage',
+          phoneCharging: '12V charging socket with USB adapter',
+          comfortFeatures: 'Comfortable seat, telescopic suspension'
+        }
       },
     ],
     taxi: [
@@ -104,18 +230,46 @@ const Vehicle = ({ route }) => {
         name: 'Tata Indica',
         type: 'Manual',
         seats: '4 seats',
-        fuel: 'Petrol',
-        price: '₹100/hour',
+        fuel: 'Diesel',
+        price: '₹200/hour',
         image: require('../../assets/Vehicles/Taxi_img.png'),
+        specifications: {
+          engine: '1.4L TDI Diesel Engine',
+          mileage: '20 kmpl',
+          maxSpeed: '150 kmh',
+          transmission: 'Manual 5-speed',
+          safetyFeatures: 'Driver Airbag, ABS, Central locking, Power steering'
+        },
+        modifications: {
+          gpsTracking: 'Professional GPS tracking with panic button',
+          airConditioning: 'Rear AC vents for passenger comfort',
+          entertainmentSystem: 'FM radio with AUX input',
+          phoneCharging: 'Multiple USB charging points',
+          professionalService: 'Uniformed driver, sanitized interior, first aid kit'
+        }
       },
       {
         id: 'taxi_img_2',
         name: 'Mahindra Logan',
         type: 'Manual',
         seats: '4 seats',
-        fuel: 'Petrol',
-        price: '₹100/hour',
+        fuel: 'Diesel',
+        price: '₹250/hour',
         image: require('../../assets/Vehicles/Taxi_img.png'),
+        specifications: {
+          engine: '1.5L dCi Diesel Engine',
+          mileage: '19 kmpl',
+          maxSpeed: '160 kmh',
+          transmission: 'Manual 5-speed',
+          safetyFeatures: 'Dual Airbags, ABS with EBD, Central locking'
+        },
+        modifications: {
+          gpsTracking: 'Advanced GPS with live tracking and SOS',
+          airConditioning: 'Dual zone climate control system',
+          entertainmentSystem: 'Premium audio system with Bluetooth',
+          phoneCharging: 'Fast charging USB ports and wireless charging',
+          luxuryFeatures: 'Spacious interior, reading lights, premium upholstery'
+        }
       },
     ],
   };
