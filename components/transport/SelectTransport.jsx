@@ -10,10 +10,98 @@ const SelectTransport = ({ route }) => {
 
   
   const transportOptions = [
-    { id: 'car', name: 'Car', icon: 'car', price: '₹120', time: '5 min' },
-    { id: 'bike', name: 'Bike', icon: 'bicycle', price: '₹60', time: '3 min' },
-    { id: 'scooty', name: 'Activa', icon: 'bicycle', price: '₹80', time: '4 min' },
-    { id: 'taxi', name: 'Taxi', icon: 'car-sport', price: '₹200', time: '4 min' },
+    { 
+      id: 'car', 
+      name: 'Car', 
+      icon: 'car', 
+      price: '₹120', 
+      time: '5 min',
+      specifications: {
+        engine: '1.2L Petrol',
+        fuelType: 'Petrol',
+        seatingCapacity: '4 passengers',
+        transmission: 'Manual/Automatic',
+        mileage: '18-22 kmpl',
+        airConditioning: 'Available',
+        safetyFeatures: 'ABS, Airbags, Seatbelts'
+      },
+      modifications: {
+        gpsTracking: 'Enabled',
+        musicSystem: 'Bluetooth enabled',
+        phoneCharging: 'USB ports available',
+        comfortFeatures: 'Cushioned seats, AC vents',
+        cleanlinessStandard: 'Sanitized after each ride'
+      }
+    },
+    { 
+      id: 'bike', 
+      name: 'Bike', 
+      icon: 'bicycle', 
+      price: '₹60', 
+      time: '3 min',
+      specifications: {
+        engine: '150cc-200cc',
+        fuelType: 'Petrol',
+        seatingCapacity: '2 passengers',
+        transmission: 'Manual',
+        mileage: '45-55 kmpl',
+        brakeSystem: 'Disc/Drum brakes',
+        safetyFeatures: 'Helmet provided, LED lights'
+      },
+      modifications: {
+        gpsTracking: 'Enabled',
+        safetyGear: 'Helmets and reflective jackets',
+        storageBox: 'Under-seat storage available',
+        phoneHolder: 'Mobile mount provided',
+        weatherProtection: 'Rain cover available'
+      }
+    },
+    { 
+      id: 'scooty', 
+      name: 'Activa', 
+      icon: 'bicycle', 
+      price: '₹80', 
+      time: '4 min',
+      specifications: {
+        engine: '110cc Honda Engine',
+        fuelType: 'Petrol',
+        seatingCapacity: '2 passengers',
+        transmission: 'Automatic (CVT)',
+        mileage: '50-60 kmpl',
+        brakeSystem: 'Combi brake system',
+        safetyFeatures: 'LED headlights, digital meter'
+      },
+      modifications: {
+        gpsTracking: 'Enabled',
+        safetyGear: 'ISI certified helmets',
+        storageSpace: '18L under-seat storage',
+        phoneCharging: '12V charging socket',
+        comfortFeatures: 'Comfortable seat, smooth suspension'
+      }
+    },
+    { 
+      id: 'taxi', 
+      name: 'Taxi', 
+      icon: 'car-sport', 
+      price: '₹200', 
+      time: '4 min',
+      specifications: {
+        engine: '1.5L Diesel/Petrol',
+        fuelType: 'Diesel/CNG',
+        seatingCapacity: '4-6 passengers',
+        transmission: 'Manual/Automatic',
+        mileage: '20-25 kmpl',
+        airConditioning: 'Dual zone AC',
+        safetyFeatures: 'ABS, EBD, Airbags, Child locks'
+      },
+      modifications: {
+        gpsTracking: 'Real-time tracking',
+        entertainmentSystem: 'Music system with AUX/Bluetooth',
+        phoneCharging: 'Multiple USB charging ports',
+        comfortFeatures: 'Premium seats, reading lights',
+        professionalService: 'Uniformed driver, sanitized interior'
+      }
+    },
   ];
 
   const handleTransportSelect = (transport) => {
