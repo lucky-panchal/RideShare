@@ -30,7 +30,7 @@ const RideBooking = ({ route }) => {
   };
 
   const handleConfirmBooking = () => {
-    navigation.navigate('RideMap', {
+    navigation.navigate('BookingConfirmation', {
       vehicle,
       transportType,
       pickupLocation,
