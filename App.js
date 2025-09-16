@@ -28,6 +28,7 @@ import AvailableVehicle from './components/transport/AvailableVehicle';
 import RideMap from './components/transport/RideMap';
 import VehicleDetails from './components/transport/VehicleDetails';
 import RideBooking from './components/transport/RideBooking';
+import BookingConfirmation from './components/transport/BookingConfirmation';
 
 const Stack = createStackNavigator();
 const Tab = createBottomTabNavigator();
@@ -80,6 +81,7 @@ function App() {
         <Stack.Screen name="Vehicle" component={Vehicle} />
         <Stack.Screen name="AvailableVehicle" component={AvailableVehicle} />
         <Stack.Screen name="RideBooking" component={RideBooking} />
+        <Stack.Screen name="BookingConfirmation" component={BookingConfirmation} />
         <Stack.Screen name="RideMap" component={RideMap} />
         <Stack.Screen name="VehicleDetails" component={VehicleDetails} />
       </Stack.Navigator>
