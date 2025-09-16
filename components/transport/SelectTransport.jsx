@@ -110,8 +110,9 @@ const SelectTransport = ({ route }) => {
 
   const handleConfirmRide = () => {
     if (selectedTransport) {
-      navigation.navigate('Vehicle', {
+      navigation.navigate('RideBooking', {
         transportType: selectedTransport.id,
+        vehicle: selectedTransport,
         pickupLocation,
         dropLocation
       });
