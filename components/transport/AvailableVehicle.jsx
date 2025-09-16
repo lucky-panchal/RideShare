@@ -383,7 +383,7 @@ const AvailableVehicle = ({ route }) => {
   };
 
   const handleRideNow = (vehicle) => {
-    navigation.navigate('RideMap', {
+    navigation.navigate('RideBooking', {
       vehicle,
       transportType,
       pickupLocation,
