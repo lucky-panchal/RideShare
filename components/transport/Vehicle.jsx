@@ -283,10 +283,10 @@ const Vehicle = ({ route }) => {
 
   const handleBookVehicle = () => {
     if (selectedVehicle) {
-      navigation.navigate('RideMap', {
+      navigation.navigate('RideBooking', {
         pickupLocation,
         dropLocation,
-        selectedVehicle,
+        vehicle: selectedVehicle,
         transportType
       });
     }
