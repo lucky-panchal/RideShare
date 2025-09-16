@@ -27,6 +27,7 @@ import Vehicle from './components/transport/Vehicle';
 import AvailableVehicle from './components/transport/AvailableVehicle';
 import RideMap from './components/transport/RideMap';
 import VehicleDetails from './components/transport/VehicleDetails';
+import RideBooking from './components/transport/RideBooking';
 
 const Stack = createStackNavigator();
 const Tab = createBottomTabNavigator();
@@ -78,6 +79,7 @@ function App() {
         <Stack.Screen name="SelectTransport" component={SelectTransport} />
         <Stack.Screen name="Vehicle" component={Vehicle} />
         <Stack.Screen name="AvailableVehicle" component={AvailableVehicle} />
+        <Stack.Screen name="RideBooking" component={RideBooking} />
         <Stack.Screen name="RideMap" component={RideMap} />
         <Stack.Screen name="VehicleDetails" component={VehicleDetails} />
       </Stack.Navigator>
